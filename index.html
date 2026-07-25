@@ -1,167 +1,301 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Portal | Self-Assessment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Study Portal | NextGen Assessment</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            900: '#312e81',
+                        },
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Smooth Screen Transitions */
+        .screen-enter { animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
-        /* Custom Scrollbar */
-        .review-scroll { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
-        .review-scroll::-webkit-scrollbar { width: 8px; }
-        .review-scroll::-webkit-scrollbar-track { background: transparent; }
-        .review-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
-        
+        /* Hide Screens */
         .hidden-screen { display: none !important; }
 
-        /* Loader Spinner */
+        /* Custom Scrollbar for modern look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+        
+        /* Gamification Animations */
+        .streak-bump { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(5deg); color: #fbbf24; }
+            100% { transform: scale(1); }
+        }
+        
+        .option-selected {
+            border-color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1) !important;
+            transform: scale(1.01);
+        }
+
+        /* Glassmorphism Loader */
+        .glass-loader {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
         .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #818cf8;
             border-radius: 50%;
-            border-top: 4px solid #4f46e5;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-slate-50 h-screen w-screen overflow-hidden text-slate-800 flex flex-col relative">
+<body class="bg-slate-50 dark:bg-darkbg text-slate-900 dark:text-slate-100 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
 
-<!-- Global Full-Screen Loader Overlay -->
-<div id="global-loader" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-opacity hidden-screen">
-    <div class="bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center">
-        <div class="spinner mb-4"></div>
-        <p id="loader-text" class="text-slate-700 font-medium">Loading...</p>
+<div id="global-loader" class="fixed inset-0 glass-loader z-50 flex flex-col items-center justify-center hidden-screen">
+    <div class="bg-white dark:bg-darkcard p-8 rounded-3xl shadow-2xl flex flex-col items-center border border-slate-200 dark:border-slate-700">
+        <div class="spinner mb-6"></div>
+        <p id="loader-text" class="text-slate-700 dark:text-slate-200 font-semibold tracking-wide">Syncing Data...</p>
     </div>
 </div>
 
-<!-- Header App Bar (Full Width) -->
-<header class="bg-indigo-600 px-6 py-5 md:px-10 flex justify-between items-center shrink-0 shadow-md z-20">
-    <div>
-        <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-white">Study Portal</h1>
-        <p class="text-indigo-200 text-sm md:text-base mt-1">Self-Assessment Dashboard</p>
+<div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold px-6 py-3 rounded-full shadow-2xl transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-[100] flex items-center gap-3">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <span id="toast-msg">Notification</span>
+</div>
+
+<div id="quit-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden-screen flex items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-darkcard rounded-3xl p-8 w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 transform transition-all text-center">
+        <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+            <i class="fa-solid fa-person-walking-arrow-right"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">Give up already?</h3>
+        <p class="text-slate-500 dark:text-slate-400 mb-8 text-sm">You'll lose your current streak and progress. Are you sure you want to quit?</p>
+        <div class="flex flex-col gap-3">
+            <button onclick="executeQuit()" class="w-full py-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-colors">Yes, Quit</button>
+            <button onclick="closeQuitModal()" class="w-full py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-bold transition-colors">Keep Going!</button>
+        </div>
     </div>
-    <div class="bg-indigo-500 p-3 rounded-xl shadow-inner">
-        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+</div>
+
+<header class="bg-white/80 dark:bg-darkcard/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 px-6 md:px-12 py-4 flex justify-between items-center shrink-0">
+    <div class="flex items-center gap-4">
+        <button id="back-btn" onclick="navigateBack()" class="hidden-screen w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-brand-500 hover:text-white transition-all">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div>
+            <h1 id="header-title" class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-purple-500">Study Portal</h1>
+            <p id="header-subtitle" class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase">Dashboard</p>
+        </div>
+    </div>
+    <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
+            <i class="fa-solid fa-bolt text-yellow-400"></i>
+            <span class="text-sm font-bold" id="total-xp-display">0 XP</span>
+        </div>
+        <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brand-400 transition-colors">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+        </button>
     </div>
 </header>
 
-<!-- Main Content Area (Scrollable Full Page) -->
-<main class="flex-grow overflow-y-auto review-scroll relative p-6 md:p-10 lg:p-12" id="app-container">
+<main class="flex-grow overflow-y-auto relative p-6 md:p-10 lg:p-12" id="app-container">
     
     <!-- Screen 1: Subject Menu -->
-    <div id="subject-screen" class="fade-in max-w-[1600px] mx-auto w-full">
-        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-slate-800 border-b border-slate-200 pb-4">Select a Subject</h2>
-        <div id="subject-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+    <div id="subject-screen" class="screen-enter max-w-[1600px] mx-auto w-full pb-20">
+        <div class="mb-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Welcome Back! 👋</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-lg">Select a subject to begin your mastery journey.</p>
+        </div>
+        
+        <!-- Motivational Banner -->
+        <div class="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 to-purple-600 p-6 md:p-8 text-white shadow-xl shadow-brand-500/20">
+            <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/20 blur-3xl"></div>
+            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-black/20 blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-sm font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-brand-100">
+                        <i class="fa-solid fa-bolt text-yellow-300"></i> Daily Focus
+                    </h3>
+                    <p id="motivational-quote" class="text-lg md:text-xl font-semibold leading-relaxed max-w-3xl drop-shadow-sm">
+                        "Loading motivation..."
+                    </p>
+                </div>
+                <div class="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white/10 items-center justify-center backdrop-blur-sm border border-white/20 shadow-inner">
+                    <i class="fa-solid fa-seedling text-2xl text-green-300"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="subject-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"></div>
     </div>
 
     <!-- Screen 2: Chapter Menu -->
-    <div id="chapter-screen" class="hidden-screen fade-in max-w-[1600px] mx-auto w-full">
-        <button onclick="showScreen('subject-screen')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-6 flex items-center transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 rounded outline-none w-fit">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back to Subjects
-        </button>
-        <h2 id="subject-title" class="text-2xl md:text-3xl font-bold mb-8 text-slate-800 border-b border-slate-200 pb-4">Chapters</h2>
-        <div id="chapter-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+    <div id="chapter-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
+        <div id="chapter-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"></div>
     </div>
 
     <!-- Screen 3: Assessment Selection -->
-    <div id="assessment-screen" class="hidden-screen fade-in max-w-[1600px] mx-auto w-full">
-        <button onclick="showScreen('chapter-screen')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-6 flex items-center transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 rounded outline-none w-fit">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back to Chapters
-        </button>
-        <h2 id="chapter-title" class="text-2xl md:text-3xl font-bold mb-8 text-slate-800 border-b border-slate-200 pb-4">Assessments</h2>
-        <div id="assessment-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+    <div id="assessment-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
+        <div class="mb-8 flex items-center justify-between bg-brand-500/10 p-5 rounded-2xl border border-brand-500/20">
+            <div>
+                <h3 class="text-brand-600 dark:text-brand-400 font-bold text-lg">Pro Tip</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Aim for an 80%+ score to unlock the mastery badge!</p>
+            </div>
+            <i class="fa-solid fa-trophy text-4xl text-brand-500/50"></i>
+        </div>
+        <div id="assessment-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </div>
 
-    <!-- Screen 4: Active Quiz -->
-    <div id="quiz-screen" class="hidden-screen fade-in flex flex-col h-full max-w-5xl mx-auto w-full">
-        <div class="flex justify-between items-center mb-4 bg-white shadow-sm p-4 rounded-xl border border-slate-200">
-            <div class="text-sm font-semibold text-slate-500 uppercase tracking-wider truncate mr-4" id="quiz-breadcrumb">Subject > Chapter</div>
-            <div id="timer-display" class="font-mono text-lg font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full shrink-0">30:00</div>
-        </div>
-        
-        <div class="w-full bg-slate-200 rounded-full h-2.5 mb-8 overflow-hidden">
-            <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-        
-        <div class="mb-10 flex-grow">
-            <div class="text-sm font-bold tracking-wide text-indigo-600 mb-3" id="progress-text">QUESTION 1 OF X</div>
-            <h2 id="question-text" class="text-2xl md:text-3xl font-semibold text-slate-800 leading-snug">Question</h2>
-        </div>
-        
-        <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10"></div>
-        
-        <div class="flex flex-col sm:flex-row justify-between items-center mt-auto gap-4 pt-6 border-t border-slate-200">
-            <button onclick="confirmQuit()" class="text-slate-500 hover:text-red-600 font-semibold transition-colors w-full sm:w-auto px-4 py-2 rounded focus-visible:ring-2 focus-visible:ring-red-500 outline-none">Quit Assessment</button>
-            <button id="next-btn" onclick="nextQuestion()" class="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg hover:shadow-xl w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none">Next Question</button>
-        </div>
-    </div>
-
-    <!-- Screen 5: Results -->
-    <div id="results-screen" class="hidden-screen fade-in max-w-5xl mx-auto w-full pb-12">
-        <div class="text-center mb-12 bg-white rounded-3xl p-10 border border-slate-200 shadow-xl">
-            <h1 class="text-4xl font-extrabold text-slate-800 mb-8">Assessment Complete</h1>
-            
-            <div class="relative w-48 h-48 mx-auto mb-6">
-                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                    <path class="text-slate-100" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path id="score-ring" class="text-indigo-600 transition-all duration-1000 ease-out" stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                </svg>
-                <div class="absolute inset-0 flex items-center justify-center flex-col">
-                    <span id="score-percent" class="text-4xl font-black text-slate-800">0%</span>
+    <!-- Screen 4: Active Quiz (Gamified) -->
+    <div id="quiz-screen" class="hidden-screen screen-enter flex flex-col h-full max-w-5xl mx-auto w-full">
+        <div class="flex flex-wrap justify-between items-center mb-6 gap-4 bg-white dark:bg-darkcard p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div class="flex-1 min-w-[200px]">
+                <div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-2 text-slate-500 dark:text-slate-400">
+                    <span id="progress-text">Q 1/10</span>
+                    <span id="streak-display" class="transition-all duration-300"><i class="fa-solid fa-fire text-orange-500 mr-1"></i> Streak: 0</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden shadow-inner">
+                    <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-purple-500 h-3 rounded-full transition-all duration-500 ease-out w-0"></div>
                 </div>
             </div>
-            <h2 id="score-text" class="text-lg text-slate-500 font-medium">You scored 0 out of 0</h2>
+            <div id="timer-display" class="font-mono text-xl font-black bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-2xl flex items-center gap-2 shadow-sm transition-colors">
+                <i class="fa-regular fa-clock text-brand-500"></i> <span id="timer-text">30:00</span>
+            </div>
+        </div>
+        
+        <div class="bg-white dark:bg-darkcard p-6 md:p-10 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
+            <h2 id="question-text" class="text-xl md:text-2xl lg:text-3xl font-bold leading-relaxed">Question loads here...</h2>
+        </div>
+        
+        <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 flex-grow content-start"></div>
+        
+        <div class="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+            <button onclick="confirmQuit()" class="text-slate-400 hover:text-red-500 font-bold transition-colors w-full sm:w-auto py-4">Quit Assessment</button>
+            <button id="next-btn" onclick="nextQuestion()" class="bg-brand-600 hover:bg-brand-500 text-white w-full sm:w-auto px-12 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-brand-500/30 transform hover:-translate-y-1 active:translate-y-0 text-lg">Check & Continue <i class="fa-solid fa-arrow-right ml-2"></i></button>
+        </div>
+    </div>
+
+    <!-- Screen 5: Results & Dashboard -->
+    <div id="results-screen" class="hidden-screen screen-enter max-w-5xl mx-auto w-full pb-20">
+        <div class="bg-white dark:bg-darkcard rounded-[2.5rem] p-8 md:p-12 border border-slate-200 dark:border-slate-700 shadow-xl text-center mb-10 relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
             
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-                <button onclick="retryAssessment()" class="bg-indigo-50 text-indigo-700 px-8 py-3 rounded-xl font-bold hover:bg-indigo-100 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none">Retry Assessment</button>
-                <button onclick="showScreen('subject-screen')" class="bg-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700 shadow-lg hover:shadow-xl transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-800 outline-none">Return to Main Menu</button>
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-8 relative z-10" id="result-title">Assessment Complete!</h1>
+            
+            <div class="relative w-52 h-52 mx-auto mb-6 z-10">
+                <svg class="w-full h-full transform -rotate-90 drop-shadow-lg" viewBox="0 0 36 36">
+                    <path class="text-slate-100 dark:text-slate-800" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path id="score-ring" class="text-brand-500 transition-all duration-1500 ease-out" stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                    <span id="score-percent" class="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-brand-500 to-purple-500">0%</span>
+                </div>
+            </div>
+            
+            <div class="flex justify-center gap-8 mb-8 relative z-10">
+                <div class="text-center">
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">Score</p>
+                    <p class="text-2xl font-black" id="score-fraction">0/0</p>
+                </div>
+                <div class="w-px bg-slate-200 dark:bg-slate-700"></div>
+                <div class="text-center">
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">Best Streak</p>
+                    <p class="text-2xl font-black text-orange-500"><i class="fa-solid fa-fire text-lg"></i> <span id="highest-streak-display">0</span></p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10 mt-10">
+                <button onclick="retryAssessment()" class="bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 px-8 py-4 rounded-2xl font-bold hover:bg-brand-100 dark:hover:bg-brand-500/20 transition-colors w-full sm:w-auto">Retry Assessment</button>
+                <button onclick="navigateTo('subject-screen')" class="bg-slate-900 dark:bg-brand-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-800 dark:hover:bg-brand-500 transition-colors shadow-lg w-full sm:w-auto">Return to Dashboard</button>
             </div>
         </div>
 
-        <h3 class="text-2xl font-bold text-slate-800 mb-8 border-b border-slate-200 pb-4">Review Answers</h3>
+        <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i class="fa-solid fa-list-check text-brand-500"></i> Review Answers</h3>
         <div id="review-container" class="space-y-6"></div>
     </div>
 </main>
 
-<!-- Modals & Toasts -->
-<div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white font-medium px-8 py-4 rounded-xl shadow-2xl transition-opacity duration-300 opacity-0 pointer-events-none z-50">Please select an option.</div>
-
-<div id="quit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden-screen flex items-center justify-center z-50 px-4">
-    <div class="bg-white rounded-3xl p-8 md:p-10 max-w-md w-full shadow-2xl scale-95 transition-transform duration-200" id="quit-modal-content">
-        <h3 class="text-2xl font-bold text-slate-900 mb-3">Quit Assessment?</h3>
-        <p class="text-slate-500 mb-8 leading-relaxed">All your current progress will be lost. Are you sure you want to exit and return to the menu?</p>
-        <div class="flex gap-4 justify-end">
-            <button onclick="closeQuitModal()" class="px-6 py-3 text-slate-600 font-bold hover:bg-slate-100 rounded-xl transition-colors focus-visible:ring-2 focus-visible:ring-slate-500 outline-none">Cancel</button>
-            <button onclick="executeQuit()" class="px-6 py-3 bg-red-600 text-white font-bold hover:bg-red-700 rounded-xl shadow-lg transition-colors focus-visible:ring-2 focus-visible:ring-red-500 outline-none">Yes, Quit</button>
-        </div>
-    </div>
-</div>
-
 <script>
-    // --- CONFIGURATION ---
     const GITHUB_USERNAME = "evaturivamsikrishna"; 
     const REPO_NAME = "School_Assessments";
     const BASE_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/quizzes`;
     const TIMER_MINUTES = 30;
+    const CACHE_EXPIRY_MS = 1000 * 60 * 60 * 24;
 
-    // --- STATE MANAGEMENT ---
     let state = {
+        history: [],
+        currentScreen: 'subject-screen',
         subject: "", chapter: "", assessment: "",
         quizDataRaw: {}, questions: [], userAnswers: [],
         currentIndex: 0, score: 0, selectedOption: null,
         isQuizActive: false, timerInterval: null, timeRemaining: 0,
-        toastTimeout: null
+        currentStreak: 0, highestStreak: 0, totalXP: 0
     };
 
-    window.onload = loadSubjects;
+    const motivationQuotes = [
+        "You don't have to be perfect today, just better than yesterday.",
+        "Consistency beats intensity. Small steps every day.",
+        "Mistakes are just proof that you are trying. Keep going.",
+        "Focus on the step in front of you, not the whole staircase.",
+        "Your future self is watching right now. Make them proud.",
+        "Discipline is choosing between what you want now, and what you want most."
+    ];
+
+    function setDailyMotivation() {
+        const quoteEl = document.getElementById('motivational-quote');
+        if (!quoteEl) return;
+        const today = new Date().toDateString();
+        const storedDate = localStorage.getItem('studyPortal_quoteDate');
+        let dailyQuote = localStorage.getItem('studyPortal_dailyQuote');
+
+        if (storedDate !== today || !dailyQuote) {
+            dailyQuote = motivationQuotes[Math.floor(Math.random() * motivationQuotes.length)];
+            localStorage.setItem('studyPortal_quoteDate', today);
+            localStorage.setItem('studyPortal_dailyQuote', dailyQuote);
+        }
+        quoteEl.innerText = dailyQuote;
+    }
+
+    window.onload = () => {
+        initTheme();
+        loadXP();
+        setDailyMotivation();
+        navigateTo('subject-screen');
+    };
 
     window.addEventListener('beforeunload', (e) => {
         if(state.isQuizActive) { e.preventDefault(); e.returnValue = ''; }
@@ -174,17 +308,72 @@
         }[tag] || tag));
     }
 
-    // --- LOADER CONTROLS ---
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        const icon = toast.querySelector('i');
+        toast.querySelector('#toast-msg').innerText = msg;
+        
+        if(isError) {
+            toast.classList.replace('bg-slate-900', 'bg-red-500');
+            toast.classList.replace('dark:bg-white', 'dark:bg-red-500');
+            toast.classList.replace('dark:text-slate-900', 'dark:text-white');
+            icon.className = 'fa-solid fa-triangle-exclamation';
+        } else {
+            toast.classList.replace('bg-red-500', 'bg-slate-900');
+            toast.classList.replace('dark:bg-red-500', 'dark:bg-white');
+            toast.classList.replace('dark:text-white', 'dark:text-slate-900');
+            icon.className = 'fa-solid fa-circle-exclamation';
+        }
+
+        toast.classList.remove('opacity-0', 'translate-y-4');
+        setTimeout(() => toast.classList.add('opacity-0', 'translate-y-4'), 3000);
+    }
+
     function showLoader(message) {
         document.getElementById('loader-text').innerText = message;
         document.getElementById('global-loader').classList.remove('hidden-screen');
     }
-
     function hideLoader() {
         document.getElementById('global-loader').classList.add('hidden-screen');
     }
 
-    // --- LOCAL STORAGE ---
+    function initTheme() {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        updateThemeIcon();
+    }
+
+    function toggleTheme() {
+        document.documentElement.classList.toggle('dark');
+        localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        updateThemeIcon();
+    }
+
+    function updateThemeIcon() {
+        const icon = document.getElementById('theme-icon');
+        if (document.documentElement.classList.contains('dark')) {
+            icon.className = 'fa-solid fa-sun';
+        } else {
+            icon.className = 'fa-solid fa-moon';
+        }
+    }
+
+    function loadXP() {
+        state.totalXP = parseInt(localStorage.getItem('studyPortal_XP')) || 0;
+        document.getElementById('total-xp-display').innerText = `${state.totalXP} XP`;
+    }
+    
+    function addXP(amount) {
+        state.totalXP += amount;
+        localStorage.setItem('studyPortal_XP', state.totalXP);
+        document.getElementById('total-xp-display').innerText = `${state.totalXP} XP`;
+        document.getElementById('total-xp-display').parentElement.classList.add('streak-bump');
+        setTimeout(() => document.getElementById('total-xp-display').parentElement.classList.remove('streak-bump'), 300);
+    }
+
     function saveProgress(score, total) {
         const key = `studyPortal_${state.subject}_${state.chapter}_${state.assessment}`;
         const percentage = Math.round((score / total) * 100);
@@ -200,177 +389,275 @@
         return JSON.parse(localStorage.getItem(key));
     }
 
-    // --- NAVIGATION ---
-    function showScreen(screenId) {
-        ['subject-screen', 'chapter-screen', 'assessment-screen', 'quiz-screen', 'results-screen'].forEach(id => {
-            document.getElementById(id).classList.add('hidden-screen');
-        });
-        document.getElementById(screenId).classList.remove('hidden-screen');
-        if(screenId !== 'quiz-screen') stopTimer();
+    async function fetchWithCache(url) {
+        const cached = localStorage.getItem(`cache_${url}`);
+        if (cached) {
+            try {
+                const { data, timestamp } = JSON.parse(cached);
+                if (Date.now() - timestamp < CACHE_EXPIRY_MS) return data;
+            } catch (e) { console.error("Cache read error"); }
+        }
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const data = await res.json();
+        
+        try {
+            localStorage.setItem(`cache_${url}`, JSON.stringify({ data, timestamp: Date.now() }));
+        } catch (e) { console.warn("Local storage full"); }
+        return data;
     }
 
-    // --- API & DATA LOADING ---
-    async function loadSubjects() {
-        showScreen('subject-screen');
-        showLoader("Connecting to GitHub...");
-        try {
-            const res = await fetch(BASE_API_URL);
-            if (!res.ok) throw new Error();
-            const data = await res.json();
-            const folders = data.filter(item => item.type === 'dir');
-            
-            const list = document.getElementById('subject-list');
-            list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500 font-medium'>No folders found.</p>";
-            
-            folders.forEach(folder => {
-                const btn = document.createElement('button');
-                btn.className = 'bg-white border border-slate-200 p-8 rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-400 text-left transition-all group focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none w-full';
-                btn.innerHTML = `<h3 class="font-extrabold text-xl text-slate-800 group-hover:text-indigo-600 transition-colors">${escapeHTML(folder.name)}</h3>`;
-                btn.onclick = () => loadChapters(folder.name);
-                list.appendChild(btn);
-            });
-        } catch (e) {
-            document.getElementById('subject-list').innerHTML = "<p class='col-span-full text-red-500 font-bold bg-red-50 p-6 rounded-xl border border-red-200'>Error loading from GitHub. Check visibility settings.</p>";
-        } finally {
-            hideLoader();
+    function updateHeader(screenId) {
+        const title = document.getElementById('header-title');
+        const subtitle = document.getElementById('header-subtitle');
+        const backBtn = document.getElementById('back-btn');
+
+        if(screenId === 'subject-screen') {
+            title.innerText = "Study Portal"; subtitle.innerText = "Dashboard";
+            backBtn.classList.add('hidden-screen');
+        } else if(screenId === 'chapter-screen') {
+            title.innerText = escapeHTML(state.subject); subtitle.innerText = "Chapters";
+            backBtn.classList.remove('hidden-screen');
+        } else if(screenId === 'assessment-screen') {
+            title.innerText = escapeHTML(state.chapter); subtitle.innerText = "Assessments";
+            backBtn.classList.remove('hidden-screen');
+        } else if(screenId === 'quiz-screen') {
+            title.innerText = "Assessment"; subtitle.innerText = escapeHTML(state.assessment);
+            backBtn.classList.add('hidden-screen');
+        } else if(screenId === 'results-screen') {
+            title.innerText = "Results"; subtitle.innerText = escapeHTML(state.assessment);
+            backBtn.classList.add('hidden-screen');
         }
     }
 
+    function navigateTo(screenId, pushHistory = true) {
+        if(pushHistory && state.currentScreen !== screenId && screenId !== 'quiz-screen' && screenId !== 'results-screen') {
+            state.history.push(state.currentScreen);
+        }
+        
+        ['subject-screen', 'chapter-screen', 'assessment-screen', 'quiz-screen', 'results-screen'].forEach(id => {
+            const el = document.getElementById(id);
+            el.classList.add('hidden-screen');
+            el.classList.remove('screen-enter');
+        });
+        
+        const targetEl = document.getElementById(screenId);
+        targetEl.classList.remove('hidden-screen');
+        void targetEl.offsetWidth; 
+        targetEl.classList.add('screen-enter');
+
+        state.currentScreen = screenId;
+        updateHeader(screenId);
+
+        if(screenId !== 'quiz-screen') stopTimer();
+        if(screenId === 'subject-screen') loadSubjects();
+    }
+
+    function navigateBack() {
+        if (state.history.length > 0) {
+            navigateTo(state.history.pop(), false);
+        } else {
+            navigateTo('subject-screen', false);
+        }
+    }
+
+    async function loadSubjects() {
+        showLoader("Syncing Subjects...");
+        try {
+            const data = await fetchWithCache(BASE_API_URL);
+            const folders = data.filter(item => item.type === 'dir');
+            
+            const list = document.getElementById('subject-list');
+            list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500'>No subjects available.</p>";
+            
+            folders.forEach((folder, index) => {
+                const btn = document.createElement('div');
+                const colors = ['bg-indigo-500', 'bg-emerald-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-cyan-500'];
+                const color = colors[index % colors.length];
+                
+                btn.className = 'bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex items-center gap-4 transform hover:-translate-y-1';
+                btn.innerHTML = `
+                    <div class="w-14 h-14 ${color} text-white rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg shadow-black/10 group-hover:scale-110 transition-transform">
+                        ${escapeHTML(folder.name).charAt(0)}
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-lg group-hover:text-brand-500 transition-colors">${escapeHTML(folder.name)}</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Tap to explore</p>
+                    </div>
+                `;
+                btn.onclick = () => { state.subject = folder.name; loadChapters(folder.name); };
+                list.appendChild(btn);
+            });
+        } catch (e) {
+            document.getElementById('subject-list').innerHTML = "<div class='col-span-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-6 rounded-2xl font-bold flex items-center gap-3'><i class='fa-solid fa-triangle-exclamation'></i> Network Error. Could not sync from GitHub.</div>";
+        } finally { hideLoader(); }
+    }
+
     async function loadChapters(subjectName) {
-        state.subject = subjectName;
-        showScreen('chapter-screen');
-        document.getElementById('subject-title').innerText = escapeHTML(subjectName);
-        showLoader(`Loading ${subjectName} chapters...`);
+        navigateTo('chapter-screen');
+        showLoader(`Loading Chapters...`);
         const list = document.getElementById('chapter-list');
         list.innerHTML = '';
 
         try {
-            const res = await fetch(`${BASE_API_URL}/${encodeURIComponent(subjectName)}`);
-            const data = await res.json();
+            const data = await fetchWithCache(`${BASE_API_URL}/${encodeURIComponent(subjectName)}`);
             const files = data.filter(item => item.name.endsWith('.json'));
             
-            files.forEach(file => {
-                const btn = document.createElement('button');
+            files.forEach((file, index) => {
+                const btn = document.createElement('div');
                 const cleanName = file.name.replace('.json', '').replace(/_/g, ' ');
-                btn.className = 'bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:bg-indigo-50 hover:border-indigo-300 transition-all text-left font-bold text-lg text-slate-700 focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none w-full';
-                btn.innerText = escapeHTML(cleanName);
-                btn.onclick = () => fetchAssessments(file.download_url, cleanName);
+                btn.className = 'bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-brand-400 dark:hover:border-brand-500 transition-all cursor-pointer flex flex-col justify-between group';
+                btn.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 w-10 h-10 rounded-full flex items-center justify-center font-bold">${index + 1}</div>
+                        <i class="fa-solid fa-arrow-right text-slate-300 dark:text-slate-600 group-hover:text-brand-500 transition-colors -rotate-45 group-hover:rotate-0"></i>
+                    </div>
+                    <h3 class="font-bold text-lg leading-tight mb-2">${escapeHTML(cleanName)}</h3>
+                    <p class="text-xs font-bold text-brand-500 uppercase tracking-widest mt-auto">Assessments available</p>
+                `;
+                btn.onclick = () => { state.chapter = cleanName; fetchAssessments(file.download_url, cleanName); };
                 list.appendChild(btn);
             });
-        } catch (e) { 
-            list.innerHTML = "<p class='col-span-full text-red-500 font-bold bg-red-50 p-6 rounded-xl border border-red-200'>Error loading chapters.</p>";
-        } finally {
-            hideLoader();
-        }
+        } catch (e) { showToast("Error loading chapters.", true); } finally { hideLoader(); }
     }
 
     async function fetchAssessments(url, chapterName) {
-        state.chapter = chapterName;
-        showLoader(`Downloading ${chapterName} assessments...`);
+        showLoader(`Preparing Assessments...`);
         try {
-            const res = await fetch(url);
-            let data = await res.json();
+            const data = await fetchWithCache(url);
+            let normalizedData = Array.isArray(data) ? { "Assessment 1": data } : data;
             
-            if(Array.isArray(data)) { data = { "Assessment 1": data }; }
-            
-            state.quizDataRaw = data;
-            showScreen('assessment-screen');
-            document.getElementById('chapter-title').innerText = escapeHTML(chapterName);
+            state.quizDataRaw = normalizedData;
+            navigateTo('assessment-screen');
             
             const list = document.getElementById('assessment-list');
             list.innerHTML = '';
             
-            Object.keys(data).forEach(key => {
+            Object.keys(normalizedData).forEach((key) => {
                 const btn = document.createElement('button');
-                btn.className = 'bg-indigo-50 border border-indigo-100 p-6 rounded-2xl shadow-sm hover:shadow-md hover:bg-indigo-600 hover:text-white transition-all text-left font-extrabold text-xl text-indigo-900 group focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none w-full';
-                
+                const qCount = normalizedData[key].length;
                 const pastProgress = getProgress(state.subject, state.chapter, key);
-                const badgeHtml = pastProgress ? `<span class="text-xs font-black tracking-wide text-green-700 bg-green-100 px-3 py-1 rounded-full border border-green-300 mt-3 inline-block uppercase">Best Score: ${pastProgress.percentage}%</span>` : '';
                 
+                let progressUI = `<span class="text-xs font-bold text-slate-400 dark:text-slate-500">Not Attempted</span>`;
+                if(pastProgress) {
+                    const isMastery = pastProgress.percentage >= 80;
+                    progressUI = `<div class="flex items-center gap-2"><span class="text-sm font-black ${isMastery ? 'text-green-500' : 'text-orange-500'}">${pastProgress.percentage}% Best</span>${isMastery ? '<i class="fa-solid fa-medal text-yellow-400"></i>' : ''}</div>`;
+                }
+
+                btn.className = 'w-full text-left bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group outline-none focus:ring-2 focus:ring-brand-500 flex flex-col';
                 btn.innerHTML = `
-                    ${escapeHTML(key)} 
-                    <div class="mt-2 flex flex-col items-start gap-1">
-                        <span class="text-sm font-semibold opacity-70 group-hover:opacity-100 transition-opacity uppercase tracking-wide">${data[key].length} Questions</span>
-                        ${badgeHtml}
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 p-3 rounded-2xl"><i class="fa-solid fa-file-pen text-xl"></i></div>
+                        ${progressUI}
+                    </div>
+                    <h3 class="font-extrabold text-xl mb-1 group-hover:text-brand-500 transition-colors">${escapeHTML(key)}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">${qCount} Questions • ~${Math.ceil(qCount * 1.5)} Mins</p>
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-brand-600 dark:text-brand-400 font-bold text-sm">
+                        Start Challenge <i class="fa-solid fa-play group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 `;
                 btn.onclick = () => startQuiz(key);
                 list.appendChild(btn);
             });
-        } catch (e) { 
-            alert("Failed to parse JSON file."); 
-        } finally {
-            hideLoader();
-        }
+        } catch (e) { showToast("Data format error.", true); } finally { hideLoader(); }
     }
 
-    // --- QUIZ ENGINE ---
     function startQuiz(assessmentName) {
         state.assessment = assessmentName;
         state.questions = state.quizDataRaw[assessmentName];
         state.currentIndex = 0; state.score = 0; state.userAnswers = [];
+        state.currentStreak = 0; state.highestStreak = 0;
         state.isQuizActive = true;
         
         document.getElementById('progress-bar').style.width = '0%';
-        
-        showScreen('quiz-screen');
-        document.getElementById('quiz-breadcrumb').innerText = `${state.subject} > ${state.chapter} > ${state.assessment}`;
-        
+        updateStreakUI();
+        navigateTo('quiz-screen', false);
         startTimer();
         renderQuestion();
     }
     
-    function retryAssessment() {
-        startQuiz(state.assessment);
-    }
+    function retryAssessment() { startQuiz(state.assessment); }
 
     function renderQuestion() {
         state.selectedOption = null;
         const q = state.questions[state.currentIndex];
         
-        document.getElementById('progress-text').innerText = `QUESTION ${state.currentIndex + 1} OF ${state.questions.length}`;
+        document.getElementById('progress-text').innerText = `Q ${state.currentIndex + 1}/${state.questions.length}`;
         const pct = (state.currentIndex / state.questions.length) * 100;
         document.getElementById('progress-bar').style.width = `${pct}%`;
-        
         document.getElementById('question-text').innerText = escapeHTML(q.question);
         
         const container = document.getElementById('options-container');
         container.innerHTML = '';
+        const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
         
-        q.options.forEach(opt => {
+        q.options.forEach((opt, index) => {
             const btn = document.createElement('button');
-            // Changed option buttons to form a 2-column grid instead of a single list for wider screens
-            btn.className = 'option-btn w-full text-left p-5 md:p-6 rounded-2xl border-2 border-slate-200 bg-white hover:border-indigo-400 hover:shadow-md transition-all text-slate-700 font-semibold text-lg focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none relative flex items-center shadow-sm';
+            const label = labels[index] || (index+1);
             
-            btn.innerHTML = `<div class="w-6 h-6 rounded-full border-2 border-slate-300 mr-4 flex-shrink-0 indicator"></div> <span>${escapeHTML(opt)}</span>`;
+            btn.className = 'option-btn w-full text-left p-5 md:p-6 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-darkcard hover:border-brand-400 dark:hover:border-brand-500 transition-all font-semibold text-lg flex items-center gap-4 group focus:outline-none';
+            btn.innerHTML = `<div class="w-10 h-10 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold transition-colors label-indicator">${label}</div><span class="flex-grow">${escapeHTML(opt)}</span>`;
             
             btn.onclick = () => {
                 document.querySelectorAll('.option-btn').forEach(b => {
-                    b.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-900', 'shadow-md');
-                    b.classList.add('border-slate-200', 'shadow-sm');
-                    b.querySelector('.indicator').classList.remove('border-indigo-600', 'bg-indigo-600');
-                    b.querySelector('.indicator').classList.add('border-slate-300');
+                    b.classList.remove('option-selected', 'border-brand-500');
+                    b.classList.add('border-slate-200', 'dark:border-slate-700');
+                    const indicator = b.querySelector('.label-indicator');
+                    indicator.classList.remove('bg-brand-500', 'text-white');
+                    indicator.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400');
                 });
-                btn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-900', 'shadow-md');
-                btn.classList.remove('border-slate-200', 'shadow-sm');
-                btn.querySelector('.indicator').classList.remove('border-slate-300');
-                btn.querySelector('.indicator').classList.add('border-indigo-600', 'bg-indigo-600');
+                btn.classList.add('option-selected', 'border-brand-500');
+                btn.classList.remove('border-slate-200', 'dark:border-slate-700');
+                const indicator = btn.querySelector('.label-indicator');
+                indicator.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400');
+                indicator.classList.add('bg-brand-500', 'text-white');
                 state.selectedOption = opt;
             };
             container.appendChild(btn);
         });
         
-        document.getElementById('next-btn').innerText = state.currentIndex === state.questions.length - 1 ? "Submit Assessment" : "Next Question";
+        const nextBtn = document.getElementById('next-btn');
+        if(state.currentIndex === state.questions.length - 1) {
+            nextBtn.innerHTML = 'Submit Assessment <i class="fa-solid fa-flag-checkered ml-2"></i>';
+            nextBtn.className = 'bg-emerald-600 hover:bg-emerald-500 text-white w-full sm:w-auto px-12 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-emerald-500/30 transform hover:-translate-y-1 active:translate-y-0 text-lg';
+        } else {
+            nextBtn.innerHTML = 'Next Question <i class="fa-solid fa-arrow-right ml-2"></i>';
+            nextBtn.className = 'bg-brand-600 hover:bg-brand-500 text-white w-full sm:w-auto px-12 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-brand-500/30 transform hover:-translate-y-1 active:translate-y-0 text-lg';
+        }
+    }
+
+    function updateStreakUI() {
+        const streakEl = document.getElementById('streak-display');
+        streakEl.innerHTML = `<i class="fa-solid fa-fire text-orange-500 mr-1"></i> Streak: ${state.currentStreak}`;
+        if (state.currentStreak >= 2) {
+            streakEl.classList.add('text-orange-600', 'dark:text-orange-400', 'streak-bump');
+            setTimeout(() => streakEl.classList.remove('streak-bump'), 300);
+        } else {
+            streakEl.classList.remove('text-orange-600', 'dark:text-orange-400');
+        }
     }
 
     function nextQuestion() {
         if (!state.selectedOption && state.timeRemaining > 0) {
-            showToast("Please select an option to continue.");
+            showToast("Please select an option to continue.", true);
+            document.getElementById('options-container').animate([
+                { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
+            ], { duration: 400 });
             return;
         }
         
         state.userAnswers.push(state.selectedOption);
-        if (state.selectedOption === state.questions[state.currentIndex].answer) state.score++;
+        const q = state.questions[state.currentIndex];
+        if (state.selectedOption === q.answer) {
+            state.score++;
+            state.currentStreak++;
+            addXP(10 + (state.currentStreak * 2));
+            if(state.currentStreak > state.highestStreak) state.highestStreak = state.currentStreak;
+        } else {
+            state.currentStreak = 0;
+        }
+        updateStreakUI();
 
         if (state.currentIndex < state.questions.length - 1) {
             state.currentIndex++;
@@ -380,7 +667,6 @@
         }
     }
 
-    // --- TIMERS & UI ---
     function startTimer() {
         state.timeRemaining = TIMER_MINUTES * 60;
         updateTimerUI();
@@ -389,89 +675,95 @@
             updateTimerUI();
             if (state.timeRemaining <= 0) {
                 stopTimer();
-                showToast("Time's up! Auto-submitting...");
+                showToast("Time's up! Auto-submitting...", true);
                 state.selectedOption = null; 
                 while(state.userAnswers.length < state.questions.length) nextQuestion();
             }
         }, 1000);
     }
 
-    function stopTimer() {
-        clearInterval(state.timerInterval);
-        state.isQuizActive = false;
-    }
+    function stopTimer() { clearInterval(state.timerInterval); state.isQuizActive = false; }
 
     function updateTimerUI() {
         const m = Math.floor(state.timeRemaining / 60).toString().padStart(2, '0');
         const s = (state.timeRemaining % 60).toString().padStart(2, '0');
-        const display = document.getElementById('timer-display');
+        const display = document.getElementById('timer-text');
+        const container = document.getElementById('timer-display');
         display.innerText = `${m}:${s}`;
         
         if (state.timeRemaining <= 60) {
-            display.classList.remove('text-indigo-600', 'bg-indigo-100');
-            display.classList.add('text-red-600', 'bg-red-100', 'animate-pulse');
+            container.classList.add('bg-red-100', 'dark:bg-red-900/30', 'text-red-600', 'dark:text-red-400', 'border-red-300', 'dark:border-red-700', 'animate-pulse');
         } else {
-            display.classList.remove('text-red-600', 'bg-red-100', 'animate-pulse');
-            display.classList.add('text-indigo-600', 'bg-indigo-100');
+            container.classList.remove('bg-red-100', 'dark:bg-red-900/30', 'text-red-600', 'dark:text-red-400', 'border-red-300', 'dark:border-red-700', 'animate-pulse');
         }
+    }
+
+    function triggerConfetti() {
+        var duration = 3 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+        var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) return clearInterval(interval);
+            var particleCount = 50 * (timeLeft / duration);
+            confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+            confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+        }, 250);
     }
 
     function finishQuiz() {
         stopTimer();
         saveProgress(state.score, state.questions.length);
         document.getElementById('progress-bar').style.width = '100%';
-        
-        showScreen('results-screen');
+        navigateTo('results-screen', false);
         
         const pct = Math.round((state.score / state.questions.length) * 100);
         document.getElementById('score-percent').innerText = `${pct}%`;
-        document.getElementById('score-text').innerText = `You scored ${state.score} out of ${state.questions.length}`;
+        document.getElementById('score-fraction').innerText = `${state.score}/${state.questions.length}`;
+        document.getElementById('highest-streak-display').innerText = state.highestStreak;
+        
+        const titleEl = document.getElementById('result-title');
+        if (pct === 100) { titleEl.innerText = "Perfect Score! 🌟"; triggerConfetti(); }
+        else if (pct >= 80) { titleEl.innerText = "Outstanding! 🏆"; triggerConfetti(); }
+        else if (pct >= 60) { titleEl.innerText = "Good Job! 👍"; }
+        else { titleEl.innerText = "Keep Trying! 💪"; }
         
         setTimeout(() => {
             const offset = 100 - pct;
             document.getElementById('score-ring').style.strokeDashoffset = offset;
-        }, 100);
+            const ring = document.getElementById('score-ring');
+            if(pct >= 80) ring.classList.replace('text-brand-500', 'text-emerald-500');
+            else if(pct < 50) ring.classList.replace('text-brand-500', 'text-orange-500');
+        }, 300);
 
         const review = document.getElementById('review-container');
         review.innerHTML = '';
         
         state.questions.forEach((q, i) => {
             const isCorrect = state.userAnswers[i] === q.answer;
-            const ansStr = state.userAnswers[i] ? escapeHTML(state.userAnswers[i]) : "<span class='italic text-slate-400'>Not Answered (Timeout)</span>";
+            const ansStr = state.userAnswers[i] ? escapeHTML(state.userAnswers[i]) : "<span class='italic text-slate-400'>Skipped/Timeout</span>";
             
             review.innerHTML += `
-                <div class="bg-white p-6 md:p-8 rounded-2xl border-2 shadow-sm ${isCorrect ? 'border-green-100' : 'border-red-100'}">
-                    <p class="font-bold text-lg text-slate-800 mb-4"><span class="text-slate-400 mr-3">${i+1}.</span>${escapeHTML(q.question)}</p>
-                    <div class="bg-slate-50 p-4 rounded-xl">
-                        <p class="text-base font-medium">Your Answer: <span class="${isCorrect ? 'text-green-600' : 'text-red-600'} font-bold ml-2">${ansStr}</span></p>
-                        ${!isCorrect ? `<p class="text-base font-medium mt-2">Correct Answer: <span class="text-green-600 font-bold ml-2">${escapeHTML(q.answer)}</span></p>` : ''}
+                <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-3xl border-2 shadow-sm ${isCorrect ? 'border-emerald-500/30' : 'border-red-500/30'} relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">
+                        <i class="fa-solid ${isCorrect ? 'fa-check text-emerald-500' : 'fa-xmark text-red-500'}"></i>
+                    </div>
+                    <p class="font-bold text-lg leading-relaxed mb-4 relative z-10">
+                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 px-3 py-1 rounded-lg text-sm mr-2">${i+1}</span> ${escapeHTML(q.question)}
+                    </p>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl relative z-10 border border-slate-100 dark:border-slate-800">
+                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Your Answer:</p>
+                        <p class="text-base font-bold ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}">${ansStr}</p>
+                        ${!isCorrect ? `<div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700"><p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Correct Answer:</p><p class="text-base font-bold text-emerald-600 dark:text-emerald-400">${escapeHTML(q.answer)}</p></div>` : ''}
                     </div>
                 </div>`;
         });
     }
 
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.classList.remove('opacity-0');
-        clearTimeout(state.toastTimeout);
-        state.toastTimeout = setTimeout(() => toast.classList.add('opacity-0'), 3000);
-    }
-
-    // --- MODAL CONTROLS ---
-    function confirmQuit() {
-        document.getElementById('quit-modal').classList.remove('hidden-screen');
-        setTimeout(() => document.getElementById('quit-modal-content').classList.remove('scale-95'), 10);
-    }
-    function closeQuitModal() {
-        document.getElementById('quit-modal-content').classList.add('scale-95');
-        setTimeout(() => document.getElementById('quit-modal').classList.add('hidden-screen'), 200);
-    }
-    function executeQuit() {
-        closeQuitModal();
-        stopTimer();
-        showScreen('assessment-screen');
-    }
+    function confirmQuit() { document.getElementById('quit-modal').classList.remove('hidden-screen'); }
+    function closeQuitModal() { document.getElementById('quit-modal').classList.add('hidden-screen'); }
+    function executeQuit() { closeQuitModal(); stopTimer(); navigateTo('assessment-screen', false); }
 </script>
 </body>
 </html>
