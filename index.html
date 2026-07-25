@@ -304,7 +304,11 @@
             name: "entry.795960842",    
             subject: "entry.842650238", 
             chapter: "entry.2033848128", 
-            score: "entry.730375092"    
+            score: "entry.730375092",
+            attempt: "entry.1368600616",
+            mistakes: "entry.480544809", 
+            timestamp: "entry.229426742", 
+            timeTaken: "entry.160288449" 
         }
     };
 
@@ -377,7 +381,7 @@
             console.log("🕵️ Secret debug command triggered!");
             downloadDebugLogs();
             showToast("Debug logs downloaded!");
-            return; // Don't actually log them in
+            return; 
         }
 
         try {
@@ -398,7 +402,7 @@
     // ==========================================
     // 4. TELEMETRY SYSTEM (GOOGLE FORMS)
     // ==========================================
-    async function dispatchTelemetry(subject, chapter, score, total) {
+    async function dispatchTelemetry(subject, chapter, score, total, attemptCount, mistakesLog, timeTakenStr) {
         console.log("📡 PREPARING TELEMETRY DISPATCH...");
         const user = localStorage.getItem('currentUser') || 'Anonymous';
         
@@ -411,7 +415,11 @@
             name: user,
             subject: subject,
             chapter: chapter,
-            score: `${score}/${total}`
+            score: `${score}/${total}`,
+            attempt: attemptCount.toString(),
+            mistakes: mistakesLog,
+            timestamp: new Date().toLocaleString(),
+            timeTaken: timeTakenStr
         };
         console.log("📦 Payload compiled:", payload);
 
@@ -431,8 +439,11 @@
         formData.append(TELEMETRY_CONFIG.entries.subject, payload.subject);
         formData.append(TELEMETRY_CONFIG.entries.chapter, payload.chapter);
         formData.append(TELEMETRY_CONFIG.entries.score, payload.score);
+        formData.append(TELEMETRY_CONFIG.entries.attempt, payload.attempt);
+        formData.append(TELEMETRY_CONFIG.entries.mistakes, payload.mistakes);
+        formData.append(TELEMETRY_CONFIG.entries.timestamp, payload.timestamp);
+        formData.append(TELEMETRY_CONFIG.entries.timeTaken, payload.timeTaken);
 
-        // Log exact form data being sent
         for (let pair of formData.entries()) {
             console.log(`   - ${pair[0]}: ${pair[1]}`);
         }
@@ -441,7 +452,7 @@
             console.log(`🔗 Target URL: ${TELEMETRY_CONFIG.formUrl}`);
             const response = await fetch(TELEMETRY_CONFIG.formUrl, { 
                 method: 'POST', 
-                mode: 'no-cors', // Opaque response expected
+                mode: 'no-cors', 
                 body: formData 
             });
             console.log("✅ Fetch request completed (no-cors response received). Google should have data.");
@@ -913,9 +924,32 @@
         console.log("🏁 Assessment Finished. Triggering completion routines...");
         stopTimer();
         saveProgress(state.score, state.questions.length);
+
+        // --- CALCULATE NEW TELEMETRY FIELDS ---
+        
+        // 1. Attempt Count
+        const attemptKey = `studyPortal_attempts_${state.subject}_${state.chapter}_${state.assessment}`;
+        let attemptCount = (parseInt(localStorage.getItem(attemptKey)) || 0) + 1;
+        localStorage.setItem(attemptKey, attemptCount);
+        
+        // 2. Time Taken (Minutes & Seconds)
+        const totalSecondsTaken = (TIMER_MINUTES * 60) - state.timeRemaining;
+        const mTaken = Math.floor(totalSecondsTaken / 60).toString().padStart(2, '0');
+        const sTaken = (totalSecondsTaken % 60).toString().padStart(2, '0');
+        const timeTakenStr = `${mTaken}:${sTaken}`;
+
+        // 3. Compile Detailed Mistakes Log
+        let mistakes = [];
+        state.questions.forEach((q, i) => {
+            if(state.userAnswers[i] !== q.answer) {
+                let userPick = state.userAnswers[i] ? state.userAnswers[i] : "Skipped/Timeout";
+                mistakes.push(`Q${i+1}: ${q.question} | Picked: ${userPick} | Correct: ${q.answer}`);
+            }
+        });
+        let mistakesLog = mistakes.length > 0 ? mistakes.join("\n") : "Perfect Score! No mistakes.";
         
         // --- TRIGGER BACKGROUND TELEMETRY ---
-        dispatchTelemetry(state.subject, state.chapter, state.score, state.questions.length);
+        dispatchTelemetry(state.subject, state.chapter, state.score, state.questions.length, attemptCount, mistakesLog, timeTakenStr);
         
         document.getElementById('progress-bar').style.width = '100%';
         navigateTo('results-screen', false);

@@ -4,6 +4,11 @@
             "subtopic": "Fundamental Theorem of Arithmetic: Core Concepts",
             "status": "completed",
             "questions_count": 15
+        },
+        "Assessment 2": {
+            "subtopic": "Prime Factorization: Method and Calculations",
+            "status": "completed",
+            "questions_count": 52
         }
     }
 }
