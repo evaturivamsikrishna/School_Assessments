@@ -35,22 +35,18 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* Smooth Screen Transitions */
         .screen-enter { animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Hide Screens */
         .hidden-screen { display: none !important; }
 
-        /* Custom Scrollbar for modern look */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
         
-        /* Gamification Animations */
         .streak-bump { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes pop {
             0% { transform: scale(1); }
@@ -64,7 +60,6 @@
             transform: scale(1.01);
         }
 
-        /* Glassmorphism Loader */
         .glass-loader {
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(10px);
@@ -82,6 +77,24 @@
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-darkbg text-slate-900 dark:text-slate-100 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
+
+<!-- User Identity Modal -->
+<div id="user-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden-screen">
+    <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-8 max-w-md w-full shadow-2xl text-center">
+        <div class="w-16 h-16 bg-brand-500/10 text-brand-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+            <i class="fa-solid fa-user-astronaut"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-2">Welcome to Study Portal</h3>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Enter your username to track progress and sync learning analytics.</p>
+        <form onsubmit="saveUserIdentity(event)" class="flex flex-col gap-4">
+            <input type="text" id="username-input" placeholder="Enter username (or 'admin debug')" required
+                   class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-brand-500" />
+            <button type="submit" class="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg transition-all">
+                Continue to Dashboard
+            </button>
+        </form>
+    </div>
+</div>
 
 <div id="global-loader" class="fixed inset-0 glass-loader z-50 flex flex-col items-center justify-center hidden-screen">
     <div class="bg-white dark:bg-darkcard p-8 rounded-3xl shadow-2xl flex flex-col items-center border border-slate-200 dark:border-slate-700">
@@ -139,7 +152,6 @@
             <p class="text-slate-500 dark:text-slate-400 text-lg">Select a subject to begin your mastery journey.</p>
         </div>
         
-        <!-- Motivational Banner -->
         <div class="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 to-purple-600 p-6 md:p-8 text-white shadow-xl shadow-brand-500/20">
             <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/20 blur-3xl"></div>
             <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-black/20 blur-2xl"></div>
@@ -179,7 +191,7 @@
         <div id="assessment-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </div>
 
-    <!-- Screen 4: Active Quiz (Gamified) -->
+    <!-- Screen 4: Active Quiz -->
     <div id="quiz-screen" class="hidden-screen screen-enter flex flex-col h-full max-w-5xl mx-auto w-full">
         <div class="flex flex-wrap justify-between items-center mb-6 gap-4 bg-white dark:bg-darkcard p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="flex-1 min-w-[200px]">
@@ -250,6 +262,52 @@
 </main>
 
 <script>
+    // ==========================================
+    // 1. ADVANCED DEBUG LOGGER
+    // ==========================================
+    const appLogs = [];
+    const originalLog = console.log;
+    const originalError = console.error;
+    const originalWarn = console.warn;
+
+    function captureLog(level, ...args) {
+        const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+        appLogs.push({ timestamp: new Date().toISOString(), level: level, message: msg });
+        if(level === 'INFO') originalLog.apply(console, args);
+        if(level === 'ERROR') originalError.apply(console, args);
+        if(level === 'WARN') originalWarn.apply(console, args);
+    }
+
+    console.log = (...args) => captureLog('INFO', ...args);
+    console.error = (...args) => captureLog('ERROR', ...args);
+    console.warn = (...args) => captureLog('WARN', ...args);
+
+    function downloadDebugLogs() {
+        console.log("📥 Downloading debug_logs.json...");
+        const blob = new Blob([JSON.stringify(appLogs, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `study_portal_logs_${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // ==========================================
+    // 2. CONFIGURATION
+    // ==========================================
+    const TELEMETRY_CONFIG = {
+        formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfSRiXP7IORGc2Ce39CqZrA_Ayt6grqFL7OfOYmLAyiyLhsFw/formResponse",
+        entries: {
+            name: "entry.795960842",    
+            subject: "entry.842650238", 
+            chapter: "entry.2033848128", 
+            score: "entry.730375092"    
+        }
+    };
+
     const GITHUB_USERNAME = "evaturivamsikrishna"; 
     const REPO_NAME = "School_Assessments";
     const BASE_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/quizzes`;
@@ -257,8 +315,7 @@
     const CACHE_EXPIRY_MS = 1000 * 60 * 60 * 24;
 
     let state = {
-        history: [],
-        currentScreen: 'subject-screen',
+        history: [], currentScreen: 'subject-screen',
         subject: "", chapter: "", assessment: "",
         quizDataRaw: {}, questions: [], userAnswers: [],
         currentIndex: 0, score: 0, selectedOption: null,
@@ -275,6 +332,149 @@
         "Discipline is choosing between what you want now, and what you want most."
     ];
 
+    // ==========================================
+    // 3. INITIALIZATION & IDENTITY
+    // ==========================================
+    window.onload = () => {
+        console.log("🚀 System Initialization Started.");
+        initTheme();
+        loadXP();
+        setDailyMotivation();
+        checkUserIdentity(); 
+        navigateTo('subject-screen');
+    };
+
+    window.addEventListener('beforeunload', (e) => {
+        if(state.isQuizActive) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    function checkUserIdentity() {
+        console.log("🔍 Checking localStorage for 'currentUser'...");
+        const user = localStorage.getItem('currentUser');
+        if (!user) {
+            console.warn("⚠️ No user found. Displaying Login Modal.");
+            document.getElementById('user-modal').classList.remove('hidden-screen');
+        } else {
+            console.log(`✅ User found: [${user}]. Skipping login.`);
+            flushPendingTelemetry();
+        }
+    }
+
+    function saveUserIdentity(event) {
+        event.preventDefault();
+        console.log("🖱️ Login form submitted.");
+        
+        const input = document.getElementById('username-input').value.trim();
+        console.log(`📝 Input received: [${input}]`);
+        
+        if (!input) {
+            console.error("❌ Input was empty after trim.");
+            return;
+        }
+
+        // --- SECRET DEBUG TRIGGER ---
+        if (input.toLowerCase() === 'admin debug') {
+            console.log("🕵️ Secret debug command triggered!");
+            downloadDebugLogs();
+            showToast("Debug logs downloaded!");
+            return; // Don't actually log them in
+        }
+
+        try {
+            localStorage.setItem('currentUser', input);
+            console.log("💾 Saved user to localStorage.");
+            
+            document.getElementById('user-modal').classList.add('hidden-screen');
+            console.log("🙈 Modal hidden successfully.");
+            
+            showToast(`Welcome, ${input}!`);
+            flushPendingTelemetry();
+        } catch (e) {
+            console.error("❌ Failed to save user identity:", e);
+            alert("Error saving login. Is Private Browsing blocking local storage?");
+        }
+    }
+
+    // ==========================================
+    // 4. TELEMETRY SYSTEM (GOOGLE FORMS)
+    // ==========================================
+    async function dispatchTelemetry(subject, chapter, score, total) {
+        console.log("📡 PREPARING TELEMETRY DISPATCH...");
+        const user = localStorage.getItem('currentUser') || 'Anonymous';
+        
+        if (user.toLowerCase() === 'admin') {
+            console.log("🛑 Telemetry bypassed for Admin account.");
+            return;
+        }
+
+        const payload = {
+            name: user,
+            subject: subject,
+            chapter: chapter,
+            score: `${score}/${total}`
+        };
+        console.log("📦 Payload compiled:", payload);
+
+        if (!navigator.onLine) { 
+            console.warn("⚠️ Browser is offline. Caching telemetry.");
+            cacheTelemetry(payload); 
+            return; 
+        }
+        
+        await executeTelemetryPost(payload);
+    }
+
+    async function executeTelemetryPost(payload) {
+        console.log("🚀 Executing POST request to Google Forms...");
+        const formData = new FormData();
+        formData.append(TELEMETRY_CONFIG.entries.name, payload.name);
+        formData.append(TELEMETRY_CONFIG.entries.subject, payload.subject);
+        formData.append(TELEMETRY_CONFIG.entries.chapter, payload.chapter);
+        formData.append(TELEMETRY_CONFIG.entries.score, payload.score);
+
+        // Log exact form data being sent
+        for (let pair of formData.entries()) {
+            console.log(`   - ${pair[0]}: ${pair[1]}`);
+        }
+
+        try {
+            console.log(`🔗 Target URL: ${TELEMETRY_CONFIG.formUrl}`);
+            const response = await fetch(TELEMETRY_CONFIG.formUrl, { 
+                method: 'POST', 
+                mode: 'no-cors', // Opaque response expected
+                body: formData 
+            });
+            console.log("✅ Fetch request completed (no-cors response received). Google should have data.");
+        } catch (e) {
+            console.error("❌ Fatal Fetch Error during Telemetry POST:", e);
+            cacheTelemetry(payload);
+        }
+    }
+
+    function cacheTelemetry(payload) {
+        console.log("💾 Saving payload to localStorage pending queue.");
+        const pending = JSON.parse(localStorage.getItem('pendingTelemetry') || '[]');
+        pending.push(payload);
+        localStorage.setItem('pendingTelemetry', JSON.stringify(pending));
+    }
+
+    async function flushPendingTelemetry() {
+        if (!navigator.onLine) return;
+        const pending = JSON.parse(localStorage.getItem('pendingTelemetry') || '[]');
+        if (pending.length === 0) {
+            console.log("🧹 No pending telemetry to flush.");
+            return;
+        }
+        
+        console.log(`🧹 Flushing ${pending.length} pending telemetry records...`);
+        for (const payload of pending) { await executeTelemetryPost(payload); }
+        localStorage.removeItem('pendingTelemetry');
+        console.log("🧹 Flush complete.");
+    }
+
+    // ==========================================
+    // 5. UTILITIES & UI LOGIC
+    // ==========================================
     function setDailyMotivation() {
         const quoteEl = document.getElementById('motivational-quote');
         if (!quoteEl) return;
@@ -289,17 +489,6 @@
         }
         quoteEl.innerText = dailyQuote;
     }
-
-    window.onload = () => {
-        initTheme();
-        loadXP();
-        setDailyMotivation();
-        navigateTo('subject-screen');
-    };
-
-    window.addEventListener('beforeunload', (e) => {
-        if(state.isQuizActive) { e.preventDefault(); e.returnValue = ''; }
-    });
 
     function escapeHTML(str) {
         if (!str) return '';
@@ -333,6 +522,7 @@
         document.getElementById('loader-text').innerText = message;
         document.getElementById('global-loader').classList.remove('hidden-screen');
     }
+    
     function hideLoader() {
         document.getElementById('global-loader').classList.add('hidden-screen');
     }
@@ -354,11 +544,7 @@
 
     function updateThemeIcon() {
         const icon = document.getElementById('theme-icon');
-        if (document.documentElement.classList.contains('dark')) {
-            icon.className = 'fa-solid fa-sun';
-        } else {
-            icon.className = 'fa-solid fa-moon';
-        }
+        icon.className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
     }
 
     function loadXP() {
@@ -389,22 +575,28 @@
         return JSON.parse(localStorage.getItem(key));
     }
 
+    // ==========================================
+    // 6. DATA FETCHING & NAVIGATION
+    // ==========================================
     async function fetchWithCache(url) {
+        console.log(`🌐 Requesting data from: ${url}`);
         const cached = localStorage.getItem(`cache_${url}`);
         if (cached) {
             try {
                 const { data, timestamp } = JSON.parse(cached);
-                if (Date.now() - timestamp < CACHE_EXPIRY_MS) return data;
-            } catch (e) { console.error("Cache read error"); }
+                if (Date.now() - timestamp < CACHE_EXPIRY_MS) {
+                    console.log(`📦 Serving from local cache: ${url}`);
+                    return data;
+                }
+            } catch (e) { console.error("Cache read error", e); }
         }
-
+        
+        console.log(`⬇️ Downloading fresh data from GitHub API...`);
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
         
-        try {
-            localStorage.setItem(`cache_${url}`, JSON.stringify({ data, timestamp: Date.now() }));
-        } catch (e) { console.warn("Local storage full"); }
+        try { localStorage.setItem(`cache_${url}`, JSON.stringify({ data, timestamp: Date.now() })); } catch (e) {}
         return data;
     }
 
@@ -422,16 +614,15 @@
         } else if(screenId === 'assessment-screen') {
             title.innerText = escapeHTML(state.chapter); subtitle.innerText = "Assessments";
             backBtn.classList.remove('hidden-screen');
-        } else if(screenId === 'quiz-screen') {
-            title.innerText = "Assessment"; subtitle.innerText = escapeHTML(state.assessment);
-            backBtn.classList.add('hidden-screen');
-        } else if(screenId === 'results-screen') {
-            title.innerText = "Results"; subtitle.innerText = escapeHTML(state.assessment);
+        } else if(screenId === 'quiz-screen' || screenId === 'results-screen') {
+            title.innerText = screenId === 'quiz-screen' ? "Assessment" : "Results"; 
+            subtitle.innerText = escapeHTML(state.assessment);
             backBtn.classList.add('hidden-screen');
         }
     }
 
     function navigateTo(screenId, pushHistory = true) {
+        console.log(`🧭 Navigating to: ${screenId}`);
         if(pushHistory && state.currentScreen !== screenId && screenId !== 'quiz-screen' && screenId !== 'results-screen') {
             state.history.push(state.currentScreen);
         }
@@ -455,11 +646,8 @@
     }
 
     function navigateBack() {
-        if (state.history.length > 0) {
-            navigateTo(state.history.pop(), false);
-        } else {
-            navigateTo('subject-screen', false);
-        }
+        if (state.history.length > 0) navigateTo(state.history.pop(), false);
+        else navigateTo('subject-screen', false);
     }
 
     async function loadSubjects() {
@@ -467,7 +655,6 @@
         try {
             const data = await fetchWithCache(BASE_API_URL);
             const folders = data.filter(item => item.type === 'dir');
-            
             const list = document.getElementById('subject-list');
             list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500'>No subjects available.</p>";
             
@@ -490,6 +677,7 @@
                 list.appendChild(btn);
             });
         } catch (e) {
+            console.error("❌ Failed to load subjects:", e);
             document.getElementById('subject-list').innerHTML = "<div class='col-span-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-6 rounded-2xl font-bold flex items-center gap-3'><i class='fa-solid fa-triangle-exclamation'></i> Network Error. Could not sync from GitHub.</div>";
         } finally { hideLoader(); }
     }
@@ -519,7 +707,10 @@
                 btn.onclick = () => { state.chapter = cleanName; fetchAssessments(file.download_url, cleanName); };
                 list.appendChild(btn);
             });
-        } catch (e) { showToast("Error loading chapters.", true); } finally { hideLoader(); }
+        } catch (e) { 
+            console.error("❌ Failed to load chapters:", e);
+            showToast("Error loading chapters.", true); 
+        } finally { hideLoader(); }
     }
 
     async function fetchAssessments(url, chapterName) {
@@ -530,7 +721,6 @@
             
             state.quizDataRaw = normalizedData;
             navigateTo('assessment-screen');
-            
             const list = document.getElementById('assessment-list');
             list.innerHTML = '';
             
@@ -560,10 +750,17 @@
                 btn.onclick = () => startQuiz(key);
                 list.appendChild(btn);
             });
-        } catch (e) { showToast("Data format error.", true); } finally { hideLoader(); }
+        } catch (e) { 
+            console.error("❌ Data format error:", e);
+            showToast("Data format error.", true); 
+        } finally { hideLoader(); }
     }
 
+    // ==========================================
+    // 7. QUIZ ENGINE LOGIC
+    // ==========================================
     function startQuiz(assessmentName) {
+        console.log(`▶️ Starting Quiz: ${assessmentName}`);
         state.assessment = assessmentName;
         state.questions = state.quizDataRaw[assessmentName];
         state.currentIndex = 0; state.score = 0; state.userAnswers = [];
@@ -713,8 +910,13 @@
     }
 
     function finishQuiz() {
+        console.log("🏁 Assessment Finished. Triggering completion routines...");
         stopTimer();
         saveProgress(state.score, state.questions.length);
+        
+        // --- TRIGGER BACKGROUND TELEMETRY ---
+        dispatchTelemetry(state.subject, state.chapter, state.score, state.questions.length);
+        
         document.getElementById('progress-bar').style.width = '100%';
         navigateTo('results-screen', false);
         
