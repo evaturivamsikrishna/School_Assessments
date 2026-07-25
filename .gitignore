@@ -1,29 +1,17 @@
-# Ignore everything by default
-*
-/generated_prompts/
-
-# But don't ignore directories
-!*/
-
-# Except for the 'quizzes' directory and its contents
-!quizzes/
-
-# And don't ignore these specific files
-!README.md
-!index.html
-!.gitignore
 # OS generated files
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
+Trash/ 
 
 # Python files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+
 
 # Environments
 .env
@@ -35,4 +23,5 @@ env.bak/
 venv.bak/
 
 # Project specific
+/generated_prompts/
 manifest.json.bak

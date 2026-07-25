@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Portal | Self-Assessment</title>
-    <!-- Tailwind CSS for Modern Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         
-        /* Animations */
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Custom Scrollbar for Reviews */
+        /* Custom Scrollbar */
         .review-scroll { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
         .review-scroll::-webkit-scrollbar { width: 8px; }
         .review-scroll::-webkit-scrollbar-track { background: transparent; }
@@ -22,7 +20,7 @@
         
         .hidden-screen { display: none !important; }
 
-        /* Loader Spinner Animation */
+        /* Loader Spinner */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
@@ -34,7 +32,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-8 text-slate-800 relative">
+<body class="bg-slate-50 h-screen w-screen overflow-hidden text-slate-800 flex flex-col relative">
 
 <!-- Global Full-Screen Loader Overlay -->
 <div id="global-loader" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-opacity hidden-screen">
@@ -44,109 +42,105 @@
     </div>
 </div>
 
-<!-- Scaled App Container -->
-<div class="bg-white rounded-3xl shadow-2xl w-full md:w-[85vw] md:min-h-[85vh] max-w-7xl flex flex-col overflow-hidden relative">
+<!-- Header App Bar (Full Width) -->
+<header class="bg-indigo-600 px-6 py-5 md:px-10 flex justify-between items-center shrink-0 shadow-md z-20">
+    <div>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-white">Study Portal</h1>
+        <p class="text-indigo-200 text-sm md:text-base mt-1">Self-Assessment Dashboard</p>
+    </div>
+    <div class="bg-indigo-500 p-3 rounded-xl shadow-inner">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+    </div>
+</header>
+
+<!-- Main Content Area (Scrollable Full Page) -->
+<main class="flex-grow overflow-y-auto review-scroll relative p-6 md:p-10 lg:p-12" id="app-container">
     
-    <!-- Header App Bar -->
-    <div class="bg-indigo-600 p-6 md:p-8 text-white flex justify-between items-center shrink-0">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Study Portal</h1>
-            <p class="text-indigo-200 text-sm md:text-base mt-1">Self-Assessment Dashboard</p>
-        </div>
-        <div class="bg-indigo-500 p-3 rounded-xl">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-        </div>
+    <!-- Screen 1: Subject Menu -->
+    <div id="subject-screen" class="fade-in max-w-[1600px] mx-auto w-full">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-slate-800 border-b border-slate-200 pb-4">Select a Subject</h2>
+        <div id="subject-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
     </div>
 
-    <!-- Main Content Area -->
-    <div class="p-6 md:p-10 flex-grow flex flex-col overflow-y-auto review-scroll relative" id="app-container">
+    <!-- Screen 2: Chapter Menu -->
+    <div id="chapter-screen" class="hidden-screen fade-in max-w-[1600px] mx-auto w-full">
+        <button onclick="showScreen('subject-screen')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-6 flex items-center transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 rounded outline-none w-fit">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back to Subjects
+        </button>
+        <h2 id="subject-title" class="text-2xl md:text-3xl font-bold mb-8 text-slate-800 border-b border-slate-200 pb-4">Chapters</h2>
+        <div id="chapter-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+    </div>
+
+    <!-- Screen 3: Assessment Selection -->
+    <div id="assessment-screen" class="hidden-screen fade-in max-w-[1600px] mx-auto w-full">
+        <button onclick="showScreen('chapter-screen')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-6 flex items-center transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 rounded outline-none w-fit">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back to Chapters
+        </button>
+        <h2 id="chapter-title" class="text-2xl md:text-3xl font-bold mb-8 text-slate-800 border-b border-slate-200 pb-4">Assessments</h2>
+        <div id="assessment-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+    </div>
+
+    <!-- Screen 4: Active Quiz -->
+    <div id="quiz-screen" class="hidden-screen fade-in flex flex-col h-full max-w-5xl mx-auto w-full">
+        <div class="flex justify-between items-center mb-4 bg-white shadow-sm p-4 rounded-xl border border-slate-200">
+            <div class="text-sm font-semibold text-slate-500 uppercase tracking-wider truncate mr-4" id="quiz-breadcrumb">Subject > Chapter</div>
+            <div id="timer-display" class="font-mono text-lg font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full shrink-0">30:00</div>
+        </div>
         
-        <!-- Screen 1: Subject Menu -->
-        <div id="subject-screen" class="fade-in">
-            <h2 class="text-xl md:text-2xl font-bold mb-6 text-slate-700">Select a Subject</h2>
-            <div id="subject-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div class="w-full bg-slate-200 rounded-full h-2.5 mb-8 overflow-hidden">
+            <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
         </div>
-
-        <!-- Screen 2: Chapter Menu -->
-        <div id="chapter-screen" class="hidden-screen fade-in">
-            <button onclick="showScreen('subject-screen')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-6 flex items-center transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 rounded outline-none">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back to Subjects
-            </button>
-            <h2 id="subject-title" class="text-xl md:text-2xl font-bold mb-6 text-slate-700">Chapters</h2>
-            <div id="chapter-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        
+        <div class="mb-10 flex-grow">
+            <div class="text-sm font-bold tracking-wide text-indigo-600 mb-3" id="progress-text">QUESTION 1 OF X</div>
+            <h2 id="question-text" class="text-2xl md:text-3xl font-semibold text-slate-800 leading-snug">Question</h2>
         </div>
-
-        <!-- Screen 3: Assessment Selection -->
-        <div id="assessment-screen" class="hidden-screen fade-in">
-            <button onclick="showScreen('chapter-screen')" class="text-indigo-600 hover:text-indigo-800 font-medium mb-6 flex items-center transition-colors focus-visible:ring-2 focus-visible:ring-indigo-500 rounded outline-none">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back to Chapters
-            </button>
-            <h2 id="chapter-title" class="text-xl md:text-2xl font-bold mb-6 text-slate-700">Assessments</h2>
-            <div id="assessment-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </div>
-
-        <!-- Screen 4: Active Quiz -->
-        <div id="quiz-screen" class="hidden-screen fade-in flex flex-col h-full max-w-4xl mx-auto w-full">
-            <div class="flex justify-between items-center mb-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <div class="text-sm font-semibold text-slate-500 uppercase tracking-wider truncate mr-4" id="quiz-breadcrumb">Subject > Chapter</div>
-                <div id="timer-display" class="font-mono text-lg font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full shrink-0">30:00</div>
-            </div>
-            
-            <div class="w-full bg-slate-200 rounded-full h-2.5 mb-6 overflow-hidden">
-                <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-            </div>
-            
-            <div class="mb-8 flex-grow">
-                <div class="text-sm font-medium text-indigo-600 mb-2" id="progress-text">Question 1 of X</div>
-                <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-slate-800 leading-snug">Question</h2>
-            </div>
-            
-            <div id="options-container" class="flex flex-col gap-3 mb-8"></div>
-            
-            <div class="flex flex-col sm:flex-row justify-between items-center mt-auto gap-4 pt-4 border-t border-slate-100">
-                <button onclick="confirmQuit()" class="text-slate-500 hover:text-red-600 font-medium transition-colors w-full sm:w-auto px-4 py-2 rounded focus-visible:ring-2 focus-visible:ring-red-500 outline-none">Quit Assessment</button>
-                <button id="next-btn" onclick="nextQuestion()" class="bg-indigo-600 text-white px-8 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none">Next Question</button>
-            </div>
-        </div>
-
-        <!-- Screen 5: Results -->
-        <div id="results-screen" class="hidden-screen fade-in max-w-4xl mx-auto w-full pb-8">
-            <div class="text-center mb-10 bg-slate-50 rounded-2xl p-8 border border-slate-100">
-                <h1 class="text-3xl font-bold text-slate-800 mb-6">Assessment Complete</h1>
-                
-                <div class="relative w-40 h-40 mx-auto mb-4">
-                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                        <path class="text-slate-200" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        <path id="score-ring" class="text-indigo-600 transition-all duration-1000 ease-out" stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    </svg>
-                    <div class="absolute inset-0 flex items-center justify-center flex-col">
-                        <span id="score-percent" class="text-3xl font-bold text-slate-800">0%</span>
-                    </div>
-                </div>
-                <h2 id="score-text" class="text-slate-500 font-medium">You scored 0 out of 0</h2>
-                
-                <div class="flex flex-col sm:flex-row gap-3 justify-center mt-8">
-                    <button onclick="retryAssessment()" class="bg-indigo-100 text-indigo-700 px-6 py-2 rounded-lg font-medium hover:bg-indigo-200 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none">Retry Assessment</button>
-                    <button onclick="showScreen('subject-screen')" class="bg-slate-800 text-white px-6 py-2 rounded-lg font-medium hover:bg-slate-700 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-800 outline-none">Return to Main Menu</button>
-                </div>
-            </div>
-
-            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-2">Review Answers</h3>
-            <div id="review-container" class="space-y-4"></div>
+        
+        <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10"></div>
+        
+        <div class="flex flex-col sm:flex-row justify-between items-center mt-auto gap-4 pt-6 border-t border-slate-200">
+            <button onclick="confirmQuit()" class="text-slate-500 hover:text-red-600 font-semibold transition-colors w-full sm:w-auto px-4 py-2 rounded focus-visible:ring-2 focus-visible:ring-red-500 outline-none">Quit Assessment</button>
+            <button id="next-btn" onclick="nextQuestion()" class="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg hover:shadow-xl w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none">Next Question</button>
         </div>
     </div>
 
-    <!-- Modals & Toasts -->
-    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-300 opacity-0 pointer-events-none z-50">Please select an option.</div>
-    
-    <div id="quit-modal" class="fixed inset-0 bg-slate-900/50 hidden-screen flex items-center justify-center z-50 px-4">
-        <div class="bg-white rounded-2xl p-6 md:p-8 max-w-sm w-full shadow-2xl scale-95 transition-transform duration-200" id="quit-modal-content">
-            <h3 class="text-xl font-bold text-slate-900 mb-2">Quit Assessment?</h3>
-            <p class="text-slate-500 mb-6">All your current progress will be lost. Are you sure you want to exit?</p>
-            <div class="flex gap-3 justify-end">
-                <button onclick="closeQuitModal()" class="px-4 py-2 text-slate-600 font-medium hover:bg-slate-100 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-slate-500 outline-none">Cancel</button>
-                <button onclick="executeQuit()" class="px-4 py-2 bg-red-600 text-white font-medium hover:bg-red-700 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-red-500 outline-none">Yes, Quit</button>
+    <!-- Screen 5: Results -->
+    <div id="results-screen" class="hidden-screen fade-in max-w-5xl mx-auto w-full pb-12">
+        <div class="text-center mb-12 bg-white rounded-3xl p-10 border border-slate-200 shadow-xl">
+            <h1 class="text-4xl font-extrabold text-slate-800 mb-8">Assessment Complete</h1>
+            
+            <div class="relative w-48 h-48 mx-auto mb-6">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                    <path class="text-slate-100" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path id="score-ring" class="text-indigo-600 transition-all duration-1000 ease-out" stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                    <span id="score-percent" class="text-4xl font-black text-slate-800">0%</span>
+                </div>
             </div>
+            <h2 id="score-text" class="text-lg text-slate-500 font-medium">You scored 0 out of 0</h2>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+                <button onclick="retryAssessment()" class="bg-indigo-50 text-indigo-700 px-8 py-3 rounded-xl font-bold hover:bg-indigo-100 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none">Retry Assessment</button>
+                <button onclick="showScreen('subject-screen')" class="bg-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700 shadow-lg hover:shadow-xl transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-800 outline-none">Return to Main Menu</button>
+            </div>
+        </div>
+
+        <h3 class="text-2xl font-bold text-slate-800 mb-8 border-b border-slate-200 pb-4">Review Answers</h3>
+        <div id="review-container" class="space-y-6"></div>
+    </div>
+</main>
+
+<!-- Modals & Toasts -->
+<div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white font-medium px-8 py-4 rounded-xl shadow-2xl transition-opacity duration-300 opacity-0 pointer-events-none z-50">Please select an option.</div>
+
+<div id="quit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden-screen flex items-center justify-center z-50 px-4">
+    <div class="bg-white rounded-3xl p-8 md:p-10 max-w-md w-full shadow-2xl scale-95 transition-transform duration-200" id="quit-modal-content">
+        <h3 class="text-2xl font-bold text-slate-900 mb-3">Quit Assessment?</h3>
+        <p class="text-slate-500 mb-8 leading-relaxed">All your current progress will be lost. Are you sure you want to exit and return to the menu?</p>
+        <div class="flex gap-4 justify-end">
+            <button onclick="closeQuitModal()" class="px-6 py-3 text-slate-600 font-bold hover:bg-slate-100 rounded-xl transition-colors focus-visible:ring-2 focus-visible:ring-slate-500 outline-none">Cancel</button>
+            <button onclick="executeQuit()" class="px-6 py-3 bg-red-600 text-white font-bold hover:bg-red-700 rounded-xl shadow-lg transition-colors focus-visible:ring-2 focus-visible:ring-red-500 outline-none">Yes, Quit</button>
         </div>
     </div>
 </div>
@@ -226,17 +220,17 @@
             const folders = data.filter(item => item.type === 'dir');
             
             const list = document.getElementById('subject-list');
-            list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500'>No folders found.</p>";
+            list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500 font-medium'>No folders found.</p>";
             
             folders.forEach(folder => {
                 const btn = document.createElement('button');
-                btn.className = 'bg-white border-2 border-slate-100 p-6 rounded-2xl text-left hover:border-indigo-500 hover:shadow-md transition-all group focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none';
-                btn.innerHTML = `<h3 class="font-bold text-lg text-slate-800 group-hover:text-indigo-600 transition-colors">${escapeHTML(folder.name)}</h3>`;
+                btn.className = 'bg-white border border-slate-200 p-8 rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-400 text-left transition-all group focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none w-full';
+                btn.innerHTML = `<h3 class="font-extrabold text-xl text-slate-800 group-hover:text-indigo-600 transition-colors">${escapeHTML(folder.name)}</h3>`;
                 btn.onclick = () => loadChapters(folder.name);
                 list.appendChild(btn);
             });
         } catch (e) {
-            document.getElementById('subject-list').innerHTML = "<p class='col-span-full text-red-500'>Error loading from GitHub. Check visibility settings.</p>";
+            document.getElementById('subject-list').innerHTML = "<p class='col-span-full text-red-500 font-bold bg-red-50 p-6 rounded-xl border border-red-200'>Error loading from GitHub. Check visibility settings.</p>";
         } finally {
             hideLoader();
         }
@@ -258,13 +252,13 @@
             files.forEach(file => {
                 const btn = document.createElement('button');
                 const cleanName = file.name.replace('.json', '').replace(/_/g, ' ');
-                btn.className = 'bg-white border border-slate-200 p-5 rounded-xl hover:bg-indigo-50 transition-colors text-left font-medium text-slate-700 focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none';
+                btn.className = 'bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:bg-indigo-50 hover:border-indigo-300 transition-all text-left font-bold text-lg text-slate-700 focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none w-full';
                 btn.innerText = escapeHTML(cleanName);
                 btn.onclick = () => fetchAssessments(file.download_url, cleanName);
                 list.appendChild(btn);
             });
         } catch (e) { 
-            list.innerHTML = "<p class='col-span-full text-red-500'>Error loading chapters.</p>";
+            list.innerHTML = "<p class='col-span-full text-red-500 font-bold bg-red-50 p-6 rounded-xl border border-red-200'>Error loading chapters.</p>";
         } finally {
             hideLoader();
         }
@@ -288,15 +282,15 @@
             
             Object.keys(data).forEach(key => {
                 const btn = document.createElement('button');
-                btn.className = 'bg-indigo-50 border border-indigo-100 p-5 rounded-xl hover:bg-indigo-600 hover:text-white transition-colors text-left font-bold text-indigo-900 group focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none';
+                btn.className = 'bg-indigo-50 border border-indigo-100 p-6 rounded-2xl shadow-sm hover:shadow-md hover:bg-indigo-600 hover:text-white transition-all text-left font-extrabold text-xl text-indigo-900 group focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none w-full';
                 
                 const pastProgress = getProgress(state.subject, state.chapter, key);
-                const badgeHtml = pastProgress ? `<span class="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full border border-green-200 mt-2 inline-block">Best Score: ${pastProgress.percentage}%</span>` : '';
+                const badgeHtml = pastProgress ? `<span class="text-xs font-black tracking-wide text-green-700 bg-green-100 px-3 py-1 rounded-full border border-green-300 mt-3 inline-block uppercase">Best Score: ${pastProgress.percentage}%</span>` : '';
                 
                 btn.innerHTML = `
                     ${escapeHTML(key)} 
-                    <div class="mt-1 flex flex-col items-start gap-1">
-                        <span class="text-sm font-normal opacity-70 group-hover:opacity-100 transition-opacity">${data[key].length} Questions</span>
+                    <div class="mt-2 flex flex-col items-start gap-1">
+                        <span class="text-sm font-semibold opacity-70 group-hover:opacity-100 transition-opacity uppercase tracking-wide">${data[key].length} Questions</span>
                         ${badgeHtml}
                     </div>
                 `;
@@ -334,7 +328,7 @@
         state.selectedOption = null;
         const q = state.questions[state.currentIndex];
         
-        document.getElementById('progress-text').innerText = `Question ${state.currentIndex + 1} of ${state.questions.length}`;
+        document.getElementById('progress-text').innerText = `QUESTION ${state.currentIndex + 1} OF ${state.questions.length}`;
         const pct = (state.currentIndex / state.questions.length) * 100;
         document.getElementById('progress-bar').style.width = `${pct}%`;
         
@@ -345,19 +339,22 @@
         
         q.options.forEach(opt => {
             const btn = document.createElement('button');
-            btn.className = 'option-btn w-full text-left p-4 rounded-xl border-2 border-slate-100 bg-white hover:border-indigo-300 transition-all text-slate-700 font-medium focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none relative flex items-center';
+            // Changed option buttons to form a 2-column grid instead of a single list for wider screens
+            btn.className = 'option-btn w-full text-left p-5 md:p-6 rounded-2xl border-2 border-slate-200 bg-white hover:border-indigo-400 hover:shadow-md transition-all text-slate-700 font-semibold text-lg focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none relative flex items-center shadow-sm';
             
-            btn.innerHTML = `<div class="w-5 h-5 rounded-full border-2 border-slate-300 mr-3 flex-shrink-0 indicator"></div> <span>${escapeHTML(opt)}</span>`;
+            btn.innerHTML = `<div class="w-6 h-6 rounded-full border-2 border-slate-300 mr-4 flex-shrink-0 indicator"></div> <span>${escapeHTML(opt)}</span>`;
             
             btn.onclick = () => {
                 document.querySelectorAll('.option-btn').forEach(b => {
-                    b.classList.remove('border-indigo-500', 'bg-indigo-50');
-                    b.querySelector('.indicator').classList.remove('border-indigo-500', 'bg-indigo-500');
+                    b.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-900', 'shadow-md');
+                    b.classList.add('border-slate-200', 'shadow-sm');
+                    b.querySelector('.indicator').classList.remove('border-indigo-600', 'bg-indigo-600');
                     b.querySelector('.indicator').classList.add('border-slate-300');
                 });
-                btn.classList.add('border-indigo-500', 'bg-indigo-50');
+                btn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-900', 'shadow-md');
+                btn.classList.remove('border-slate-200', 'shadow-sm');
                 btn.querySelector('.indicator').classList.remove('border-slate-300');
-                btn.querySelector('.indicator').classList.add('border-indigo-500', 'bg-indigo-500');
+                btn.querySelector('.indicator').classList.add('border-indigo-600', 'bg-indigo-600');
                 state.selectedOption = opt;
             };
             container.appendChild(btn);
@@ -443,10 +440,12 @@
             const ansStr = state.userAnswers[i] ? escapeHTML(state.userAnswers[i]) : "<span class='italic text-slate-400'>Not Answered (Timeout)</span>";
             
             review.innerHTML += `
-                <div class="bg-white p-5 rounded-xl border ${isCorrect ? 'border-green-200' : 'border-red-200'}">
-                    <p class="font-semibold text-slate-800 mb-2"><span class="text-slate-400 mr-2">${i+1}.</span>${escapeHTML(q.question)}</p>
-                    <p class="text-sm">Your Answer: <span class="font-medium ${isCorrect ? 'text-green-600' : 'text-red-600'}">${ansStr}</span></p>
-                    ${!isCorrect ? `<p class="text-sm mt-1">Correct Answer: <span class="font-medium text-green-600">${escapeHTML(q.answer)}</span></p>` : ''}
+                <div class="bg-white p-6 md:p-8 rounded-2xl border-2 shadow-sm ${isCorrect ? 'border-green-100' : 'border-red-100'}">
+                    <p class="font-bold text-lg text-slate-800 mb-4"><span class="text-slate-400 mr-3">${i+1}.</span>${escapeHTML(q.question)}</p>
+                    <div class="bg-slate-50 p-4 rounded-xl">
+                        <p class="text-base font-medium">Your Answer: <span class="${isCorrect ? 'text-green-600' : 'text-red-600'} font-bold ml-2">${ansStr}</span></p>
+                        ${!isCorrect ? `<p class="text-base font-medium mt-2">Correct Answer: <span class="text-green-600 font-bold ml-2">${escapeHTML(q.answer)}</span></p>` : ''}
+                    </div>
                 </div>`;
         });
     }
