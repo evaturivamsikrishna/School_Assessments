@@ -1,0 +1,214 @@
+{
+  "subject": "Science",
+  "class": 10,
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "chapter_name": "Chemical Reactions and Equations",
+      "subtopics": [
+        "Identifying Physical vs. Chemical Changes",
+        "Writing and Balancing Chemical Equations (Basics)",
+        "Balancing Chemical Equations (Complex)",
+        "Types of Reactions: Combination",
+        "Types of Reactions: Decomposition",
+        "Types of Reactions: Displacement",
+        "Types of Reactions: Double Displacement",
+        "Oxidation and Reduction (Redox Reactions)",
+        "Effects of Oxidation: Corrosion",
+        "Effects of Oxidation: Rancidity and Prevention"
+      ]
+    },
+    {
+      "chapter_number": 2,
+      "chapter_name": "Acids, Bases and Salts",
+      "subtopics": [
+        "Understanding Acid-Base Indicators (Natural and Synthetic)",
+        "Chemical Properties: Acids and Bases with Metals",
+        "Chemical Properties: Acids with Metal Carbonates and Hydrogen Carbonates",
+        "Neutralization Reactions",
+        "Reaction of Metallic and Non-metallic Oxides with Acids/Bases",
+        "Similarities in Acids and Bases (Ions in Aqueous Solution)",
+        "The pH Scale and Measuring Hydrogen Ion Concentration",
+        "Importance of pH in Everyday Life (Digestive system, tooth decay, soil)",
+        "Family of Salts and their pH",
+        "Chemicals from Common Salt (NaOH, Bleaching Powder, Baking/Washing Soda, Plaster of Paris)"
+      ]
+    },
+    {
+      "chapter_number": 3,
+      "chapter_name": "Metals and Non-metals",
+      "subtopics": [
+        "Physical Properties of Metals",
+        "Physical Properties of Non-metals",
+        "Chemical Properties: Metals with Oxygen and Water",
+        "Chemical Properties: Metals with Acids and other Metal Salts",
+        "The Reactivity Series of Metals",
+        "Reaction between Metals and Non-metals (Ionic Bonds)",
+        "Properties of Ionic Compounds",
+        "Occurrence and Extraction of Metals (Low and Medium Reactivity)",
+        "Extraction of Metals (High Reactivity) and Refining",
+        "Corrosion and its Prevention (Alloys)"
+      ]
+    },
+    {
+      "chapter_number": 4,
+      "chapter_name": "Carbon and its Compounds",
+      "subtopics": [
+        "Bonding in Carbon: The Covalent Bond",
+        "Versatile Nature of Carbon (Catenation and Tetravalency)",
+        "Saturated vs. Unsaturated Carbon Compounds",
+        "Chains, Branches, and Rings (Isomerism Basics)",
+        "Functional Groups (Halogens, Alcohols, Aldehydes, Ketones, Carboxylic Acids)",
+        "Homologous Series",
+        "Nomenclature of Carbon Compounds",
+        "Chemical Properties: Combustion and Oxidation",
+        "Chemical Properties: Addition and Substitution Reactions",
+        "Important Carbon Compounds: Ethanol, Ethanoic Acid, and Soaps/Detergents"
+      ]
+    },
+    {
+      "chapter_number": 5,
+      "chapter_name": "Life Processes",
+      "subtopics": [
+        "Concept of Life Processes and Maintenance",
+        "Autotrophic Nutrition (Photosynthesis Mechanism)",
+        "Heterotrophic Nutrition (Types and Amoeba)",
+        "Nutrition in Human Beings (Digestive System)",
+        "Respiration (Aerobic vs Anaerobic Pathways)",
+        "Human Respiratory System",
+        "Transportation in Human Beings (Heart and Blood Vessels)",
+        "Transportation in Plants (Xylem and Phloem)",
+        "Excretion in Human Beings (Kidneys and Nephrons)",
+        "Excretion in Plants"
+      ]
+    },
+    {
+      "chapter_number": 6,
+      "chapter_name": "Control and Coordination",
+      "subtopics": [
+        "Animal Nervous System: Structure of the Neuron",
+        "Reflex Actions and Reflex Arcs",
+        "Human Brain: Structure and Functions (Forebrain, Midbrain, Hindbrain)",
+        "Protection of Nervous Tissue and Muscle Action Mechanism",
+        "Coordination in Plants: Tropisms (Directional Movements)",
+        "Coordination in Plants: Nastic Movements (Non-directional)",
+        "Plant Hormones (Auxins, Gibberellins, Cytokinins, Abscisic Acid)",
+        "Animal Hormones: Endocrine Glands Basics",
+        "Functions of Specific Human Hormones (Thyroxine, Adrenaline, Insulin, Growth Hormone)",
+        "Feedback Mechanisms in Hormone Regulation"
+      ]
+    },
+    {
+      "chapter_number": 7,
+      "chapter_name": "How do Organisms Reproduce?",
+      "subtopics": [
+        "Do Organisms Create Exact Copies? (DNA Copying and Variation)",
+        "Modes of Asexual Reproduction: Fission and Fragmentation",
+        "Modes of Asexual Reproduction: Regeneration and Budding",
+        "Modes of Asexual Reproduction: Vegetative Propagation and Spore Formation",
+        "Sexual Reproduction: Why the Sexual Mode?",
+        "Sexual Reproduction in Flowering Plants",
+        "Reproduction in Human Beings: Male Reproductive System",
+        "Reproduction in Human Beings: Female Reproductive System",
+        "Fertilization, Placenta, and Fetal Development",
+        "Reproductive Health (Contraception and STDs)"
+      ]
+    },
+    {
+      "chapter_number": 8,
+      "chapter_name": "Heredity",
+      "subtopics": [
+        "Accumulation of Variation During Reproduction",
+        "Mendel's Contributions: Rules for the Inheritance of Traits",
+        "Monohybrid Cross (Inheritance of One Trait)",
+        "Dihybrid Cross (Inheritance of Two Traits)",
+        "Expression of Traits: How do genes control characteristics?",
+        "Sex Determination in Humans",
+        "Blood Group Inheritance Basics",
+        "Phenotype vs Genotype Conceptual Problems",
+        "Dominant vs Recessive Traits Identification",
+        "Mixed Chapter Review: Genetics and Inheritance Scenarios"
+      ]
+    },
+    {
+      "chapter_number": 9,
+      "chapter_name": "Light – Reflection and Refraction",
+      "subtopics": [
+        "Reflection of Light and Laws of Reflection",
+        "Spherical Mirrors: Concave and Convex Basics",
+        "Image Formation by Concave Mirrors (Ray Diagrams)",
+        "Image Formation by Convex Mirrors and Uses",
+        "Sign Convention and Mirror Formula / Magnification",
+        "Refraction of Light: Passing through a Glass Slab",
+        "The Refractive Index (Absolute and Relative)",
+        "Refraction by Spherical Lenses: Image Formation",
+        "Sign Convention and Lens Formula / Magnification",
+        "Power of a Lens and Combinations of Lenses"
+      ]
+    },
+    {
+      "chapter_number": 10,
+      "chapter_name": "The Human Eye and the Colourful World",
+      "subtopics": [
+        "Structure and Function of the Human Eye",
+        "Power of Accommodation",
+        "Defects of Vision: Myopia (Nearsightedness)",
+        "Defects of Vision: Hypermetropia and Presbyopia",
+        "Refraction of Light Through a Prism",
+        "Dispersion of White Light by a Glass Prism",
+        "Atmospheric Refraction: Twinkling of Stars",
+        "Atmospheric Refraction: Advance Sunrise and Delayed Sunset",
+        "Scattering of Light: Tyndall Effect",
+        "Scattering of Light: Colour of the Sky and Sun at Sunrise/Sunset"
+      ]
+    },
+    {
+      "chapter_number": 11,
+      "chapter_name": "Electricity",
+      "subtopics": [
+        "Electric Current and Circuit Concepts",
+        "Electric Potential and Potential Difference",
+        "Circuit Diagrams and Symbols",
+        "Ohm’s Law and its Experimental Verification",
+        "Factors on which the Resistance of a Conductor Depends (Resistivity)",
+        "Resistors in Series: Concept and Calculations",
+        "Resistors in Parallel: Concept and Calculations",
+        "Mixed Series-Parallel Circuit Problems",
+        "Heating Effect of Electric Current (Joule's Law)",
+        "Practical Applications of Heating Effect and Electric Power"
+      ]
+    },
+    {
+      "chapter_number": 12,
+      "chapter_name": "Magnetic Effects of Electric Current",
+      "subtopics": [
+        "Magnetic Field and Field Lines",
+        "Magnetic Field due to a Current-Carrying Straight Conductor",
+        "Right-Hand Thumb Rule Application",
+        "Magnetic Field due to a Current through a Circular Loop",
+        "Magnetic Field due to a Current in a Solenoid",
+        "Force on a Current-Carrying Conductor in a Magnetic Field",
+        "Fleming’s Left-Hand Rule",
+        "Domestic Electric Circuits: Live, Neutral, and Earth Wires",
+        "Short Circuiting and Overloading Concepts",
+        "Safety Devices: Fuses and Earthing"
+      ]
+    },
+    {
+      "chapter_number": 13,
+      "chapter_name": "Our Environment",
+      "subtopics": [
+        "Ecosystems: Biotic and Abiotic Components",
+        "Food Chains and Trophic Levels",
+        "Food Webs and Energy Flow Direction",
+        "The 10% Law of Energy Transfer",
+        "Biological Magnification (Biomagnification)",
+        "Human Impact: Depletion of the Ozone Layer",
+        "Managing the Garbage We Produce (Biodegradable vs Non-biodegradable)",
+        "Waste Management Strategies",
+        "Ecosystem Scenarios: Impact of Removing a Trophic Level",
+        "Mixed Chapter Review: Environment and Ecological Principles"
+      ]
+    }
+  ]
+}

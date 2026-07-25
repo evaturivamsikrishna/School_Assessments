@@ -1,0 +1,558 @@
+{
+    "Assessment 1": [
+        {
+            "question": "What is the fundamental theorem of arithmetic primarily concerned with?",
+            "options": [
+                "The properties of rational numbers",
+                "The unique factorization of composite numbers into prime factors",
+                "The relationship between integers and fractions",
+                "The classification of real numbers into different sets"
+            ],
+            "answer": "The unique factorization of composite numbers into prime factors"
+        },
+        {
+            "question": "According to the fundamental theorem of arithmetic, every composite number can be expressed as a product of what type of numbers?",
+            "options": [
+                "Only even numbers",
+                "Only odd numbers",
+                "Prime numbers",
+                "Natural numbers"
+            ],
+            "answer": "Prime numbers"
+        },
+        {
+            "question": "Which of the following is NOT a prime number?",
+            "options": [
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "answer": "4"
+        },
+        {
+            "question": "What is the smallest prime number?",
+            "options": [
+                "0",
+                "1",
+                "2",
+                "3"
+            ],
+            "answer": "2"
+        },
+        {
+            "question": "How many prime numbers are there between 1 and 10?",
+            "options": [
+                "3",
+                "4",
+                "5",
+                "6"
+            ],
+            "answer": "4"
+        },
+        {
+            "question": "What is the definition of a composite number in terms of its factors?",
+            "options": [
+                "It has exactly two factors: 1 and itself",
+                "It has more than two factors",
+                "It has only one factor",
+                "It has no factors"
+            ],
+            "answer": "It has more than two factors"
+        },
+        {
+            "question": "Which of the following numbers is a prime number?",
+            "options": [
+                "17",
+                "21",
+                "25",
+                "33"
+            ],
+            "answer": "17"
+        },
+        {
+            "question": "What is the fundamental theorem of arithmetic also known as?",
+            "options": [
+                "Prime factorization theorem",
+                "Unique factorization theorem",
+                "Euclidean division algorithm",
+                "Fundamental division principle"
+            ],
+            "answer": "Unique factorization theorem"
+        },
+        {
+            "question": "Which of the following is a property of prime numbers?",
+            "options": [
+                "They can be expressed as a product of two composite numbers",
+                "They have exactly two positive divisors: 1 and themselves",
+                "They are always even numbers",
+                "They cannot be divided by any number except 1"
+            ],
+            "answer": "They have exactly two positive divisors: 1 and themselves"
+        },
+        {
+            "question": "What is the prime factorization of 12?",
+            "options": [
+                "2 \u00d7 2 \u00d7 3",
+                "2 \u00d7 3 \u00d7 3",
+                "3 \u00d7 3 \u00d7 4",
+                "2 \u00d7 2 \u00d7 2 \u00d7 3"
+            ],
+            "answer": "2 \u00d7 2 \u00d7 3"
+        },
+        {
+            "question": "Which of the following numbers is NOT a composite number?",
+            "options": [
+                "15",
+                "17",
+                "21",
+                "25"
+            ],
+            "answer": "17"
+        },
+        {
+            "question": "What does the fundamental theorem of arithmetic state about the factorization of any natural number greater than 1?",
+            "options": [
+                "It can be factorized in multiple ways with different prime factors",
+                "It has a unique prime factorization except for the order of factors",
+                "It cannot be factorized into prime numbers",
+                "It must include at least one even prime number"
+            ],
+            "answer": "It has a unique prime factorization except for the order of factors"
+        },
+        {
+            "question": "Which of the following represents the prime factorization of 30?",
+            "options": [
+                "2 \u00d7 3 \u00d7 5",
+                "2 \u00d7 2 \u00d7 3 \u00d7 5",
+                "2 \u00d7 3 \u00d7 3 \u00d7 5",
+                "2 \u00d7 5 \u00d7 5"
+            ],
+            "answer": "2 \u00d7 3 \u00d7 5"
+        },
+        {
+            "question": "What is the prime factorization of 100?",
+            "options": [
+                "2 \u00d7 2 \u00d7 5 \u00d7 5",
+                "2 \u00d7 5 \u00d7 5 \u00d7 5",
+                "2 \u00d7 2 \u00d7 2 \u00d7 5",
+                "2 \u00d7 3 \u00d7 5 \u00d7 5"
+            ],
+            "answer": "2 \u00d7 2 \u00d7 5 \u00d7 5"
+        },
+        {
+            "question": "How many distinct prime factors does the number 18 have?",
+            "options": [
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "answer": "2"
+        }
+    ],
+    "Assessment 2": [
+        {
+            "question": "Why is the fundamental theorem of arithmetic important in mathematics?",
+            "options": [
+                "It helps to determine if a number is even or odd",
+                "It provides a unique way to express any composite number as a product of primes",
+                "It allows us to find the square root of any number",
+                "It helps in determining the divisibility rules for all numbers"
+            ],
+            "answer": "It provides a unique way to express any composite number as a product of primes"
+        },
+        {
+            "question": "How does the fundamental theorem of arithmetic help in finding the highest common factor (HCF) of two numbers?",
+            "options": [
+                "By adding the prime factors of both numbers",
+                "By taking the lowest power of all common prime factors",
+                "By multiplying the highest powers of all prime factors",
+                "By dividing one number by another"
+            ],
+            "answer": "By taking the lowest power of all common prime factors"
+        },
+        {
+            "question": "Why is 1 not considered a prime number?",
+            "options": [
+                "Because it has only one factor",
+                "Because it cannot be expressed as a product of primes",
+                "Because it is neither prime nor composite",
+                "Because it is an odd number"
+            ],
+            "answer": "Because it is neither prime nor composite"
+        },
+        {
+            "question": "How does the fundamental theorem of arithmetic help in finding the least common multiple (LCM) of two numbers?",
+            "options": [
+                "By taking the highest power of all prime factors present in both numbers",
+                "By multiplying the HCF and LCM together",
+                "By dividing one number by another",
+                "By adding the prime factors of both numbers"
+            ],
+            "answer": "By taking the highest power of all prime factors present in both numbers"
+        },
+        {
+            "question": "Why is the uniqueness property of prime factorization important?",
+            "options": [
+                "It makes calculations faster",
+                "It ensures that every composite number has only one way to be expressed as a product of primes",
+                "It helps in identifying even and odd numbers",
+                "It allows us to write any number in decimal form"
+            ],
+            "answer": "It ensures that every composite number has only one way to be expressed as a product of primes"
+        },
+        {
+            "question": "How does the fundamental theorem help in determining if two numbers are coprime?",
+            "options": [
+                "If they have no common factors other than 1",
+                "If they both are prime numbers",
+                "If their sum is even",
+                "If they are both divisible by 2"
+            ],
+            "answer": "If they have no common factors other than 1"
+        },
+        {
+            "question": "Why do we need to express numbers in terms of prime factorization?",
+            "options": [
+                "To make them look more complex",
+                "To simplify calculations involving HCF and LCM",
+                "To identify whether a number is even or odd",
+                "To find the square root of any number"
+            ],
+            "answer": "To simplify calculations involving HCF and LCM"
+        },
+        {
+            "question": "How does the fundamental theorem of arithmetic relate to the concept of divisibility?",
+            "options": [
+                "It helps in determining if a number is divisible by another",
+                "It provides a method to find all divisors of any number",
+                "It allows us to check divisibility by 2, 3, and 5 only",
+                "It makes all numbers divisible by 1"
+            ],
+            "answer": "It provides a method to find all divisors of any number"
+        },
+        {
+            "question": "Why is the fundamental theorem of arithmetic considered a foundation for number theory?",
+            "options": [
+                "Because it was discovered by ancient Greek mathematicians",
+                "Because it establishes the basic structure of natural numbers in terms of primes",
+                "Because it helps in solving quadratic equations",
+                "Because it provides formulas for calculating areas"
+            ],
+            "answer": "Because it establishes the basic structure of natural numbers in terms of primes"
+        },
+        {
+            "question": "How does prime factorization help in simplifying fractions?",
+            "options": [
+                "By making the numerator larger",
+                "By finding common factors in numerator and denominator",
+                "By converting them to decimal form",
+                "By multiplying both numerator and denominator by 2"
+            ],
+            "answer": "By finding common factors in numerator and denominator"
+        },
+        {
+            "question": "Why is it necessary to consider the order of prime factors when using the fundamental theorem?",
+            "options": [
+                "Because it affects the final result",
+                "Because the theorem states that order doesn't matter",
+                "Because it makes calculations easier",
+                "Because it helps in identifying even numbers"
+            ],
+            "answer": "Because the theorem states that order doesn't matter"
+        },
+        {
+            "question": "How does the fundamental theorem help in proving mathematical properties?",
+            "options": [
+                "By providing a method to count prime numbers",
+                "By giving a unique representation of any composite number",
+                "By helping to solve linear equations",
+                "By making it easier to find square roots"
+            ],
+            "answer": "By giving a unique representation of any composite number"
+        },
+        {
+            "question": "Why is the fundamental theorem of arithmetic considered unique?",
+            "options": [
+                "Because it was discovered by only one mathematician",
+                "Because every composite number has exactly one prime factorization",
+                "Because it applies to only even numbers",
+                "Because it helps in finding the average of numbers"
+            ],
+            "answer": "Because every composite number has exactly one prime factorization"
+        },
+        {
+            "question": "How does the fundamental theorem help in understanding the relationship between HCF and LCM?",
+            "options": [
+                "By showing that HCF is always greater than LCM",
+                "By establishing that HCF \u00d7 LCM = Product of two numbers",
+                "By proving that both are equal for any two numbers",
+                "By demonstrating that they are never equal"
+            ],
+            "answer": "By establishing that HCF \u00d7 LCM = Product of two numbers"
+        },
+        {
+            "question": "Why is it important to understand that 1 is neither prime nor composite?",
+            "options": [
+                "Because it helps in identifying even numbers",
+                "Because it ensures the uniqueness of prime factorization",
+                "Because it makes calculations easier",
+                "Because it allows us to divide by any number"
+            ],
+            "answer": "Because it ensures the uniqueness of prime factorization"
+        },
+        {
+            "question": "How does the fundamental theorem help in solving real-world problems involving numbers?",
+            "options": [
+                "By providing a method to find square roots",
+                "By helping to organize and categorize numbers systematically",
+                "By making all numbers divisible by 2",
+                "By allowing us to count prime numbers"
+            ],
+            "answer": "By helping to organize and categorize numbers systematically"
+        },
+        {
+            "question": "Why is the fundamental theorem of arithmetic essential for understanding divisibility rules?",
+            "options": [
+                "Because it helps in finding the sum of digits",
+                "Because it provides a systematic way to understand factors and multiples",
+                "Because it makes all numbers divisible by 3",
+                "Because it helps in identifying odd numbers"
+            ],
+            "answer": "Because it provides a systematic way to understand factors and multiples"
+        },
+        {
+            "question": "How does the fundamental theorem of arithmetic support the concept of unique factorization?",
+            "options": [
+                "By proving that every number has exactly one prime factorization",
+                "By showing that numbers can be factorized in multiple ways",
+                "By demonstrating that all numbers are even",
+                "By establishing that 1 is a prime number"
+            ],
+            "answer": "By proving that every number has exactly one prime factorization"
+        },
+        {
+            "question": "Why do we need to express composite numbers as products of primes?",
+            "options": [
+                "Because it makes them look more complex",
+                "Because it provides a systematic approach for mathematical operations",
+                "Because it helps in identifying odd numbers",
+                "Because it allows us to multiply by 2"
+            ],
+            "answer": "Because it provides a systematic approach for mathematical operations"
+        },
+        {
+            "question": "How does the fundamental theorem help in understanding the concept of prime numbers?",
+            "options": [
+                "By showing that all numbers are prime",
+                "By establishing that every number can be expressed as a product of primes",
+                "By proving that 1 is a prime number",
+                "By demonstrating that there are no even prime numbers"
+            ],
+            "answer": "By establishing that every number can be expressed as a product of primes"
+        }
+    ],
+    "Assessment 3": [
+        {
+            "question": "If two numbers have HCF = 12 and LCM = 180, what is the product of these two numbers?",
+            "options": [
+                "2160",
+                "1800",
+                "1440",
+                "360"
+            ],
+            "answer": "2160"
+        },
+        {
+            "question": "A number when expressed in prime factorization form is 2^3 \u00d7 3^2 \u00d7 5. How many factors does this number have?",
+            "options": [
+                "18",
+                "24",
+                "30",
+                "36"
+            ],
+            "answer": "24"
+        },
+        {
+            "question": "If the prime factorization of a number is 2^4 \u00d7 3^2 \u00d7 5^1, what is the total number of factors?",
+            "options": [
+                "30",
+                "36",
+                "40",
+                "48"
+            ],
+            "answer": "30"
+        },
+        {
+            "question": "Two numbers have prime factorizations 2^3 \u00d7 3^2 and 2^2 \u00d7 3^3 \u00d7 5. What is their HCF?",
+            "options": [
+                "2^2 \u00d7 3^2",
+                "2^3 \u00d7 3^3",
+                "2^2 \u00d7 3^1",
+                "2^1 \u00d7 3^2"
+            ],
+            "answer": "2^2 \u00d7 3^2"
+        },
+        {
+            "question": "If the LCM of two numbers is 72 and their HCF is 6, and one number is 12, what is the other number?",
+            "options": [
+                "36",
+                "48",
+                "18",
+                "24"
+            ],
+            "answer": "36"
+        },
+        {
+            "question": "A number has exactly 12 factors. Which of the following could be its prime factorization?",
+            "options": [
+                "2^3 \u00d7 3^2",
+                "2^5 \u00d7 3^1",
+                "2^2 \u00d7 3^3",
+                "2^1 \u00d7 3^5"
+            ],
+            "answer": "2^5 \u00d7 3^1"
+        },
+        {
+            "question": "If two numbers have HCF = 8 and LCM = 96, and one number is 24, what is the other number?",
+            "options": [
+                "32",
+                "24",
+                "48",
+                "16"
+            ],
+            "answer": "32"
+        },
+        {
+            "question": "What is the smallest composite number that has exactly 4 factors?",
+            "options": [
+                "4",
+                "6",
+                "8",
+                "9"
+            ],
+            "answer": "6"
+        },
+        {
+            "question": "If a number's prime factorization is 2^a \u00d7 3^b \u00d7 5^c and it has exactly 12 factors, what could be the values of a, b, c?",
+            "options": [
+                "a = 2, b = 1, c = 1",
+                "a = 3, b = 1, c = 0",
+                "a = 1, b = 2, c = 1",
+                "a = 2, b = 2, c = 0"
+            ],
+            "answer": "a = 2, b = 1, c = 1"
+        },
+        {
+            "question": "Two numbers have prime factorizations 2^4 \u00d7 3^1 and 2^2 \u00d7 3^2 \u00d7 7. What is their LCM?",
+            "options": [
+                "2^4 \u00d7 3^2 \u00d7 7",
+                "2^6 \u00d7 3^3 \u00d7 7",
+                "2^2 \u00d7 3^2 \u00d7 7",
+                "2^4 \u00d7 3^1 \u00d7 7"
+            ],
+            "answer": "2^4 \u00d7 3^2 \u00d7 7"
+        },
+        {
+            "question": "If the product of two numbers is 1440 and their HCF is 12, what is their LCM?",
+            "options": [
+                "120",
+                "144",
+                "180",
+                "240"
+            ],
+            "answer": "120"
+        },
+        {
+            "question": "A number has prime factorization 2^3 \u00d7 5^2. How many even factors does it have?",
+            "options": [
+                "6",
+                "8",
+                "10",
+                "12"
+            ],
+            "answer": "10"
+        },
+        {
+            "question": "If the LCM of two numbers is 36 and their HCF is 3, what is the product of these two numbers?",
+            "options": [
+                "108",
+                "72",
+                "54",
+                "36"
+            ],
+            "answer": "108"
+        },
+        {
+            "question": "What is the smallest number that has exactly 6 factors?",
+            "options": [
+                "12",
+                "18",
+                "20",
+                "24"
+            ],
+            "answer": "12"
+        },
+        {
+            "question": "If two numbers have HCF = 15 and LCM = 315, what is the product of these two numbers?",
+            "options": [
+                "4725",
+                "3150",
+                "2835",
+                "2205"
+            ],
+            "answer": "4725"
+        },
+        {
+            "question": "A number has prime factorization 2^2 \u00d7 3^1 \u00d7 7^1. How many odd factors does it have?",
+            "options": [
+                "4",
+                "6",
+                "8",
+                "12"
+            ],
+            "answer": "6"
+        },
+        {
+            "question": "If the prime factorization of a number is 2^5 \u00d7 3^2, how many factors does it have?",
+            "options": [
+                "18",
+                "24",
+                "30",
+                "36"
+            ],
+            "answer": "18"
+        },
+        {
+            "question": "Two numbers have prime factorizations 2^3 \u00d7 5^1 and 2^1 \u00d7 3^2 \u00d7 5^1. What is their HCF?",
+            "options": [
+                "2^1 \u00d7 5^1",
+                "2^3 \u00d7 5^1",
+                "2^1 \u00d7 3^2 \u00d7 5^1",
+                "2^3 \u00d7 3^2 \u00d7 5^1"
+            ],
+            "answer": "2^1 \u00d7 5^1"
+        },
+        {
+            "question": "If the product of two numbers is 720 and their HCF is 6, what is their LCM?",
+            "options": [
+                "120",
+                "144",
+                "180",
+                "240"
+            ],
+            "answer": "120"
+        },
+        {
+            "question": "What is the smallest number that has exactly 8 factors?",
+            "options": [
+                "24",
+                "30",
+                "36",
+                "40"
+            ],
+            "answer": "24"
+        }
+    ]
+}

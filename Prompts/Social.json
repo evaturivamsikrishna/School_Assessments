@@ -1,0 +1,378 @@
+{
+  "subject": "Social Science",
+  "class": 10,
+  "disciplines": [
+    {
+      "discipline_name": "History (India and the Contemporary World - II)",
+      "chapters": [
+        {
+          "chapter_number": 1,
+          "chapter_name": "The Rise of Nationalism in Europe",
+          "subtopics": [
+            "The French Revolution and the Idea of the Nation",
+            "The Making of Nationalism in Europe (Aristocracy and Middle Class)",
+            "What did Liberal Nationalism Stand for?",
+            "A New Conservatism after 1815 and The Revolutionaries",
+            "The Age of Revolutions: 1830-1848",
+            "The Romantic Imagination and National Feeling",
+            "Hunger, Hardship and Popular Revolt",
+            "The Making of Germany and Italy",
+            "The Strange Case of Britain",
+            "Visualising the Nation (Allegories) and Imperialism"
+          ]
+        },
+        {
+          "chapter_number": 2,
+          "chapter_name": "Nationalism in India",
+          "subtopics": [
+            "The First World War, Khilafat and Non-Cooperation",
+            "The Idea of Satyagraha and the Rowlatt Act",
+            "Why Non-Cooperation? (Movement in Towns)",
+            "Rebellion in the Countryside (Peasants and Tribals)",
+            "Swaraj in the Plantations",
+            "Towards Civil Disobedience and the Simon Commission",
+            "The Salt March and the Civil Disobedience Movement",
+            "How Participants Saw the Movement (Different Social Groups)",
+            "The Limits of Civil Disobedience (Dalits and Muslims)",
+            "The Sense of Collective Belonging (Folklore and Symbols)"
+          ]
+        },
+        {
+          "chapter_number": 3,
+          "chapter_name": "The Making of a Global World",
+          "subtopics": [
+            "The Pre-modern World (Silk Routes and Food Travels)",
+            "Conquest, Disease and Trade in the Pre-modern World",
+            "The Nineteenth Century (1815-1914): A World Economy Takes Shape",
+            "Role of Technology in the 19th Century",
+            "Late Nineteenth-Century Colonialism and Rinderpest",
+            "Indentured Labour Migration from India",
+            "Indian Entrepreneurs Abroad and Global Trade",
+            "The Inter-war Economy (Mass Production and Consumption)",
+            "The Great Depression: Causes and Impact on India",
+            "Rebuilding a World Economy: The Post-war Era (Bretton Woods)"
+          ]
+        },
+        {
+          "chapter_number": 4,
+          "chapter_name": "The Age of Industrialisation",
+          "subtopics": [
+            "Before the Industrial Revolution (Proto-industrialisation)",
+            "The Coming Up of the Factory and the Pace of Change",
+            "Hand Labour vs Steam Power",
+            "Life of the Workers in Victorian Britain",
+            "Industrialisation in the Colonies (Age of Indian Textiles)",
+            "What Happened to Weavers?",
+            "Factories Come Up in India (The Early Entrepreneurs)",
+            "Where Did the Workers Come From?",
+            "The Peculiarities of Industrial Growth in India",
+            "Market for Goods (Advertising and Consumerism)"
+          ]
+        },
+        {
+          "chapter_number": 5,
+          "chapter_name": "Print Culture and the Modern World",
+          "subtopics": [
+            "The First Printed Books (China, Japan, Korea)",
+            "Print Comes to Europe (Manuscripts and Woodblocks)",
+            "Gutenberg and the Printing Press",
+            "The Print Revolution and its Impact on Reading",
+            "Religious Debates and the Fear of Print",
+            "The Reading Mania of the 17th and 18th Centuries",
+            "The Nineteenth Century: Children, Women, and Workers",
+            "India and the World of Print (Manuscripts before Print)",
+            "Print and Religious Reforms in India",
+            "New Forms of Publication and Print and Censorship"
+          ]
+        }
+      ]
+    },
+    {
+      "discipline_name": "Geography (Contemporary India - II)",
+      "chapters": [
+        {
+          "chapter_number": 1,
+          "chapter_name": "Resources and Development",
+          "subtopics": [
+            "Concept and Classification of Resources",
+            "Development of Resources and Sustainable Development",
+            "Resource Planning in India",
+            "Land Resources and Land Utilization",
+            "Land Use Pattern in India",
+            "Land Degradation and Conservation Measures",
+            "Soil as a Resource: Formation and Profile",
+            "Classification of Soils: Alluvial and Black Soils",
+            "Classification of Soils: Red, Yellow, Laterite, and Arid Soils",
+            "Soil Erosion and Soil Conservation Strategies"
+          ]
+        },
+        {
+          "chapter_number": 2,
+          "chapter_name": "Forest and Wildlife Resources",
+          "subtopics": [
+            "Flora and Fauna in India: Biodiversity Basics",
+            "Classification of Species (IUCN Categories)",
+            "Causes of Depletion of Flora and Fauna",
+            "Impact of Loss of Biodiversity on Marginalized Communities",
+            "Conservation of Forest and Wildlife in India",
+            "The Indian Wildlife (Protection) Act",
+            "Project Tiger and Specific Species Conservation",
+            "Types and Distribution of Forest and Wildlife Resources",
+            "Community and Conservation (Sacred Groves)",
+            "Joint Forest Management (JFM) and People's Participation"
+          ]
+        },
+        {
+          "chapter_number": 3,
+          "chapter_name": "Water Resources",
+          "subtopics": [
+            "Water Availability and Global Distribution",
+            "Water Scarcity: Quantitative and Qualitative Aspects",
+            "Causes of Water Scarcity (Over-exploitation and Pollution)",
+            "Need for Water Conservation and Management",
+            "Multi-purpose River Projects and Integrated Water Resources Management",
+            "Dams: Definitions, Types, and Uses",
+            "Social and Environmental Impacts of Large Dams",
+            "Movements against Dams (e.g., Narmada Bachao Andolan)",
+            "Rainwater Harvesting: Traditional Methods (Khadins, Johads)",
+            "Rooftop Rainwater Harvesting in Modern India"
+          ]
+        },
+        {
+          "chapter_number": 4,
+          "chapter_name": "Agriculture",
+          "subtopics": [
+            "Types of Farming: Primitive Subsistence and Intensive Subsistence",
+            "Types of Farming: Commercial Farming and Plantation",
+            "Cropping Pattern: Rabi, Kharif, and Zaid Seasons",
+            "Major Food Crops: Rice and Wheat",
+            "Major Food Crops: Millets, Maize, and Pulses",
+            "Food Crops other than Grains: Sugarcane, Oilseeds, Tea, Coffee",
+            "Non-Food Crops: Rubber, Cotton, and Jute",
+            "Technological and Institutional Reforms (Green/White Revolution)",
+            "Bhoodan-Gramdan Movement",
+            "Impact of Globalization on Indian Agriculture"
+          ]
+        },
+        {
+          "chapter_number": 5,
+          "chapter_name": "Minerals and Energy Resources",
+          "subtopics": [
+            "What is a Mineral? and Mode of Occurrence",
+            "Ferrous Minerals: Iron Ore and Manganese",
+            "Non-Ferrous Minerals: Copper and Bauxite",
+            "Non-Metallic Minerals: Mica and Limestone",
+            "Hazards of Mining and Conservation of Minerals",
+            "Conventional Sources of Energy: Coal",
+            "Conventional Sources of Energy: Petroleum and Natural Gas",
+            "Conventional Sources of Energy: Electricity (Hydro and Thermal)",
+            "Non-Conventional Energy: Solar, Wind, and Biogas",
+            "Non-Conventional Energy: Nuclear, Tidal, Geo-thermal, and Conservation"
+          ]
+        },
+        {
+          "chapter_number": 6,
+          "chapter_name": "Manufacturing Industries",
+          "subtopics": [
+            "Importance of Manufacturing and Contribution to National Economy",
+            "Industrial Location Factors",
+            "Classification of Industries (Raw Material, Capital, Ownership)",
+            "Agro-based Industries: Textile (Cotton and Jute)",
+            "Agro-based Industries: Sugar Industry",
+            "Mineral-based Industries: Iron and Steel",
+            "Mineral-based Industries: Aluminum, Chemical, and Fertilizer",
+            "Mineral-based Industries: Cement and Information Technology",
+            "Industrial Pollution: Air, Water, Thermal, and Noise",
+            "Control of Environmental Degradation"
+          ]
+        },
+        {
+          "chapter_number": 7,
+          "chapter_name": "Lifelines of National Economy",
+          "subtopics": [
+            "Importance of Transport and Communication",
+            "Roadways: Golden Quadrilateral and National Highways",
+            "Roadways: State Highways, District Roads, and Border Roads",
+            "Railways: Importance, Distribution, and Challenges",
+            "Pipelines as a Means of Transport",
+            "Waterways: Major National Waterways",
+            "Major Sea Ports of India",
+            "Airways: National and International",
+            "Communication Networks: Postal and Telecom",
+            "International Trade and Tourism as a Trade"
+          ]
+        }
+      ]
+    },
+    {
+      "discipline_name": "Political Science (Democratic Politics - II)",
+      "chapters": [
+        {
+          "chapter_number": 1,
+          "chapter_name": "Power Sharing",
+          "subtopics": [
+            "Case Study: Belgium's Ethnic Composition",
+            "Case Study: Sri Lanka's Ethnic Composition",
+            "Majoritarianism in Sri Lanka and its Consequences",
+            "Accommodation in Belgium (The Belgian Model)",
+            "Why is Power Sharing Desirable? (Prudential Reasons)",
+            "Why is Power Sharing Desirable? (Moral Reasons)",
+            "Forms of Power Sharing: Horizontal Distribution",
+            "Forms of Power Sharing: Vertical Distribution",
+            "Power Sharing among Different Social Groups",
+            "Power Sharing among Political Parties, Pressure Groups, and Movements"
+          ]
+        },
+        {
+          "chapter_number": 2,
+          "chapter_name": "Federalism",
+          "subtopics": [
+            "What is Federalism? (Unitary vs Federal Systems)",
+            "Key Features of Federalism",
+            "Types of Federations: Coming Together vs Holding Together",
+            "What Makes India a Federal Country? (Three Lists)",
+            "Residuary Powers and Special Status",
+            "How is Federalism Practiced? (Linguistic States)",
+            "Language Policy of India",
+            "Centre-State Relations and Coalition Governments",
+            "Decentralisation in India: Need and 1992 Amendments",
+            "Panchayati Raj and Municipalities (Structure and Impact)"
+          ]
+        },
+        {
+          "chapter_number": 3,
+          "chapter_name": "Gender, Religion and Caste",
+          "subtopics": [
+            "Gender and Politics: Public/Private Division",
+            "Feminist Movements and Patriarchal Society",
+            "Women's Political Representation in India",
+            "Religion, Communalism, and Politics",
+            "Communalism: Beliefs and Manifestations",
+            "The Secular State Model in India",
+            "Caste and Politics: Caste Inequalities",
+            "Reasons for the Persistence and Breakdown of Caste Hierarchy",
+            "Caste in Politics: How Political Parties Use Caste",
+            "Politics in Caste: How Politics Influences the Caste System"
+          ]
+        },
+        {
+          "chapter_number": 4,
+          "chapter_name": "Political Parties",
+          "subtopics": [
+            "Why do we need Political Parties? (Meaning and Components)",
+            "Functions of Political Parties",
+            "The Necessity of Political Parties in a Democracy",
+            "How many Parties should we have? (One-party, Two-party, Multi-party)",
+            "National Political Parties: Criteria and Examples",
+            "State (Regional) Parties: Criteria and Role",
+            "Challenge 1: Lack of Internal Democracy",
+            "Challenge 2: Dynastic Succession",
+            "Challenge 3 & 4: Money/Muscle Power and Lack of Meaningful Choice",
+            "How can Parties be Reformed? (Anti-defection, Affidavits, Election Commission)"
+          ]
+        },
+        {
+          "chapter_number": 5,
+          "chapter_name": "Outcomes of Democracy",
+          "subtopics": [
+            "How do we Assess Democracy's Outcomes?",
+            "Accountable, Responsive, and Legitimate Government",
+            "Economic Growth and Development in Democracies vs Dictatorships",
+            "Reduction of Inequality and Poverty",
+            "Democracy's Handling of Social Diversity",
+            "Accommodation of Social Divisions",
+            "Dignity and Freedom of the Citizens",
+            "Women's Dignity and Caste Inequalities under Democracy",
+            "Why the Examination of Democracy Never Ends",
+            "Mixed Chapter Review: Analyzing Democratic Efficacy"
+          ]
+        }
+      ]
+    },
+    {
+      "discipline_name": "Economics (Understanding Economic Development)",
+      "chapters": [
+        {
+          "chapter_number": 1,
+          "chapter_name": "Development",
+          "subtopics": [
+            "What Development Promises: Different People, Different Goals",
+            "Income and Other Goals (Quality of Life, Freedom, Security)",
+            "National Development: Divergent Perspectives",
+            "How to Compare Different Countries or States?",
+            "Per Capita Income: Concept, Calculation, and Limitations",
+            "Income and Other Criteria (Infant Mortality, Literacy, Net Attendance)",
+            "Public Facilities and their Importance in Development",
+            "Human Development Report (UNDP vs World Bank Criteria)",
+            "Body Mass Index (BMI) and Basic Health Metrics",
+            "Sustainability of Development (Resource Depletion Scenarios)"
+          ]
+        },
+        {
+          "chapter_number": 2,
+          "chapter_name": "Sectors of the Indian Economy",
+          "subtopics": [
+            "Sectors of Economic Activities: Primary, Secondary, Tertiary",
+            "Comparing the Three Sectors (Final vs Intermediate Goods)",
+            "Calculating Gross Domestic Product (GDP)",
+            "Historical Changes in Sectors (Shift in Dominance)",
+            "Primary, Secondary, and Tertiary Sectors in India (Graphs and Trends)",
+            "Underemployment (Disguised Unemployment) in Agriculture",
+            "How to Create More Employment in Rural and Semi-rural Areas?",
+            "Right to Work and NREGA 2005",
+            "Division of Sectors: Organized vs Unorganized",
+            "Sectors in Terms of Ownership: Public vs Private Sectors"
+          ]
+        },
+        {
+          "chapter_number": 3,
+          "chapter_name": "Money and Credit",
+          "subtopics": [
+            "Money as a Medium of Exchange (Double Coincidence of Wants)",
+            "Modern Forms of Money: Currency and Coins",
+            "Modern Forms of Money: Deposits with Banks and Cheques",
+            "Loan Activities of Banks (How Banks Make Money)",
+            "Two Different Credit Situations (Positive and Negative Impacts)",
+            "Terms of Credit: Interest Rate, Collateral, Documentation",
+            "Formal Sector Credit in India (RBI Supervision)",
+            "Informal Sector Credit (Moneylenders, Relatives)",
+            "Formal vs Informal Credit: Who gets what?",
+            "Self-Help Groups (SHGs) for the Poor"
+          ]
+        },
+        {
+          "chapter_number": 4,
+          "chapter_name": "Globalisation and the Indian Economy",
+          "subtopics": [
+            "Production Across Countries (Multinational Corporations - MNCs)",
+            "Interlinking Production Across Countries (Joint Ventures, Buyouts)",
+            "Foreign Trade and Integration of Markets",
+            "What is Globalisation? (Definition and Process)",
+            "Factors that have Enabled Globalisation: Technology",
+            "Factors that have Enabled Globalisation: Liberalisation of Trade",
+            "World Trade Organisation (WTO) and its Role",
+            "Impact of Globalisation in India (Consumers and Top Indian Companies)",
+            "Impact of Globalisation: Small Producers and Workers' Struggles",
+            "The Struggle for a Fair Globalisation"
+          ]
+        },
+        {
+          "chapter_number": 5,
+          "chapter_name": "Consumer Rights",
+          "subtopics": [
+            "The Consumer in the Marketplace (Exploitation Examples)",
+            "The Origin of the Consumer Movement in India",
+            "Safety is Everyone's Right (Defective Products)",
+            "Information about Goods and Services (MRP, Expiry, Ingredients)",
+            "Right to Choose and When Choice is Denied",
+            "Where Should Consumers Go to Get Justice? (Consumer Courts)",
+            "The Consumer Protection Act 1986 (COPRA)",
+            "Learning to Become Well-Informed Consumers (ISI, Agmark)",
+            "Taking the Consumer Movement Forward",
+            "Mixed Chapter Review: Practical Consumer Dispute Scenarios"
+          ]
+        }
+      ]
+    }
+  ]
+}

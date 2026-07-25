@@ -1,0 +1,230 @@
+{
+  "subject": "Mathematics",
+  "class": 10,
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "chapter_name": "Real Numbers",
+      "subtopics": [
+        "Fundamental Theorem of Arithmetic: Core Concepts",
+        "Prime Factorization: Method and Calculations",
+        "Finding HCF using Prime Factorization",
+        "Finding LCM using Prime Factorization",
+        "The Formula: HCF × LCM = Product of Two Numbers",
+        "Application Word Problems: HCF Scenarios",
+        "Application Word Problems: LCM Scenarios",
+        "Proving Irrationality: Square Roots of Primes",
+        "Proving Irrationality: Composite Expressions",
+        "Mixed Chapter Review: Real Numbers"
+      ]
+    },
+    {
+      "chapter_number": 2,
+      "chapter_name": "Polynomials",
+      "subtopics": [
+        "Geometrical Meaning of the Zeroes of a Polynomial",
+        "Identifying Number of Zeroes from Graphs",
+        "Zeroes of a Quadratic Polynomial: Calculation",
+        "Relationship between Zeroes and Coefficients: Sum of Zeroes",
+        "Relationship between Zeroes and Coefficients: Product of Zeroes",
+        "Forming a Quadratic Polynomial given its Zeroes",
+        "Forming a Quadratic Polynomial given Sum and Product of Zeroes",
+        "Advanced Algebraic Identities with Zeroes",
+        "Word Problems: Quadratic Polynomial Scenarios",
+        "Mixed Chapter Review: Polynomials"
+      ]
+    },
+    {
+      "chapter_number": 3,
+      "chapter_name": "Pair of Linear Equations in Two Variables",
+      "subtopics": [
+        "Graphical Representation of Linear Equations",
+        "Consistency and Inconsistency of Equations",
+        "Comparing Ratios: Intersecting Lines",
+        "Comparing Ratios: Parallel and Coincident Lines",
+        "Algebraic Solution: Substitution Method (Basics)",
+        "Algebraic Solution: Substitution Method (Complex coefficients)",
+        "Algebraic Solution: Elimination Method (Basics)",
+        "Algebraic Solution: Elimination Method (Complex coefficients)",
+        "Word Problems: Age, Fractions, and Digits",
+        "Word Problems: Speed, Distance, Time, and Commercial"
+      ]
+    },
+    {
+      "chapter_number": 4,
+      "chapter_name": "Quadratic Equations",
+      "subtopics": [
+        "Standard Form and Checking for Quadratic Equations",
+        "Solution by Factorization: Splitting the middle term",
+        "Factorization involving Roots and Fractions",
+        "The Quadratic Formula: Core Application",
+        "Nature of Roots: The Discriminant",
+        "Finding Unknown Values (k) given the Nature of Roots",
+        "Word Problems: Numbers and Ages",
+        "Word Problems: Time, Distance, and Speed",
+        "Word Problems: Geometry and Areas",
+        "Word Problems: Time and Work / Pipes and Cisterns"
+      ]
+    },
+    {
+      "chapter_number": 5,
+      "chapter_name": "Arithmetic Progressions",
+      "subtopics": [
+        "Concept of an AP, First Term (a), and Common Difference (d)",
+        "Finding the nth Term of an AP (Basics)",
+        "Finding the nth Term (Complex/Fractional sequences)",
+        "Determining the Number of Terms (n) in an AP",
+        "Finding an AP given specific terms or relationships",
+        "Word Problems based on the nth Term",
+        "Sum of the First n Terms of an AP: Standard Formula",
+        "Sum of the First n Terms: Using the last term",
+        "Word Problems based on Sum of n Terms",
+        "Mixed Chapter Review: Complex AP Scenarios"
+      ]
+    },
+    {
+      "chapter_number": 6,
+      "chapter_name": "Triangles",
+      "subtopics": [
+        "Concept of Similarity vs. Congruence",
+        "Basic Proportionality Theorem (Thales Theorem): Core Concept",
+        "Basic Proportionality Theorem: Calculations and Ratios",
+        "Converse of Basic Proportionality Theorem",
+        "Criteria for Similarity: AAA / AA Criterion",
+        "Criteria for Similarity: SSS Criterion",
+        "Criteria for Similarity: SAS Criterion",
+        "Proving Triangles Similar in Complex Figures",
+        "Application Word Problems: Shadows and Heights using Similarity",
+        "Mixed Chapter Review: Triangles"
+      ]
+    },
+    {
+      "chapter_number": 7,
+      "chapter_name": "Coordinate Geometry",
+      "subtopics": [
+        "Distance Formula: Finding Distance Between Two Points",
+        "Distance Formula: Finding an Unknown Coordinate",
+        "Application of Distance Formula: Types of Triangles and Quadrilaterals",
+        "Application of Distance Formula: Equidistant Points and Collinearity",
+        "Section Formula: Finding Coordinates of Division (Internal)",
+        "Section Formula: Finding the Ratio of Division",
+        "Mid-point Formula: Concepts and Direct Calculation",
+        "Mid-point Formula: Finding Unknown Vertices of Parallelograms",
+        "Trisection of a Line Segment",
+        "Mixed Chapter Review: Coordinate Geometry"
+      ]
+    },
+    {
+      "chapter_number": 8,
+      "chapter_name": "Introduction to Trigonometry",
+      "subtopics": [
+        "Trigonometric Ratios (Sine, Cosine, Tangent): Core Concepts",
+        "Trigonometric Ratios (Cosec, Sec, Cot) and Reciprocal Relations",
+        "Calculating all T-Ratios given one Ratio",
+        "Evaluating Expressions using T-Ratios (Right Triangles)",
+        "Trigonometric Ratios of Specific Angles (30°, 45°, 60°)",
+        "Trigonometric Ratios of Specific Angles (0°, 90°)",
+        "Evaluating Complex Expressions with Specific Angles",
+        "Trigonometric Identity: sin²θ + cos²θ = 1",
+        "Trigonometric Identities: sec²θ - tan²θ = 1 & cosec²θ - cot²θ = 1",
+        "Proving Complex Trigonometric Identities"
+      ]
+    },
+    {
+      "chapter_number": 9,
+      "chapter_name": "Some Applications of Trigonometry",
+      "subtopics": [
+        "Concept of Line of Sight and Horizontal Level",
+        "Angle of Elevation: Direct Calculations (Single Triangle)",
+        "Angle of Depression: Direct Calculations (Single Triangle)",
+        "Word Problems: Heights of Towers and Trees (Single Triangle)",
+        "Word Problems: Shadows and Sun's Altitude",
+        "Complex Problems: Two Angles of Elevation (Double Triangle)",
+        "Complex Problems: Angle of Elevation and Depression Combined",
+        "Complex Problems: Moving Objects approaching a point",
+        "Complex Problems: Objects on opposite sides of a point",
+        "Mixed Scenario Word Problems"
+      ]
+    },
+    {
+      "chapter_number": 10,
+      "chapter_name": "Circles",
+      "subtopics": [
+        "Tangent to a Circle: Definitions and Concepts",
+        "Theorem: Tangent is perpendicular to radius at point of contact",
+        "Calculations based on Radius-Tangent Perpendicularity",
+        "Number of Tangents from a Point (Inside, On, Outside)",
+        "Theorem: Lengths of tangents from an external point are equal",
+        "Angles subtended by Tangents at the Center and the Point",
+        "Proving Properties of Quadrilaterals circumscribing a circle",
+        "Proving Properties of Triangles circumscribing a circle",
+        "Concentric Circles and Chords intersecting Tangents",
+        "Complex Geometrical Proofs involving Tangents"
+      ]
+    },
+    {
+      "chapter_number": 11,
+      "chapter_name": "Areas Related to Circles",
+      "subtopics": [
+        "Perimeter and Area of a Circle: Review and Direct Calculation",
+        "Concept of Sectors (Major and Minor) and Central Angles",
+        "Area of a Sector of a Circle: Formula and Calculation",
+        "Length of an Arc of a Sector",
+        "Concept of Segments (Major and Minor)",
+        "Area of a Segment of a Circle",
+        "Calculating Area of Segments with 60° and 90° central angles",
+        "Practical Applications: Clock faces and Minute Hands",
+        "Practical Applications: Brooches, Fences, and Wheels",
+        "Practical Applications: Umbrellas, Wipers, and Round Tables"
+      ]
+    },
+    {
+      "chapter_number": 12,
+      "chapter_name": "Surface Areas and Volumes",
+      "subtopics": [
+        "Surface Area: Combination of Solids",
+        "Surface Area: Internal vs External areas in hollow objects",
+        "Word Problems: Surface Area of combined solids (Tents, Toys)",
+        "Volume: Combination of Solids (Core Concepts and Formulae)",
+        "Volume of combined solids: Direct calculation",
+        "Word Problems: Volume of combined solids",
+        "Conversion of Solid from One Shape to Another (Melting/Recasting)",
+        "Conversion of Solids: Finding the new dimensions or count",
+        "Word Problems: Flowing Water in Canals and Pipes",
+        "Word Problems: Embankments and Earth dug from Wells"
+      ]
+    },
+    {
+      "chapter_number": 13,
+      "chapter_name": "Statistics",
+      "subtopics": [
+        "Mean of Grouped Data: Direct Method",
+        "Mean of Grouped Data: Assumed Mean Method",
+        "Finding Missing Frequencies given the Mean",
+        "Mode of Grouped Data: Formula and Identification of Modal Class",
+        "Finding Missing Frequencies given the Mode",
+        "Median of Grouped Data: Cumulative Frequency and Median Class",
+        "Median of Grouped Data: Formula Application",
+        "Finding Missing Frequencies given the Median",
+        "Empirical Relationship between Mean, Median, and Mode",
+        "Choosing the appropriate measure of central tendency for a dataset"
+      ]
+    },
+    {
+      "chapter_number": 14,
+      "chapter_name": "Probability",
+      "subtopics": [
+        "Concept of Theoretical Probability (Equally likely outcomes)",
+        "Complementary Events",
+        "Impossible and Sure Events",
+        "Single Coin and Double Coin Toss Scenarios",
+        "Dice Problems: Single Die Roll",
+        "Dice Problems: Two Dice Rolled Simultaneously",
+        "Playing Cards: Standard Deck Structure",
+        "Playing Cards: Probability Calculations",
+        "Bag/Box Problems: Drawing Marbles or Balls",
+        "Practical Word Problems: Games of chance and lotteries"
+      ]
+    }
+  ]
+}
