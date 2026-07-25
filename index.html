@@ -21,11 +21,30 @@
         .review-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
         
         .hidden-screen { display: none !important; }
+
+        /* Loader Spinner Animation */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #4f46e5;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-8 text-slate-800">
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-8 text-slate-800 relative">
 
-<!-- Scaled App Container: Takes up 85vw / 85vh on large screens -->
+<!-- Global Full-Screen Loader Overlay -->
+<div id="global-loader" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-opacity hidden-screen">
+    <div class="bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center">
+        <div class="spinner mb-4"></div>
+        <p id="loader-text" class="text-slate-700 font-medium">Loading...</p>
+    </div>
+</div>
+
+<!-- Scaled App Container -->
 <div class="bg-white rounded-3xl shadow-2xl w-full md:w-[85vw] md:min-h-[85vh] max-w-7xl flex flex-col overflow-hidden relative">
     
     <!-- Header App Bar -->
@@ -45,7 +64,6 @@
         <!-- Screen 1: Subject Menu -->
         <div id="subject-screen" class="fade-in">
             <h2 class="text-xl md:text-2xl font-bold mb-6 text-slate-700">Select a Subject</h2>
-            <div id="subject-loading" class="text-slate-400 italic mb-4">Connecting to GitHub repository...</div>
             <div id="subject-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </div>
 
@@ -55,7 +73,6 @@
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back to Subjects
             </button>
             <h2 id="subject-title" class="text-xl md:text-2xl font-bold mb-6 text-slate-700">Chapters</h2>
-            <div id="chapter-loading" class="text-slate-400 italic mb-4">Loading chapters...</div>
             <div id="chapter-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </div>
 
@@ -70,9 +87,13 @@
 
         <!-- Screen 4: Active Quiz -->
         <div id="quiz-screen" class="hidden-screen fade-in flex flex-col h-full max-w-4xl mx-auto w-full">
-            <div class="flex justify-between items-center mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div class="flex justify-between items-center mb-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
                 <div class="text-sm font-semibold text-slate-500 uppercase tracking-wider truncate mr-4" id="quiz-breadcrumb">Subject > Chapter</div>
                 <div id="timer-display" class="font-mono text-lg font-bold text-indigo-600 bg-indigo-100 px-4 py-1 rounded-full shrink-0">30:00</div>
+            </div>
+            
+            <div class="w-full bg-slate-200 rounded-full h-2.5 mb-6 overflow-hidden">
+                <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
             </div>
             
             <div class="mb-8 flex-grow">
@@ -103,7 +124,11 @@
                     </div>
                 </div>
                 <h2 id="score-text" class="text-slate-500 font-medium">You scored 0 out of 0</h2>
-                <button onclick="showScreen('subject-screen')" class="mt-8 bg-slate-800 text-white px-6 py-2 rounded-lg font-medium hover:bg-slate-700 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-800 outline-none">Return to Main Menu</button>
+                
+                <div class="flex flex-col sm:flex-row gap-3 justify-center mt-8">
+                    <button onclick="retryAssessment()" class="bg-indigo-100 text-indigo-700 px-6 py-2 rounded-lg font-medium hover:bg-indigo-200 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none">Retry Assessment</button>
+                    <button onclick="showScreen('subject-screen')" class="bg-slate-800 text-white px-6 py-2 rounded-lg font-medium hover:bg-slate-700 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-800 outline-none">Return to Main Menu</button>
+                </div>
             </div>
 
             <h3 class="text-xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-2">Review Answers</h3>
@@ -131,7 +156,7 @@
     const GITHUB_USERNAME = "evaturivamsikrishna"; 
     const REPO_NAME = "School_Assessments";
     const BASE_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/quizzes`;
-    const TIMER_MINUTES = 30; // Time per assessment
+    const TIMER_MINUTES = 30;
 
     // --- STATE MANAGEMENT ---
     let state = {
@@ -144,17 +169,41 @@
 
     window.onload = loadSubjects;
 
-    // Security: Prevent accidental refresh during quiz
     window.addEventListener('beforeunload', (e) => {
         if(state.isQuizActive) { e.preventDefault(); e.returnValue = ''; }
     });
 
-    // Security: Escape HTML to prevent XSS from JSON data
     function escapeHTML(str) {
         if (!str) return '';
         return str.toString().replace(/[&<>'"]/g, tag => ({
             '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
         }[tag] || tag));
+    }
+
+    // --- LOADER CONTROLS ---
+    function showLoader(message) {
+        document.getElementById('loader-text').innerText = message;
+        document.getElementById('global-loader').classList.remove('hidden-screen');
+    }
+
+    function hideLoader() {
+        document.getElementById('global-loader').classList.add('hidden-screen');
+    }
+
+    // --- LOCAL STORAGE ---
+    function saveProgress(score, total) {
+        const key = `studyPortal_${state.subject}_${state.chapter}_${state.assessment}`;
+        const percentage = Math.round((score / total) * 100);
+        const existingData = JSON.parse(localStorage.getItem(key));
+        
+        if (!existingData || existingData.percentage < percentage) {
+            localStorage.setItem(key, JSON.stringify({ score, total, percentage }));
+        }
+    }
+
+    function getProgress(subject, chapter, assessment) {
+        const key = `studyPortal_${subject}_${chapter}_${assessment}`;
+        return JSON.parse(localStorage.getItem(key));
     }
 
     // --- NAVIGATION ---
@@ -169,13 +218,13 @@
     // --- API & DATA LOADING ---
     async function loadSubjects() {
         showScreen('subject-screen');
+        showLoader("Connecting to GitHub...");
         try {
             const res = await fetch(BASE_API_URL);
             if (!res.ok) throw new Error();
             const data = await res.json();
             const folders = data.filter(item => item.type === 'dir');
             
-            document.getElementById('subject-loading').classList.add('hidden-screen');
             const list = document.getElementById('subject-list');
             list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500'>No folders found.</p>";
             
@@ -187,7 +236,9 @@
                 list.appendChild(btn);
             });
         } catch (e) {
-            document.getElementById('subject-loading').innerText = "Error loading from GitHub. Check username/repo variables.";
+            document.getElementById('subject-list').innerHTML = "<p class='col-span-full text-red-500'>Error loading from GitHub. Check visibility settings.</p>";
+        } finally {
+            hideLoader();
         }
     }
 
@@ -195,14 +246,13 @@
         state.subject = subjectName;
         showScreen('chapter-screen');
         document.getElementById('subject-title').innerText = escapeHTML(subjectName);
-        document.getElementById('chapter-loading').classList.remove('hidden-screen');
+        showLoader(`Loading ${subjectName} chapters...`);
         const list = document.getElementById('chapter-list');
         list.innerHTML = '';
 
         try {
             const res = await fetch(`${BASE_API_URL}/${encodeURIComponent(subjectName)}`);
             const data = await res.json();
-            document.getElementById('chapter-loading').classList.add('hidden-screen');
             const files = data.filter(item => item.name.endsWith('.json'));
             
             files.forEach(file => {
@@ -213,16 +263,20 @@
                 btn.onclick = () => fetchAssessments(file.download_url, cleanName);
                 list.appendChild(btn);
             });
-        } catch (e) { document.getElementById('chapter-loading').innerText = "Error loading chapters."; }
+        } catch (e) { 
+            list.innerHTML = "<p class='col-span-full text-red-500'>Error loading chapters.</p>";
+        } finally {
+            hideLoader();
+        }
     }
 
     async function fetchAssessments(url, chapterName) {
         state.chapter = chapterName;
+        showLoader(`Downloading ${chapterName} assessments...`);
         try {
             const res = await fetch(url);
             let data = await res.json();
             
-            // Backwards compatibility: If old flat array, wrap it.
             if(Array.isArray(data)) { data = { "Assessment 1": data }; }
             
             state.quizDataRaw = data;
@@ -235,11 +289,25 @@
             Object.keys(data).forEach(key => {
                 const btn = document.createElement('button');
                 btn.className = 'bg-indigo-50 border border-indigo-100 p-5 rounded-xl hover:bg-indigo-600 hover:text-white transition-colors text-left font-bold text-indigo-900 group focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 outline-none';
-                btn.innerHTML = `${escapeHTML(key)} <span class="block text-sm font-normal opacity-70 group-hover:opacity-100">${data[key].length} Questions</span>`;
+                
+                const pastProgress = getProgress(state.subject, state.chapter, key);
+                const badgeHtml = pastProgress ? `<span class="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full border border-green-200 mt-2 inline-block">Best Score: ${pastProgress.percentage}%</span>` : '';
+                
+                btn.innerHTML = `
+                    ${escapeHTML(key)} 
+                    <div class="mt-1 flex flex-col items-start gap-1">
+                        <span class="text-sm font-normal opacity-70 group-hover:opacity-100 transition-opacity">${data[key].length} Questions</span>
+                        ${badgeHtml}
+                    </div>
+                `;
                 btn.onclick = () => startQuiz(key);
                 list.appendChild(btn);
             });
-        } catch (e) { alert("Failed to parse JSON file."); }
+        } catch (e) { 
+            alert("Failed to parse JSON file."); 
+        } finally {
+            hideLoader();
+        }
     }
 
     // --- QUIZ ENGINE ---
@@ -249,11 +317,17 @@
         state.currentIndex = 0; state.score = 0; state.userAnswers = [];
         state.isQuizActive = true;
         
+        document.getElementById('progress-bar').style.width = '0%';
+        
         showScreen('quiz-screen');
         document.getElementById('quiz-breadcrumb').innerText = `${state.subject} > ${state.chapter} > ${state.assessment}`;
         
         startTimer();
         renderQuestion();
+    }
+    
+    function retryAssessment() {
+        startQuiz(state.assessment);
     }
 
     function renderQuestion() {
@@ -261,6 +335,9 @@
         const q = state.questions[state.currentIndex];
         
         document.getElementById('progress-text').innerText = `Question ${state.currentIndex + 1} of ${state.questions.length}`;
+        const pct = (state.currentIndex / state.questions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${pct}%`;
+        
         document.getElementById('question-text').innerText = escapeHTML(q.question);
         
         const container = document.getElementById('options-container');
@@ -270,7 +347,6 @@
             const btn = document.createElement('button');
             btn.className = 'option-btn w-full text-left p-4 rounded-xl border-2 border-slate-100 bg-white hover:border-indigo-300 transition-all text-slate-700 font-medium focus-visible:ring-2 focus-visible:ring-indigo-500 outline-none relative flex items-center';
             
-            // Radio button UI indicator
             btn.innerHTML = `<div class="w-5 h-5 rounded-full border-2 border-slate-300 mr-3 flex-shrink-0 indicator"></div> <span>${escapeHTML(opt)}</span>`;
             
             btn.onclick = () => {
@@ -345,13 +421,15 @@
 
     function finishQuiz() {
         stopTimer();
+        saveProgress(state.score, state.questions.length);
+        document.getElementById('progress-bar').style.width = '100%';
+        
         showScreen('results-screen');
         
         const pct = Math.round((state.score / state.questions.length) * 100);
         document.getElementById('score-percent').innerText = `${pct}%`;
         document.getElementById('score-text').innerText = `You scored ${state.score} out of ${state.questions.length}`;
         
-        // Animate circular progress
         setTimeout(() => {
             const offset = 100 - pct;
             document.getElementById('score-ring').style.strokeDashoffset = offset;
