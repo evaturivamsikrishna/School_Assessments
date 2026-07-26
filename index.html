@@ -15,66 +15,16 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], },
                     colors: {
-                        brand: {
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            900: '#312e81',
-                        },
-                        darkbg: '#0f172a',
-                        darkcard: '#1e293b',
+                        brand: { 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 900: '#312e81', },
+                        darkbg: '#0f172a', darkcard: '#1e293b',
                     }
                 }
             }
         }
     </script>
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        .screen-enter { animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .hidden-screen { display: none !important; }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
-        
-        .streak-bump { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3) rotate(5deg); color: #fbbf24; }
-            100% { transform: scale(1); }
-        }
-        
-        .option-selected {
-            border-color: #6366f1 !important;
-            background-color: rgba(99, 102, 241, 0.1) !important;
-            transform: scale(1.01);
-        }
-
-        .glass-loader {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid #818cf8;
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body class="bg-slate-50 dark:bg-darkbg text-slate-900 dark:text-slate-100 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
 
@@ -108,7 +58,7 @@
     <span id="toast-msg">Notification</span>
 </div>
 
-<div id="quit-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden-screen flex items-center justify-center z-50 p-4">
+<div id="quit-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden-screen flex items-center justify-center z-50 p-4" style="display: none;">
     <div class="bg-white dark:bg-darkcard rounded-3xl p-8 w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 transform transition-all text-center">
         <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
             <i class="fa-solid fa-person-walking-arrow-right"></i>
@@ -137,6 +87,9 @@
             <i class="fa-solid fa-bolt text-yellow-400"></i>
             <span class="text-sm font-bold" id="total-xp-display">0 XP</span>
         </div>
+        <button onclick="navigateTo('mock-exam-screen'); loadMockExams();" class="hidden sm:flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-400 transition-colors font-bold text-sm">
+            <i class="fa-solid fa-folder-open"></i> Past Papers
+        </button>
         <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brand-400 transition-colors">
             <i id="theme-icon" class="fa-solid fa-moon"></i>
         </button>
@@ -155,19 +108,41 @@
         <div class="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 to-purple-600 p-6 md:p-8 text-white shadow-xl shadow-brand-500/20">
             <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/20 blur-3xl"></div>
             <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-black/20 blur-2xl"></div>
-            
             <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                 <div>
                     <h3 class="text-sm font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-brand-100">
                         <i class="fa-solid fa-bolt text-yellow-300"></i> Daily Focus
                     </h3>
-                    <p id="motivational-quote" class="text-lg md:text-xl font-semibold leading-relaxed max-w-3xl drop-shadow-sm">
-                        "Loading motivation..."
-                    </p>
+                    <p id="motivational-quote" class="text-lg md:text-xl font-semibold leading-relaxed max-w-3xl drop-shadow-sm">"Loading motivation..."</p>
                 </div>
                 <div class="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white/10 items-center justify-center backdrop-blur-sm border border-white/20 shadow-inner">
                     <i class="fa-solid fa-seedling text-2xl text-green-300"></i>
                 </div>
+            </div>
+        </div>
+
+        <!-- AI Tutor Insights Widget -->
+        <div id="ai-insights-widget" class="mb-10 hidden-screen relative overflow-hidden rounded-3xl bg-white dark:bg-darkcard border border-brand-500/30 p-6 md:p-8 shadow-lg shadow-brand-500/10">
+            <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <div class="w-12 h-12 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-extrabold text-slate-800 dark:text-slate-100">AI Tutor Analysis</h3>
+                    <p class="text-xs font-bold text-brand-500 uppercase tracking-widest">Latest Performance Scan</p>
+                </div>
+            </div>
+            
+            <p id="ai-overall-health" class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-6 italic leading-relaxed"></p>
+            
+            <div class="bg-red-50 dark:bg-red-900/10 rounded-2xl p-5 border border-red-100 dark:border-red-900/30 mb-6">
+                <h4 class="text-red-600 dark:text-red-400 font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-microscope"></i> Concept Gaps Detected</h4>
+                <ul id="ai-mistakes-list" class="space-y-3 text-sm text-slate-600 dark:text-slate-400"></ul>
+            </div>
+            
+            <div class="bg-brand-50 dark:bg-brand-900/20 rounded-2xl p-5">
+                <h4 class="text-brand-700 dark:text-brand-300 font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-lightbulb"></i> Study Strategy</h4>
+                <p id="ai-tutor-advice" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></p>
             </div>
         </div>
 
@@ -189,6 +164,11 @@
             <i class="fa-solid fa-trophy text-4xl text-brand-500/50"></i>
         </div>
         <div id="assessment-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </div>
+
+    <!-- Screen for Mock Exams -->
+    <div id="mock-exam-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
+        <div id="mock-exam-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </div>
 
     <!-- Screen 4: Active Quiz -->
@@ -261,745 +241,6 @@
     </div>
 </main>
 
-<script>
-    // ==========================================
-    // 1. ADVANCED DEBUG LOGGER
-    // ==========================================
-    const appLogs = [];
-    const originalLog = console.log;
-    const originalError = console.error;
-    const originalWarn = console.warn;
-
-    function captureLog(level, ...args) {
-        const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
-        appLogs.push({ timestamp: new Date().toISOString(), level: level, message: msg });
-        if(level === 'INFO') originalLog.apply(console, args);
-        if(level === 'ERROR') originalError.apply(console, args);
-        if(level === 'WARN') originalWarn.apply(console, args);
-    }
-
-    console.log = (...args) => captureLog('INFO', ...args);
-    console.error = (...args) => captureLog('ERROR', ...args);
-    console.warn = (...args) => captureLog('WARN', ...args);
-
-    function downloadDebugLogs() {
-        console.log("📥 Downloading debug_logs.json...");
-        const blob = new Blob([JSON.stringify(appLogs, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `study_portal_logs_${Date.now()}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-
-    // ==========================================
-    // 2. CONFIGURATION
-    // ==========================================
-    const TELEMETRY_CONFIG = {
-        formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfSRiXP7IORGc2Ce39CqZrA_Ayt6grqFL7OfOYmLAyiyLhsFw/formResponse",
-        entries: {
-            name: "entry.795960842",    
-            subject: "entry.842650238", 
-            chapter: "entry.2033848128", 
-            score: "entry.730375092",
-            attempt: "entry.1368600616",
-            mistakes: "entry.480544809", 
-            timestamp: "entry.229426742", 
-            timeTaken: "entry.160288449" 
-        }
-    };
-
-    const GITHUB_USERNAME = "evaturivamsikrishna"; 
-    const REPO_NAME = "School_Assessments";
-    const BASE_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/quizzes`;
-    const TIMER_MINUTES = 30;
-    const CACHE_EXPIRY_MS = 1000 * 60 * 60 * 24;
-
-    let state = {
-        history: [], currentScreen: 'subject-screen',
-        subject: "", chapter: "", assessment: "",
-        quizDataRaw: {}, questions: [], userAnswers: [],
-        currentIndex: 0, score: 0, selectedOption: null,
-        isQuizActive: false, timerInterval: null, timeRemaining: 0,
-        currentStreak: 0, highestStreak: 0, totalXP: 0
-    };
-
-    const motivationQuotes = [
-        "You don't have to be perfect today, just better than yesterday.",
-        "Consistency beats intensity. Small steps every day.",
-        "Mistakes are just proof that you are trying. Keep going.",
-        "Focus on the step in front of you, not the whole staircase.",
-        "Your future self is watching right now. Make them proud.",
-        "Discipline is choosing between what you want now, and what you want most."
-    ];
-
-    // ==========================================
-    // 3. INITIALIZATION & IDENTITY
-    // ==========================================
-    window.onload = () => {
-        console.log("🚀 System Initialization Started.");
-        initTheme();
-        loadXP();
-        setDailyMotivation();
-        checkUserIdentity(); 
-        navigateTo('subject-screen');
-    };
-
-    window.addEventListener('beforeunload', (e) => {
-        if(state.isQuizActive) { e.preventDefault(); e.returnValue = ''; }
-    });
-
-    function checkUserIdentity() {
-        console.log("🔍 Checking localStorage for 'currentUser'...");
-        const user = localStorage.getItem('currentUser');
-        if (!user) {
-            console.warn("⚠️ No user found. Displaying Login Modal.");
-            document.getElementById('user-modal').classList.remove('hidden-screen');
-        } else {
-            console.log(`✅ User found: [${user}]. Skipping login.`);
-            flushPendingTelemetry();
-        }
-    }
-
-    function saveUserIdentity(event) {
-        event.preventDefault();
-        console.log("🖱️ Login form submitted.");
-        
-        const input = document.getElementById('username-input').value.trim();
-        console.log(`📝 Input received: [${input}]`);
-        
-        if (!input) {
-            console.error("❌ Input was empty after trim.");
-            return;
-        }
-
-        // --- SECRET DEBUG TRIGGER ---
-        if (input.toLowerCase() === 'admin debug') {
-            console.log("🕵️ Secret debug command triggered!");
-            downloadDebugLogs();
-            showToast("Debug logs downloaded!");
-            return; 
-        }
-
-        try {
-            localStorage.setItem('currentUser', input);
-            console.log("💾 Saved user to localStorage.");
-            
-            document.getElementById('user-modal').classList.add('hidden-screen');
-            console.log("🙈 Modal hidden successfully.");
-            
-            showToast(`Welcome, ${input}!`);
-            flushPendingTelemetry();
-        } catch (e) {
-            console.error("❌ Failed to save user identity:", e);
-            alert("Error saving login. Is Private Browsing blocking local storage?");
-        }
-    }
-
-    // ==========================================
-    // 4. TELEMETRY SYSTEM (GOOGLE FORMS)
-    // ==========================================
-    async function dispatchTelemetry(subject, chapter, score, total, attemptCount, mistakesLog, timeTakenStr) {
-        console.log("📡 PREPARING TELEMETRY DISPATCH...");
-        const user = localStorage.getItem('currentUser') || 'Anonymous';
-        
-        if (user.toLowerCase() === 'admin') {
-            console.log("🛑 Telemetry bypassed for Admin account.");
-            return;
-        }
-
-        const payload = {
-            name: user,
-            subject: subject,
-            chapter: chapter,
-            score: `${score}/${total}`,
-            attempt: attemptCount.toString(),
-            mistakes: mistakesLog,
-            timestamp: new Date().toLocaleString(),
-            timeTaken: timeTakenStr
-        };
-        console.log("📦 Payload compiled:", payload);
-
-        if (!navigator.onLine) { 
-            console.warn("⚠️ Browser is offline. Caching telemetry.");
-            cacheTelemetry(payload); 
-            return; 
-        }
-        
-        await executeTelemetryPost(payload);
-    }
-
-    async function executeTelemetryPost(payload) {
-        console.log("🚀 Executing POST request to Google Forms...");
-        const formData = new FormData();
-        formData.append(TELEMETRY_CONFIG.entries.name, payload.name);
-        formData.append(TELEMETRY_CONFIG.entries.subject, payload.subject);
-        formData.append(TELEMETRY_CONFIG.entries.chapter, payload.chapter);
-        formData.append(TELEMETRY_CONFIG.entries.score, payload.score);
-        formData.append(TELEMETRY_CONFIG.entries.attempt, payload.attempt);
-        formData.append(TELEMETRY_CONFIG.entries.mistakes, payload.mistakes);
-        formData.append(TELEMETRY_CONFIG.entries.timestamp, payload.timestamp);
-        formData.append(TELEMETRY_CONFIG.entries.timeTaken, payload.timeTaken);
-
-        for (let pair of formData.entries()) {
-            console.log(`   - ${pair[0]}: ${pair[1]}`);
-        }
-
-        try {
-            console.log(`🔗 Target URL: ${TELEMETRY_CONFIG.formUrl}`);
-            const response = await fetch(TELEMETRY_CONFIG.formUrl, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: formData 
-            });
-            console.log("✅ Fetch request completed (no-cors response received). Google should have data.");
-        } catch (e) {
-            console.error("❌ Fatal Fetch Error during Telemetry POST:", e);
-            cacheTelemetry(payload);
-        }
-    }
-
-    function cacheTelemetry(payload) {
-        console.log("💾 Saving payload to localStorage pending queue.");
-        const pending = JSON.parse(localStorage.getItem('pendingTelemetry') || '[]');
-        pending.push(payload);
-        localStorage.setItem('pendingTelemetry', JSON.stringify(pending));
-    }
-
-    async function flushPendingTelemetry() {
-        if (!navigator.onLine) return;
-        const pending = JSON.parse(localStorage.getItem('pendingTelemetry') || '[]');
-        if (pending.length === 0) {
-            console.log("🧹 No pending telemetry to flush.");
-            return;
-        }
-        
-        console.log(`🧹 Flushing ${pending.length} pending telemetry records...`);
-        for (const payload of pending) { await executeTelemetryPost(payload); }
-        localStorage.removeItem('pendingTelemetry');
-        console.log("🧹 Flush complete.");
-    }
-
-    // ==========================================
-    // 5. UTILITIES & UI LOGIC
-    // ==========================================
-    function setDailyMotivation() {
-        const quoteEl = document.getElementById('motivational-quote');
-        if (!quoteEl) return;
-        const today = new Date().toDateString();
-        const storedDate = localStorage.getItem('studyPortal_quoteDate');
-        let dailyQuote = localStorage.getItem('studyPortal_dailyQuote');
-
-        if (storedDate !== today || !dailyQuote) {
-            dailyQuote = motivationQuotes[Math.floor(Math.random() * motivationQuotes.length)];
-            localStorage.setItem('studyPortal_quoteDate', today);
-            localStorage.setItem('studyPortal_dailyQuote', dailyQuote);
-        }
-        quoteEl.innerText = dailyQuote;
-    }
-
-    function escapeHTML(str) {
-        if (!str) return '';
-        return str.toString().replace(/[&<>'"]/g, tag => ({
-            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-        }[tag] || tag));
-    }
-
-    function showToast(msg, isError = false) {
-        const toast = document.getElementById('toast');
-        const icon = toast.querySelector('i');
-        toast.querySelector('#toast-msg').innerText = msg;
-        
-        if(isError) {
-            toast.classList.replace('bg-slate-900', 'bg-red-500');
-            toast.classList.replace('dark:bg-white', 'dark:bg-red-500');
-            toast.classList.replace('dark:text-slate-900', 'dark:text-white');
-            icon.className = 'fa-solid fa-triangle-exclamation';
-        } else {
-            toast.classList.replace('bg-red-500', 'bg-slate-900');
-            toast.classList.replace('dark:bg-red-500', 'dark:bg-white');
-            toast.classList.replace('dark:text-white', 'dark:text-slate-900');
-            icon.className = 'fa-solid fa-circle-exclamation';
-        }
-
-        toast.classList.remove('opacity-0', 'translate-y-4');
-        setTimeout(() => toast.classList.add('opacity-0', 'translate-y-4'), 3000);
-    }
-
-    function showLoader(message) {
-        document.getElementById('loader-text').innerText = message;
-        document.getElementById('global-loader').classList.remove('hidden-screen');
-    }
-    
-    function hideLoader() {
-        document.getElementById('global-loader').classList.add('hidden-screen');
-    }
-
-    function initTheme() {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        updateThemeIcon();
-    }
-
-    function toggleTheme() {
-        document.documentElement.classList.toggle('dark');
-        localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        updateThemeIcon();
-    }
-
-    function updateThemeIcon() {
-        const icon = document.getElementById('theme-icon');
-        icon.className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-    }
-
-    function loadXP() {
-        state.totalXP = parseInt(localStorage.getItem('studyPortal_XP')) || 0;
-        document.getElementById('total-xp-display').innerText = `${state.totalXP} XP`;
-    }
-    
-    function addXP(amount) {
-        state.totalXP += amount;
-        localStorage.setItem('studyPortal_XP', state.totalXP);
-        document.getElementById('total-xp-display').innerText = `${state.totalXP} XP`;
-        document.getElementById('total-xp-display').parentElement.classList.add('streak-bump');
-        setTimeout(() => document.getElementById('total-xp-display').parentElement.classList.remove('streak-bump'), 300);
-    }
-
-    function saveProgress(score, total) {
-        const key = `studyPortal_${state.subject}_${state.chapter}_${state.assessment}`;
-        const percentage = Math.round((score / total) * 100);
-        const existingData = JSON.parse(localStorage.getItem(key));
-        
-        if (!existingData || existingData.percentage < percentage) {
-            localStorage.setItem(key, JSON.stringify({ score, total, percentage }));
-        }
-    }
-
-    function getProgress(subject, chapter, assessment) {
-        const key = `studyPortal_${subject}_${chapter}_${assessment}`;
-        return JSON.parse(localStorage.getItem(key));
-    }
-
-    // ==========================================
-    // 6. DATA FETCHING & NAVIGATION
-    // ==========================================
-    async function fetchWithCache(url) {
-        console.log(`🌐 Requesting data from: ${url}`);
-        const cached = localStorage.getItem(`cache_${url}`);
-        if (cached) {
-            try {
-                const { data, timestamp } = JSON.parse(cached);
-                if (Date.now() - timestamp < CACHE_EXPIRY_MS) {
-                    console.log(`📦 Serving from local cache: ${url}`);
-                    return data;
-                }
-            } catch (e) { console.error("Cache read error", e); }
-        }
-        
-        console.log(`⬇️ Downloading fresh data from GitHub API...`);
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        const data = await res.json();
-        
-        try { localStorage.setItem(`cache_${url}`, JSON.stringify({ data, timestamp: Date.now() })); } catch (e) {}
-        return data;
-    }
-
-    function updateHeader(screenId) {
-        const title = document.getElementById('header-title');
-        const subtitle = document.getElementById('header-subtitle');
-        const backBtn = document.getElementById('back-btn');
-
-        if(screenId === 'subject-screen') {
-            title.innerText = "Study Portal"; subtitle.innerText = "Dashboard";
-            backBtn.classList.add('hidden-screen');
-        } else if(screenId === 'chapter-screen') {
-            title.innerText = escapeHTML(state.subject); subtitle.innerText = "Chapters";
-            backBtn.classList.remove('hidden-screen');
-        } else if(screenId === 'assessment-screen') {
-            title.innerText = escapeHTML(state.chapter); subtitle.innerText = "Assessments";
-            backBtn.classList.remove('hidden-screen');
-        } else if(screenId === 'quiz-screen' || screenId === 'results-screen') {
-            title.innerText = screenId === 'quiz-screen' ? "Assessment" : "Results"; 
-            subtitle.innerText = escapeHTML(state.assessment);
-            backBtn.classList.add('hidden-screen');
-        }
-    }
-
-    function navigateTo(screenId, pushHistory = true) {
-        console.log(`🧭 Navigating to: ${screenId}`);
-        if(pushHistory && state.currentScreen !== screenId && screenId !== 'quiz-screen' && screenId !== 'results-screen') {
-            state.history.push(state.currentScreen);
-        }
-        
-        ['subject-screen', 'chapter-screen', 'assessment-screen', 'quiz-screen', 'results-screen'].forEach(id => {
-            const el = document.getElementById(id);
-            el.classList.add('hidden-screen');
-            el.classList.remove('screen-enter');
-        });
-        
-        const targetEl = document.getElementById(screenId);
-        targetEl.classList.remove('hidden-screen');
-        void targetEl.offsetWidth; 
-        targetEl.classList.add('screen-enter');
-
-        state.currentScreen = screenId;
-        updateHeader(screenId);
-
-        if(screenId !== 'quiz-screen') stopTimer();
-        if(screenId === 'subject-screen') loadSubjects();
-    }
-
-    function navigateBack() {
-        if (state.history.length > 0) navigateTo(state.history.pop(), false);
-        else navigateTo('subject-screen', false);
-    }
-
-    async function loadSubjects() {
-        showLoader("Syncing Subjects...");
-        try {
-            const data = await fetchWithCache(BASE_API_URL);
-            const folders = data.filter(item => item.type === 'dir');
-            const list = document.getElementById('subject-list');
-            list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500'>No subjects available.</p>";
-            
-            folders.forEach((folder, index) => {
-                const btn = document.createElement('div');
-                const colors = ['bg-indigo-500', 'bg-emerald-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-cyan-500'];
-                const color = colors[index % colors.length];
-                
-                btn.className = 'bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex items-center gap-4 transform hover:-translate-y-1';
-                btn.innerHTML = `
-                    <div class="w-14 h-14 ${color} text-white rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg shadow-black/10 group-hover:scale-110 transition-transform">
-                        ${escapeHTML(folder.name).charAt(0)}
-                    </div>
-                    <div>
-                        <h3 class="font-extrabold text-lg group-hover:text-brand-500 transition-colors">${escapeHTML(folder.name)}</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Tap to explore</p>
-                    </div>
-                `;
-                btn.onclick = () => { state.subject = folder.name; loadChapters(folder.name); };
-                list.appendChild(btn);
-            });
-        } catch (e) {
-            console.error("❌ Failed to load subjects:", e);
-            document.getElementById('subject-list').innerHTML = "<div class='col-span-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-6 rounded-2xl font-bold flex items-center gap-3'><i class='fa-solid fa-triangle-exclamation'></i> Network Error. Could not sync from GitHub.</div>";
-        } finally { hideLoader(); }
-    }
-
-    async function loadChapters(subjectName) {
-        navigateTo('chapter-screen');
-        showLoader(`Loading Chapters...`);
-        const list = document.getElementById('chapter-list');
-        list.innerHTML = '';
-
-        try {
-            const data = await fetchWithCache(`${BASE_API_URL}/${encodeURIComponent(subjectName)}`);
-            const files = data.filter(item => item.name.endsWith('.json'));
-            
-            files.forEach((file, index) => {
-                const btn = document.createElement('div');
-                const cleanName = file.name.replace('.json', '').replace(/_/g, ' ');
-                btn.className = 'bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-brand-400 dark:hover:border-brand-500 transition-all cursor-pointer flex flex-col justify-between group';
-                btn.innerHTML = `
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 w-10 h-10 rounded-full flex items-center justify-center font-bold">${index + 1}</div>
-                        <i class="fa-solid fa-arrow-right text-slate-300 dark:text-slate-600 group-hover:text-brand-500 transition-colors -rotate-45 group-hover:rotate-0"></i>
-                    </div>
-                    <h3 class="font-bold text-lg leading-tight mb-2">${escapeHTML(cleanName)}</h3>
-                    <p class="text-xs font-bold text-brand-500 uppercase tracking-widest mt-auto">Assessments available</p>
-                `;
-                btn.onclick = () => { state.chapter = cleanName; fetchAssessments(file.download_url, cleanName); };
-                list.appendChild(btn);
-            });
-        } catch (e) { 
-            console.error("❌ Failed to load chapters:", e);
-            showToast("Error loading chapters.", true); 
-        } finally { hideLoader(); }
-    }
-
-    async function fetchAssessments(url, chapterName) {
-        showLoader(`Preparing Assessments...`);
-        try {
-            const data = await fetchWithCache(url);
-            let normalizedData = Array.isArray(data) ? { "Assessment 1": data } : data;
-            
-            state.quizDataRaw = normalizedData;
-            navigateTo('assessment-screen');
-            const list = document.getElementById('assessment-list');
-            list.innerHTML = '';
-            
-            Object.keys(normalizedData).forEach((key) => {
-                const btn = document.createElement('button');
-                const qCount = normalizedData[key].length;
-                const pastProgress = getProgress(state.subject, state.chapter, key);
-                
-                let progressUI = `<span class="text-xs font-bold text-slate-400 dark:text-slate-500">Not Attempted</span>`;
-                if(pastProgress) {
-                    const isMastery = pastProgress.percentage >= 80;
-                    progressUI = `<div class="flex items-center gap-2"><span class="text-sm font-black ${isMastery ? 'text-green-500' : 'text-orange-500'}">${pastProgress.percentage}% Best</span>${isMastery ? '<i class="fa-solid fa-medal text-yellow-400"></i>' : ''}</div>`;
-                }
-
-                btn.className = 'w-full text-left bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group outline-none focus:ring-2 focus:ring-brand-500 flex flex-col';
-                btn.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400 p-3 rounded-2xl"><i class="fa-solid fa-file-pen text-xl"></i></div>
-                        ${progressUI}
-                    </div>
-                    <h3 class="font-extrabold text-xl mb-1 group-hover:text-brand-500 transition-colors">${escapeHTML(key)}</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">${qCount} Questions • ~${Math.ceil(qCount * 1.5)} Mins</p>
-                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-brand-600 dark:text-brand-400 font-bold text-sm">
-                        Start Challenge <i class="fa-solid fa-play group-hover:translate-x-1 transition-transform"></i>
-                    </div>
-                `;
-                btn.onclick = () => startQuiz(key);
-                list.appendChild(btn);
-            });
-        } catch (e) { 
-            console.error("❌ Data format error:", e);
-            showToast("Data format error.", true); 
-        } finally { hideLoader(); }
-    }
-
-    // ==========================================
-    // 7. QUIZ ENGINE LOGIC
-    // ==========================================
-    function startQuiz(assessmentName) {
-        console.log(`▶️ Starting Quiz: ${assessmentName}`);
-        state.assessment = assessmentName;
-        state.questions = state.quizDataRaw[assessmentName];
-        state.currentIndex = 0; state.score = 0; state.userAnswers = [];
-        state.currentStreak = 0; state.highestStreak = 0;
-        state.isQuizActive = true;
-        
-        document.getElementById('progress-bar').style.width = '0%';
-        updateStreakUI();
-        navigateTo('quiz-screen', false);
-        startTimer();
-        renderQuestion();
-    }
-    
-    function retryAssessment() { startQuiz(state.assessment); }
-
-    function renderQuestion() {
-        state.selectedOption = null;
-        const q = state.questions[state.currentIndex];
-        
-        document.getElementById('progress-text').innerText = `Q ${state.currentIndex + 1}/${state.questions.length}`;
-        const pct = (state.currentIndex / state.questions.length) * 100;
-        document.getElementById('progress-bar').style.width = `${pct}%`;
-        document.getElementById('question-text').innerText = escapeHTML(q.question);
-        
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
-        const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
-        
-        q.options.forEach((opt, index) => {
-            const btn = document.createElement('button');
-            const label = labels[index] || (index+1);
-            
-            btn.className = 'option-btn w-full text-left p-5 md:p-6 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-darkcard hover:border-brand-400 dark:hover:border-brand-500 transition-all font-semibold text-lg flex items-center gap-4 group focus:outline-none';
-            btn.innerHTML = `<div class="w-10 h-10 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold transition-colors label-indicator">${label}</div><span class="flex-grow">${escapeHTML(opt)}</span>`;
-            
-            btn.onclick = () => {
-                document.querySelectorAll('.option-btn').forEach(b => {
-                    b.classList.remove('option-selected', 'border-brand-500');
-                    b.classList.add('border-slate-200', 'dark:border-slate-700');
-                    const indicator = b.querySelector('.label-indicator');
-                    indicator.classList.remove('bg-brand-500', 'text-white');
-                    indicator.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400');
-                });
-                btn.classList.add('option-selected', 'border-brand-500');
-                btn.classList.remove('border-slate-200', 'dark:border-slate-700');
-                const indicator = btn.querySelector('.label-indicator');
-                indicator.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400');
-                indicator.classList.add('bg-brand-500', 'text-white');
-                state.selectedOption = opt;
-            };
-            container.appendChild(btn);
-        });
-        
-        const nextBtn = document.getElementById('next-btn');
-        if(state.currentIndex === state.questions.length - 1) {
-            nextBtn.innerHTML = 'Submit Assessment <i class="fa-solid fa-flag-checkered ml-2"></i>';
-            nextBtn.className = 'bg-emerald-600 hover:bg-emerald-500 text-white w-full sm:w-auto px-12 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-emerald-500/30 transform hover:-translate-y-1 active:translate-y-0 text-lg';
-        } else {
-            nextBtn.innerHTML = 'Next Question <i class="fa-solid fa-arrow-right ml-2"></i>';
-            nextBtn.className = 'bg-brand-600 hover:bg-brand-500 text-white w-full sm:w-auto px-12 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-brand-500/30 transform hover:-translate-y-1 active:translate-y-0 text-lg';
-        }
-    }
-
-    function updateStreakUI() {
-        const streakEl = document.getElementById('streak-display');
-        streakEl.innerHTML = `<i class="fa-solid fa-fire text-orange-500 mr-1"></i> Streak: ${state.currentStreak}`;
-        if (state.currentStreak >= 2) {
-            streakEl.classList.add('text-orange-600', 'dark:text-orange-400', 'streak-bump');
-            setTimeout(() => streakEl.classList.remove('streak-bump'), 300);
-        } else {
-            streakEl.classList.remove('text-orange-600', 'dark:text-orange-400');
-        }
-    }
-
-    function nextQuestion() {
-        if (!state.selectedOption && state.timeRemaining > 0) {
-            showToast("Please select an option to continue.", true);
-            document.getElementById('options-container').animate([
-                { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
-            ], { duration: 400 });
-            return;
-        }
-        
-        state.userAnswers.push(state.selectedOption);
-        const q = state.questions[state.currentIndex];
-        if (state.selectedOption === q.answer) {
-            state.score++;
-            state.currentStreak++;
-            addXP(10 + (state.currentStreak * 2));
-            if(state.currentStreak > state.highestStreak) state.highestStreak = state.currentStreak;
-        } else {
-            state.currentStreak = 0;
-        }
-        updateStreakUI();
-
-        if (state.currentIndex < state.questions.length - 1) {
-            state.currentIndex++;
-            renderQuestion();
-        } else {
-            finishQuiz();
-        }
-    }
-
-    function startTimer() {
-        state.timeRemaining = TIMER_MINUTES * 60;
-        updateTimerUI();
-        state.timerInterval = setInterval(() => {
-            state.timeRemaining--;
-            updateTimerUI();
-            if (state.timeRemaining <= 0) {
-                stopTimer();
-                showToast("Time's up! Auto-submitting...", true);
-                state.selectedOption = null; 
-                while(state.userAnswers.length < state.questions.length) nextQuestion();
-            }
-        }, 1000);
-    }
-
-    function stopTimer() { clearInterval(state.timerInterval); state.isQuizActive = false; }
-
-    function updateTimerUI() {
-        const m = Math.floor(state.timeRemaining / 60).toString().padStart(2, '0');
-        const s = (state.timeRemaining % 60).toString().padStart(2, '0');
-        const display = document.getElementById('timer-text');
-        const container = document.getElementById('timer-display');
-        display.innerText = `${m}:${s}`;
-        
-        if (state.timeRemaining <= 60) {
-            container.classList.add('bg-red-100', 'dark:bg-red-900/30', 'text-red-600', 'dark:text-red-400', 'border-red-300', 'dark:border-red-700', 'animate-pulse');
-        } else {
-            container.classList.remove('bg-red-100', 'dark:bg-red-900/30', 'text-red-600', 'dark:text-red-400', 'border-red-300', 'dark:border-red-700', 'animate-pulse');
-        }
-    }
-
-    function triggerConfetti() {
-        var duration = 3 * 1000;
-        var animationEnd = Date.now() + duration;
-        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-        var interval = setInterval(function() {
-            var timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) return clearInterval(interval);
-            var particleCount = 50 * (timeLeft / duration);
-            confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-            confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
-        }, 250);
-    }
-
-    function finishQuiz() {
-        console.log("🏁 Assessment Finished. Triggering completion routines...");
-        stopTimer();
-        saveProgress(state.score, state.questions.length);
-
-        // --- CALCULATE NEW TELEMETRY FIELDS ---
-        
-        // 1. Attempt Count
-        const attemptKey = `studyPortal_attempts_${state.subject}_${state.chapter}_${state.assessment}`;
-        let attemptCount = (parseInt(localStorage.getItem(attemptKey)) || 0) + 1;
-        localStorage.setItem(attemptKey, attemptCount);
-        
-        // 2. Time Taken (Minutes & Seconds)
-        const totalSecondsTaken = (TIMER_MINUTES * 60) - state.timeRemaining;
-        const mTaken = Math.floor(totalSecondsTaken / 60).toString().padStart(2, '0');
-        const sTaken = (totalSecondsTaken % 60).toString().padStart(2, '0');
-        const timeTakenStr = `${mTaken}:${sTaken}`;
-
-        // 3. Compile Detailed Mistakes Log
-        let mistakes = [];
-        state.questions.forEach((q, i) => {
-            if(state.userAnswers[i] !== q.answer) {
-                let userPick = state.userAnswers[i] ? state.userAnswers[i] : "Skipped/Timeout";
-                mistakes.push(`Q${i+1}: ${q.question} | Picked: ${userPick} | Correct: ${q.answer}`);
-            }
-        });
-        let mistakesLog = mistakes.length > 0 ? mistakes.join("\n") : "Perfect Score! No mistakes.";
-        
-        // --- TRIGGER BACKGROUND TELEMETRY ---
-        dispatchTelemetry(state.subject, state.chapter, state.score, state.questions.length, attemptCount, mistakesLog, timeTakenStr);
-        
-        document.getElementById('progress-bar').style.width = '100%';
-        navigateTo('results-screen', false);
-        
-        const pct = Math.round((state.score / state.questions.length) * 100);
-        document.getElementById('score-percent').innerText = `${pct}%`;
-        document.getElementById('score-fraction').innerText = `${state.score}/${state.questions.length}`;
-        document.getElementById('highest-streak-display').innerText = state.highestStreak;
-        
-        const titleEl = document.getElementById('result-title');
-        if (pct === 100) { titleEl.innerText = "Perfect Score! 🌟"; triggerConfetti(); }
-        else if (pct >= 80) { titleEl.innerText = "Outstanding! 🏆"; triggerConfetti(); }
-        else if (pct >= 60) { titleEl.innerText = "Good Job! 👍"; }
-        else { titleEl.innerText = "Keep Trying! 💪"; }
-        
-        setTimeout(() => {
-            const offset = 100 - pct;
-            document.getElementById('score-ring').style.strokeDashoffset = offset;
-            const ring = document.getElementById('score-ring');
-            if(pct >= 80) ring.classList.replace('text-brand-500', 'text-emerald-500');
-            else if(pct < 50) ring.classList.replace('text-brand-500', 'text-orange-500');
-        }, 300);
-
-        const review = document.getElementById('review-container');
-        review.innerHTML = '';
-        
-        state.questions.forEach((q, i) => {
-            const isCorrect = state.userAnswers[i] === q.answer;
-            const ansStr = state.userAnswers[i] ? escapeHTML(state.userAnswers[i]) : "<span class='italic text-slate-400'>Skipped/Timeout</span>";
-            
-            review.innerHTML += `
-                <div class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-3xl border-2 shadow-sm ${isCorrect ? 'border-emerald-500/30' : 'border-red-500/30'} relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">
-                        <i class="fa-solid ${isCorrect ? 'fa-check text-emerald-500' : 'fa-xmark text-red-500'}"></i>
-                    </div>
-                    <p class="font-bold text-lg leading-relaxed mb-4 relative z-10">
-                        <span class="bg-slate-100 dark:bg-slate-800 text-slate-500 px-3 py-1 rounded-lg text-sm mr-2">${i+1}</span> ${escapeHTML(q.question)}
-                    </p>
-                    <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-2xl relative z-10 border border-slate-100 dark:border-slate-800">
-                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Your Answer:</p>
-                        <p class="text-base font-bold ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}">${ansStr}</p>
-                        ${!isCorrect ? `<div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700"><p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Correct Answer:</p><p class="text-base font-bold text-emerald-600 dark:text-emerald-400">${escapeHTML(q.answer)}</p></div>` : ''}
-                    </div>
-                </div>`;
-        });
-    }
-
-    function confirmQuit() { document.getElementById('quit-modal').classList.remove('hidden-screen'); }
-    function closeQuitModal() { document.getElementById('quit-modal').classList.add('hidden-screen'); }
-    function executeQuit() { closeQuitModal(); stopTimer(); navigateTo('assessment-screen', false); }
-</script>
+<script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

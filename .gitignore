@@ -1,34 +1,29 @@
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Trash/ 
-run_pipeline.sh
-CLAUDE.md
-
-
-# Python files
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-generate_and_push.py
-*.pyc
-*.py
-
-
-
-# Environments
-.env
-.venv
+# Python Virtual Environments
 env/
 venv/
-ENV/
-env.bak/
-venv.bak/
 
-# Project specific
-/generated_prompts/
-manifest.json.bak
+# AI and IDE configs
+.vscode/
+.clinerules
+CLAUDE.md
+
+# Trash and Backups
+Trash/
+
+# Backend Scripts and Prompts (Keep local-only)
+scripts/
+Prompts/
+*.py
+req.txt
+run_pipeline.sh
+
+# Python Cache
+__pycache__/
+*.pyc
+.env
+
+# Allow data folders needed for the frontend
+!assets/
+!mock_papers/
+!quizzes/
+!analytics/

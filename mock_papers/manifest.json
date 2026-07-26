@@ -1,0 +1,212 @@
+[
+    {
+        "id": "science_2025",
+        "year": "2025-26",
+        "subject": "Science",
+        "qp_url": "mock_papers/2025-26/Science/Science_QP.pdf",
+        "ms_url": "mock_papers/2025-26/Science/Science_MS.pdf"
+    },
+    {
+        "id": "english_2025",
+        "year": "2025-26",
+        "subject": "English",
+        "qp_url": "mock_papers/2025-26/English/English_QP.pdf",
+        "ms_url": "mock_papers/2025-26/English/English_MS.pdf"
+    },
+    {
+        "id": "maths_basic_2025",
+        "year": "2025-26",
+        "subject": "Maths_Basic",
+        "qp_url": "mock_papers/2025-26/Maths_Basic/Maths_Basic_QP.pdf",
+        "ms_url": "mock_papers/2025-26/Maths_Basic/Maths_Basic_MS.pdf"
+    },
+    {
+        "id": "maths_2025",
+        "year": "2025-26",
+        "subject": "Maths",
+        "qp_url": "mock_papers/2025-26/Maths/Maths_QP.pdf",
+        "ms_url": "mock_papers/2025-26/Maths/Maths_MS.pdf"
+    },
+    {
+        "id": "social_2025",
+        "year": "2025-26",
+        "subject": "Social",
+        "qp_url": "mock_papers/2025-26/Social/Social_QP.pdf",
+        "ms_url": "mock_papers/2025-26/Social/Social_MS.pdf"
+    },
+    {
+        "id": "science_2024",
+        "year": "2024-25",
+        "subject": "Science",
+        "qp_url": "mock_papers/2024-25/Science/Science_QP.pdf",
+        "ms_url": "mock_papers/2024-25/Science/Science_MS.pdf"
+    },
+    {
+        "id": "english_2024",
+        "year": "2024-25",
+        "subject": "English",
+        "qp_url": "mock_papers/2024-25/English/English_QP.pdf",
+        "ms_url": "mock_papers/2024-25/English/English_MS.pdf"
+    },
+    {
+        "id": "maths_basic_2024",
+        "year": "2024-25",
+        "subject": "Maths_Basic",
+        "qp_url": "mock_papers/2024-25/Maths_Basic/Maths_Basic_QP.pdf",
+        "ms_url": "mock_papers/2024-25/Maths_Basic/Maths_Basic_MS.pdf"
+    },
+    {
+        "id": "maths_2024",
+        "year": "2024-25",
+        "subject": "Maths",
+        "qp_url": "mock_papers/2024-25/Maths/Maths_QP.pdf",
+        "ms_url": "mock_papers/2024-25/Maths/Maths_MS.pdf"
+    },
+    {
+        "id": "social_2024",
+        "year": "2024-25",
+        "subject": "Social",
+        "qp_url": "mock_papers/2024-25/Social/Social_QP.pdf",
+        "ms_url": "mock_papers/2024-25/Social/Social_MS.pdf"
+    },
+    {
+        "id": "science_2023",
+        "year": "2023-24",
+        "subject": "Science",
+        "qp_url": "mock_papers/2023-24/Science/Science_QP.pdf",
+        "ms_url": "mock_papers/2023-24/Science/Science_MS.pdf"
+    },
+    {
+        "id": "english_2023",
+        "year": "2023-24",
+        "subject": "English",
+        "qp_url": "mock_papers/2023-24/English/English_QP.pdf",
+        "ms_url": "mock_papers/2023-24/English/English_MS.pdf"
+    },
+    {
+        "id": "maths_basic_2023",
+        "year": "2023-24",
+        "subject": "Maths_Basic",
+        "qp_url": "mock_papers/2023-24/Maths_Basic/Maths_Basic_QP.pdf",
+        "ms_url": "mock_papers/2023-24/Maths_Basic/Maths_Basic_MS.pdf"
+    },
+    {
+        "id": "maths_2023",
+        "year": "2023-24",
+        "subject": "Maths",
+        "qp_url": "mock_papers/2023-24/Maths/Maths_QP.pdf",
+        "ms_url": "mock_papers/2023-24/Maths/Maths_MS.pdf"
+    },
+    {
+        "id": "social_2023",
+        "year": "2023-24",
+        "subject": "Social",
+        "qp_url": "mock_papers/2023-24/Social/Social_QP.pdf",
+        "ms_url": "mock_papers/2023-24/Social/Social_MS.pdf"
+    },
+    {
+        "id": "science_2022",
+        "year": "2022-23",
+        "subject": "Science",
+        "qp_url": "mock_papers/2022-23/Science/Science_QP.pdf",
+        "ms_url": "mock_papers/2022-23/Science/Science_MS.pdf"
+    },
+    {
+        "id": "english_2022",
+        "year": "2022-23",
+        "subject": "English",
+        "qp_url": "mock_papers/2022-23/English/English_QP.pdf",
+        "ms_url": "mock_papers/2022-23/English/English_MS.pdf"
+    },
+    {
+        "id": "maths_basic_2022",
+        "year": "2022-23",
+        "subject": "Maths_Basic",
+        "qp_url": "mock_papers/2022-23/Maths_Basic/Maths_Basic_QP.pdf",
+        "ms_url": "mock_papers/2022-23/Maths_Basic/Maths_Basic_MS.pdf"
+    },
+    {
+        "id": "maths_2022",
+        "year": "2022-23",
+        "subject": "Maths",
+        "qp_url": "mock_papers/2022-23/Maths/Maths_QP.pdf",
+        "ms_url": "mock_papers/2022-23/Maths/Maths_MS.pdf"
+    },
+    {
+        "id": "social_2022",
+        "year": "2022-23",
+        "subject": "Social",
+        "qp_url": "mock_papers/2022-23/Social/Social_QP.pdf",
+        "ms_url": "mock_papers/2022-23/Social/Social_MS.pdf"
+    },
+    {
+        "id": "science_2021",
+        "year": "2021-22",
+        "subject": "Science",
+        "qp_url": "mock_papers/2021-22/Science/Science_QP.pdf",
+        "ms_url": "mock_papers/2021-22/Science/Science_MS.pdf"
+    },
+    {
+        "id": "english_2021",
+        "year": "2021-22",
+        "subject": "English",
+        "qp_url": "mock_papers/2021-22/English/English_QP.pdf",
+        "ms_url": "mock_papers/2021-22/English/English_MS.pdf"
+    },
+    {
+        "id": "maths_basic_2021",
+        "year": "2021-22",
+        "subject": "Maths_Basic",
+        "qp_url": "mock_papers/2021-22/Maths_Basic/Maths_Basic_QP.pdf",
+        "ms_url": "mock_papers/2021-22/Maths_Basic/Maths_Basic_MS.pdf"
+    },
+    {
+        "id": "maths_2021",
+        "year": "2021-22",
+        "subject": "Maths",
+        "qp_url": "mock_papers/2021-22/Maths/Maths_QP.pdf",
+        "ms_url": "mock_papers/2021-22/Maths/Maths_MS.pdf"
+    },
+    {
+        "id": "social_2021",
+        "year": "2021-22",
+        "subject": "Social",
+        "qp_url": "mock_papers/2021-22/Social/Social_QP.pdf",
+        "ms_url": "mock_papers/2021-22/Social/Social_MS.pdf"
+    },
+    {
+        "id": "science_2020",
+        "year": "2020-21",
+        "subject": "Science",
+        "qp_url": "mock_papers/2020-21/Science/Science_QP.pdf",
+        "ms_url": "mock_papers/2020-21/Science/Science_MS.pdf"
+    },
+    {
+        "id": "english_2020",
+        "year": "2020-21",
+        "subject": "English",
+        "qp_url": "mock_papers/2020-21/English/English_QP.pdf",
+        "ms_url": "mock_papers/2020-21/English/English_MS.pdf"
+    },
+    {
+        "id": "maths_basic_2020",
+        "year": "2020-21",
+        "subject": "Maths_Basic",
+        "qp_url": "mock_papers/2020-21/Maths_Basic/Maths_Basic_QP.pdf",
+        "ms_url": "mock_papers/2020-21/Maths_Basic/Maths_Basic_MS.pdf"
+    },
+    {
+        "id": "maths_2020",
+        "year": "2020-21",
+        "subject": "Maths",
+        "qp_url": "mock_papers/2020-21/Maths/Maths_QP.pdf",
+        "ms_url": "mock_papers/2020-21/Maths/Maths_MS.pdf"
+    },
+    {
+        "id": "social_2020",
+        "year": "2020-21",
+        "subject": "Social",
+        "qp_url": "mock_papers/2020-21/Social/Social_QP.pdf",
+        "ms_url": "mock_papers/2020-21/Social/Social_MS.pdf"
+    }
+]
