@@ -1,4 +1,3 @@
-
 import { state, TIMER_MINUTES, saveProgress } from './state.js';
 import { navigateTo, showToast, addXP, triggerConfetti, escapeHTML } from './uiControls.js';
 import { dispatchTelemetry } from './telemetry.js';
@@ -8,15 +7,25 @@ import { dispatchTelemetry } from './telemetry.js';
 // ==========================================
 export function startQuiz(assessmentName) {
     console.log(`▶️ Starting Quiz: ${assessmentName}`);
-    state.assessment = assessmentName; state.questions = state.quizDataRaw[assessmentName];
-    state.currentIndex = 0; state.score = 0; state.userAnswers = [];
-    state.currentStreak = 0; state.highestStreak = 0; state.isQuizActive = true;
+    state.assessment = assessmentName; 
+    state.questions = state.quizDataRaw[assessmentName];
+    state.currentIndex = 0; 
+    state.score = 0; 
+    state.userAnswers = [];
+    state.currentStreak = 0; 
+    state.highestStreak = 0; 
+    state.isQuizActive = true;
     
     document.getElementById('progress-bar').style.width = '0%';
-    updateStreakUI(); navigateTo('quiz-screen', false); startTimer(); renderQuestion();
+    updateStreakUI(); 
+    navigateTo('quiz-screen', false); 
+    startTimer(); 
+    renderQuestion();
 }
 
-export function retryAssessment() { startQuiz(state.assessment); }
+export function retryAssessment() { 
+    startQuiz(state.assessment); 
+}
 
 export function renderQuestion() {
     state.selectedOption = null;
@@ -27,7 +36,8 @@ export function renderQuestion() {
     document.getElementById('progress-bar').style.width = `${pct}%`;
     document.getElementById('question-text').innerText = escapeHTML(q.question);
     
-    const container = document.getElementById('options-container'); container.innerHTML = '';
+    const container = document.getElementById('options-container'); 
+    container.innerHTML = '';
     const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
     
     q.options.forEach((opt, index) => {
@@ -39,13 +49,17 @@ export function renderQuestion() {
         
         btn.onclick = () => {
             document.querySelectorAll('.option-btn').forEach(b => {
-                b.classList.remove('option-selected', 'border-brand-500'); b.classList.add('border-slate-200', 'dark:border-slate-700');
+                b.classList.remove('option-selected', 'border-brand-500'); 
+                b.classList.add('border-slate-200', 'dark:border-slate-700');
                 const indicator = b.querySelector('.label-indicator');
-                indicator.classList.remove('bg-brand-500', 'text-white'); indicator.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400');
+                indicator.classList.remove('bg-brand-500', 'text-white'); 
+                indicator.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400');
             });
-            btn.classList.add('option-selected', 'border-brand-500'); btn.classList.remove('border-slate-200', 'dark:border-slate-700');
+            btn.classList.add('option-selected', 'border-brand-500'); 
+            btn.classList.remove('border-slate-200', 'dark:border-slate-700');
             const indicator = btn.querySelector('.label-indicator');
-            indicator.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400'); indicator.classList.add('bg-brand-500', 'text-white');
+            indicator.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500', 'dark:text-slate-400'); 
+            indicator.classList.add('bg-brand-500', 'text-white');
             state.selectedOption = opt;
         };
         container.appendChild(btn);
@@ -67,45 +81,64 @@ export function updateStreakUI() {
     if (state.currentStreak >= 2) {
         streakEl.classList.add('text-orange-600', 'dark:text-orange-400', 'streak-bump');
         setTimeout(() => streakEl.classList.remove('streak-bump'), 300);
-    } else { streakEl.classList.remove('text-orange-600', 'dark:text-orange-400'); }
+    } else { 
+        streakEl.classList.remove('text-orange-600', 'dark:text-orange-400'); 
+    }
 }
 
 export function nextQuestion() {
     if (!state.selectedOption && state.timeRemaining > 0) {
         showToast("Please select an option to continue.", true);
         document.getElementById('options-container').animate([
-            { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
+            { transform: 'translateX(0)' }, 
+            { transform: 'translateX(-10px)' }, 
+            { transform: 'translateX(10px)' }, 
+            { transform: 'translateX(0)' }
         ], { duration: 400 });
         return;
     }
     
     state.userAnswers.push(state.selectedOption);
     const q = state.questions[state.currentIndex];
+    
     if (state.selectedOption === q.answer) {
-        state.score++; state.currentStreak++; addXP(10 + (state.currentStreak * 2));
+        state.score++; 
+        state.currentStreak++; 
+        addXP(10 + (state.currentStreak * 2));
         if(state.currentStreak > state.highestStreak) state.highestStreak = state.currentStreak;
-    } else { state.currentStreak = 0; }
+    } else { 
+        state.currentStreak = 0; 
+    }
     
     updateStreakUI();
 
     if (state.currentIndex < state.questions.length - 1) {
-        state.currentIndex++; renderQuestion();
-    } else { finishQuiz(); }
+        state.currentIndex++; 
+        renderQuestion();
+    } else { 
+        finishQuiz(); 
+    }
 }
 
 export function startTimer() {
-    state.timeRemaining = TIMER_MINUTES * 60; updateTimerUI();
+    state.timeRemaining = TIMER_MINUTES * 60; 
+    updateTimerUI();
     state.timerInterval = setInterval(() => {
-        state.timeRemaining--; updateTimerUI();
+        state.timeRemaining--; 
+        updateTimerUI();
         if (state.timeRemaining <= 0) {
-            stopTimer(); showToast("Time's up! Auto-submitting...", true);
+            stopTimer(); 
+            showToast("Time's up! Auto-submitting...", true);
             state.selectedOption = null; 
             while(state.userAnswers.length < state.questions.length) nextQuestion();
         }
     }, 1000);
 }
 
-export function stopTimer() { clearInterval(state.timerInterval); state.isQuizActive = false; }
+export function stopTimer() { 
+    clearInterval(state.timerInterval); 
+    state.isQuizActive = false; 
+}
 
 export function updateTimerUI() {
     const m = Math.floor(state.timeRemaining / 60).toString().padStart(2, '0');
@@ -123,7 +156,8 @@ export function updateTimerUI() {
 
 export function finishQuiz() {
     console.log("🏁 Assessment Finished. Triggering completion routines...");
-    stopTimer(); saveProgress(state.score, state.questions.length);
+    stopTimer(); 
+    saveProgress(state.score, state.questions.length);
 
     // --- CALCULATE NEW TELEMETRY FIELDS ---
     const attemptKey = `studyPortal_attempts_${state.subject}_${state.chapter}_${state.assessment}`;
@@ -147,12 +181,10 @@ export function finishQuiz() {
     let mistakesLog = "Perfect Score! No mistakes.";
     if (mistakes.length > 0) {
         if (mistakes.length > 5) {
-            mistakesLog = mistakes.slice(0, 5).join("
-") + `
-...and ${mistakes.length - 5} other errors.`;
+            // Replaced hard line breaks with \n escape characters
+            mistakesLog = mistakes.slice(0, 5).join("\n") + `\n...and ${mistakes.length - 5} other errors.`;
         } else {
-            mistakesLog = mistakes.join("
-");
+            mistakesLog = mistakes.join("\n");
         }
     }
     
@@ -167,10 +199,20 @@ export function finishQuiz() {
     document.getElementById('highest-streak-display').innerText = state.highestStreak;
     
     const titleEl = document.getElementById('result-title');
-    if (pct === 100) { titleEl.innerText = "Perfect Score! 🌟"; triggerConfetti(); }
-    else if (pct >= 80) { titleEl.innerText = "Outstanding! 🏆"; triggerConfetti(); }
-    else if (pct >= 60) { titleEl.innerText = "Good Job! 👍"; }
-    else { titleEl.innerText = "Keep Trying! 💪"; }
+    if (pct === 100) { 
+        titleEl.innerText = "Perfect Score! 🌟"; 
+        triggerConfetti(); 
+    }
+    else if (pct >= 80) { 
+        titleEl.innerText = "Outstanding! 🏆"; 
+        triggerConfetti(); 
+    }
+    else if (pct >= 60) { 
+        titleEl.innerText = "Good Job! 👍"; 
+    }
+    else { 
+        titleEl.innerText = "Keep Trying! 💪"; 
+    }
     
     setTimeout(() => {
         const offset = 100 - pct;
@@ -180,7 +222,9 @@ export function finishQuiz() {
         else if(pct < 50) ring.classList.replace('text-brand-500', 'text-orange-500');
     }, 300);
 
-    const review = document.getElementById('review-container'); review.innerHTML = '';
+    const review = document.getElementById('review-container'); 
+    review.innerHTML = '';
+    
     state.questions.forEach((q, i) => {
         const isCorrect = state.userAnswers[i] === q.answer;
         const ansStr = state.userAnswers[i] ? escapeHTML(state.userAnswers[i]) : "<span class='italic text-slate-400'>Skipped/Timeout</span>";

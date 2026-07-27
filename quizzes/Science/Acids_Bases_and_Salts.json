@@ -1,0 +1,936 @@
+{
+    "Assessment 1": [
+        {
+            "question": "Which of the following is a natural acid-base indicator?",
+            "options": [
+                "Phenolphthalein",
+                "Litmus",
+                "Methyl orange",
+                "Bromothymol blue"
+            ],
+            "answer": "Litmus"
+        },
+        {
+            "question": "What color does litmus solution turn in acidic medium?",
+            "options": [
+                "Red",
+                "Blue",
+                "Green",
+                "Colourless"
+            ],
+            "answer": "Red"
+        },
+        {
+            "question": "Which of the following is a synthetic acid-base indicator?",
+            "options": [
+                "Turmeric",
+                "Petunia",
+                "Methyl orange",
+                "China rose"
+            ],
+            "answer": "Methyl orange"
+        },
+        {
+            "question": "What color does phenolphthalein show in basic solution?",
+            "options": [
+                "Pink",
+                "Colourless",
+                "Red",
+                "Yellow"
+            ],
+            "answer": "Pink"
+        },
+        {
+            "question": "Which of the following natural indicators changes colour from red to yellow in acidic medium?",
+            "options": [
+                "Litmus",
+                "Turmeric",
+                "China rose",
+                "Petunia"
+            ],
+            "answer": "Turmeric"
+        },
+        {
+            "question": "What is the pH range for methyl orange indicator?",
+            "options": [
+                "3.1-4.4",
+                "8.2-10.0",
+                "5.0-7.0",
+                "2.0-3.0"
+            ],
+            "answer": "3.1-4.4"
+        },
+        {
+            "question": "Which of the following is a natural indicator that turns pink in basic solution?",
+            "options": [
+                "Litmus",
+                "Methyl orange",
+                "Phenolphthalein",
+                "Turmeric"
+            ],
+            "answer": "Phenolphthalein"
+        },
+        {
+            "question": "What color does china rose indicator show in acidic medium?",
+            "options": [
+                "Pink",
+                "Green",
+                "Red",
+                "Blue"
+            ],
+            "answer": "Red"
+        },
+        {
+            "question": "Which of the following indicators is used to detect the presence of acids in food items?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "Bromothymol blue"
+            ],
+            "answer": "Litmus"
+        },
+        {
+            "question": "What color does phenolphthalein show in neutral solution?",
+            "options": [
+                "Pink",
+                "Colourless",
+                "Red",
+                "Blue"
+            ],
+            "answer": "Colourless"
+        },
+        {
+            "question": "Which of the following is a synthetic indicator that changes from yellow to red in acidic medium?",
+            "options": [
+                "Phenolphthalein",
+                "Bromothymol blue",
+                "Methyl orange",
+                "Litmus"
+            ],
+            "answer": "Methyl orange"
+        },
+        {
+            "question": "What color does turmeric solution turn when added to a basic solution?",
+            "options": [
+                "Red",
+                "Yellow",
+                "Pink",
+                "Blue"
+            ],
+            "answer": "Pink"
+        },
+        {
+            "question": "Which of the following is NOT a natural indicator?",
+            "options": [
+                "Litmus",
+                "Methyl orange",
+                "China rose",
+                "Turmeric"
+            ],
+            "answer": "Methyl orange"
+        },
+        {
+            "question": "What color does bromothymol blue show in acidic solution?",
+            "options": [
+                "Yellow",
+                "Blue",
+                "Green",
+                "Pink"
+            ],
+            "answer": "Yellow"
+        },
+        {
+            "question": "Which of the following indicators is used to determine the pH range of a solution?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "All of these"
+            ],
+            "answer": "All of these"
+        },
+        {
+            "question": "What color does litmus turn in basic medium?",
+            "options": [
+                "Red",
+                "Blue",
+                "Pink",
+                "Colourless"
+            ],
+            "answer": "Blue"
+        },
+        {
+            "question": "Which indicator is commonly used to test the acidity or alkalinity of soil?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "China rose"
+            ],
+            "answer": "Litmus"
+        },
+        {
+            "question": "What color does phenolphthalein show in acidic solution?",
+            "options": [
+                "Pink",
+                "Colourless",
+                "Red",
+                "Yellow"
+            ],
+            "answer": "Colourless"
+        },
+        {
+            "question": "Which of the following is a natural indicator that changes from red to blue in basic medium?",
+            "options": [
+                "Turmeric",
+                "China rose",
+                "Petunia",
+                "Litmus"
+            ],
+            "answer": "Litmus"
+        },
+        {
+            "question": "What color does methyl orange show in basic solution?",
+            "options": [
+                "Yellow",
+                "Red",
+                "Pink",
+                "Colourless"
+            ],
+            "answer": "Yellow"
+        },
+        {
+            "question": "Which of the following is a synthetic indicator that changes from blue to yellow in acidic medium?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Bromothymol blue",
+                "Litmus"
+            ],
+            "answer": "Bromothymol blue"
+        },
+        {
+            "question": "What is the color of turmeric solution in neutral medium?",
+            "options": [
+                "Red",
+                "Yellow",
+                "Pink",
+                "Blue"
+            ],
+            "answer": "Yellow"
+        },
+        {
+            "question": "Which indicator shows pink color in basic solution and colourless in acidic solution?",
+            "options": [
+                "Litmus",
+                "Methyl orange",
+                "Phenolphthalein",
+                "Bromothymol blue"
+            ],
+            "answer": "Phenolphthalein"
+        },
+        {
+            "question": "What is the pH range for phenolphthalein indicator?",
+            "options": [
+                "8.2-10.0",
+                "3.1-4.4",
+                "5.0-7.0",
+                "2.0-3.0"
+            ],
+            "answer": "8.2-10.0"
+        },
+        {
+            "question": "Which of the following is a natural indicator that changes from pink to red in acidic medium?",
+            "options": [
+                "China rose",
+                "Petunia",
+                "Turmeric",
+                "Litmus"
+            ],
+            "answer": "China rose"
+        },
+        {
+            "question": "What color does bromothymol blue show in basic solution?",
+            "options": [
+                "Yellow",
+                "Blue",
+                "Green",
+                "Pink"
+            ],
+            "answer": "Blue"
+        },
+        {
+            "question": "Which of the following indicators is used to detect the presence of acids in laboratory solutions?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "All of these"
+            ],
+            "answer": "All of these"
+        },
+        {
+            "question": "What color does china rose indicator show in basic medium?",
+            "options": [
+                "Pink",
+                "Green",
+                "Red",
+                "Blue"
+            ],
+            "answer": "Pink"
+        },
+        {
+            "question": "Which indicator is used to determine the pH range of a solution accurately?",
+            "options": [
+                "Litmus",
+                "Methyl orange",
+                "Phenolphthalein",
+                "Bromothymol blue"
+            ],
+            "answer": "Bromothymol blue"
+        },
+        {
+            "question": "What color does turmeric show in acidic medium?",
+            "options": [
+                "Red",
+                "Yellow",
+                "Pink",
+                "Blue"
+            ],
+            "answer": "Yellow"
+        },
+        {
+            "question": "Which of the following is a synthetic indicator that changes from red to yellow in basic solution?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Bromothymol blue",
+                "Litmus"
+            ],
+            "answer": "Bromothymol blue"
+        },
+        {
+            "question": "What color does phenolphthalein show in acidic medium?",
+            "options": [
+                "Pink",
+                "Colourless",
+                "Red",
+                "Yellow"
+            ],
+            "answer": "Colourless"
+        },
+        {
+            "question": "Which of the following is a natural indicator that changes from blue to red in acidic medium?",
+            "options": [
+                "Petunia",
+                "China rose",
+                "Turmeric",
+                "Litmus"
+            ],
+            "answer": "Petunia"
+        },
+        {
+            "question": "What color does methyl orange show in neutral solution?",
+            "options": [
+                "Yellow",
+                "Red",
+                "Pink",
+                "Colourless"
+            ],
+            "answer": "Yellow"
+        },
+        {
+            "question": "Which indicator is used to determine the acidity of rainwater?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "Bromothymol blue"
+            ],
+            "answer": "Litmus"
+        },
+        {
+            "question": "What color does china rose solution turn in acidic medium?",
+            "options": [
+                "Pink",
+                "Green",
+                "Red",
+                "Blue"
+            ],
+            "answer": "Red"
+        },
+        {
+            "question": "Which of the following is a synthetic indicator that changes from yellow to blue in basic medium?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Bromothymol blue",
+                "Litmus"
+            ],
+            "answer": "Bromothymol blue"
+        },
+        {
+            "question": "What color does petunia show in acidic solution?",
+            "options": [
+                "Red",
+                "Blue",
+                "Green",
+                "Pink"
+            ],
+            "answer": "Red"
+        },
+        {
+            "question": "Which indicator is used to detect the presence of bases in food items?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "All of these"
+            ],
+            "answer": "All of these"
+        },
+        {
+            "question": "What color does phenolphthalein show in basic solution?",
+            "options": [
+                "Pink",
+                "Colourless",
+                "Red",
+                "Yellow"
+            ],
+            "answer": "Pink"
+        },
+        {
+            "question": "Which indicator is commonly used in laboratories for acid-base titrations?",
+            "options": [
+                "Litmus",
+                "Methyl orange",
+                "Phenolphthalein",
+                "All of these"
+            ],
+            "answer": "All of these"
+        },
+        {
+            "question": "What color does turmeric solution turn when added to a neutral solution?",
+            "options": [
+                "Red",
+                "Yellow",
+                "Pink",
+                "Blue"
+            ],
+            "answer": "Yellow"
+        },
+        {
+            "question": "Which indicator is used in the preparation of soap?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "Bromothymol blue"
+            ],
+            "answer": "Phenolphthalein"
+        },
+        {
+            "question": "What color does bromothymol blue show in neutral solution?",
+            "options": [
+                "Yellow",
+                "Blue",
+                "Green",
+                "Pink"
+            ],
+            "answer": "Green"
+        },
+        {
+            "question": "Which of the following is a natural indicator that changes from red to pink in basic medium?",
+            "options": [
+                "China rose",
+                "Petunia",
+                "Turmeric",
+                "Litmus"
+            ],
+            "answer": "China rose"
+        },
+        {
+            "question": "What color does methyl orange show in acidic solution?",
+            "options": [
+                "Yellow",
+                "Red",
+                "Pink",
+                "Colourless"
+            ],
+            "answer": "Red"
+        },
+        {
+            "question": "Which indicator is used to test the pH of soil for agricultural purposes?",
+            "options": [
+                "Phenolphthalein",
+                "Methyl orange",
+                "Litmus",
+                "All of these"
+            ],
+            "answer": "All of these"
+        }
+    ],
+    "Assessment 2": [
+        {
+            "question": "Which metal reacts with dilute hydrochloric acid to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Silver",
+                "Zinc",
+                "Gold"
+            ],
+            "answer": "Zinc"
+        },
+        {
+            "question": "When magnesium ribbon is added to dilute sulfuric acid, what gas is evolved?",
+            "options": [
+                "Oxygen",
+                "Hydrogen",
+                "Carbon dioxide",
+                "Nitrogen"
+            ],
+            "answer": "Hydrogen"
+        },
+        {
+            "question": "Which of the following metals does not react with dilute acids?",
+            "options": [
+                "Iron",
+                "Zinc",
+                "Copper",
+                "Aluminum"
+            ],
+            "answer": "Copper"
+        },
+        {
+            "question": "The reaction between zinc and hydrochloric acid produces which products?",
+            "options": [
+                "ZnCl2 + H2O",
+                "ZnCl2 + H2",
+                "ZnH2 + Cl2",
+                "Zn + Cl2"
+            ],
+            "answer": "ZnCl2 + H2"
+        },
+        {
+            "question": "What happens when iron reacts with dilute sulfuric acid?",
+            "options": [
+                "No reaction occurs",
+                "Iron sulfate and hydrogen gas are formed",
+                "Iron oxide is produced",
+                "Hydrogen gas alone is evolved"
+            ],
+            "answer": "Iron sulfate and hydrogen gas are formed"
+        },
+        {
+            "question": "Which of the following metals reacts with sodium hydroxide solution to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Zinc",
+                "Silver",
+                "Gold"
+            ],
+            "answer": "Zinc"
+        },
+        {
+            "question": "The reaction between aluminum and dilute hydrochloric acid produces which products?",
+            "options": [
+                "AlCl3 + H2O",
+                "AlCl3 + H2",
+                "AlH3 + Cl2",
+                "Al + Cl2"
+            ],
+            "answer": "AlCl3 + H2"
+        },
+        {
+            "question": "When calcium metal reacts with dilute hydrochloric acid, what is formed?",
+            "options": [
+                "Calcium chloride and water only",
+                "Calcium chloride and hydrogen gas",
+                "Hydrogen gas alone",
+                "Calcium oxide"
+            ],
+            "answer": "Calcium chloride and hydrogen gas"
+        },
+        {
+            "question": "Which metal produces a vigorous reaction with dilute acids?",
+            "options": [
+                "Copper",
+                "Silver",
+                "Sodium",
+                "Gold"
+            ],
+            "answer": "Sodium"
+        },
+        {
+            "question": "The chemical equation for the reaction between magnesium and hydrochloric acid is:",
+            "options": [
+                "Mg + HCl \u2192 MgCl2 + H2",
+                "Mg + 2HCl \u2192 MgCl2 + H2",
+                "Mg + HCl \u2192 MgCl + H2",
+                "2Mg + HCl \u2192 Mg2Cl + H2"
+            ],
+            "answer": "Mg + 2HCl \u2192 MgCl2 + H2"
+        },
+        {
+            "question": "What gas is produced when zinc reacts with dilute sulfuric acid?",
+            "options": [
+                "Oxygen",
+                "Carbon dioxide",
+                "Hydrogen",
+                "Nitrogen"
+            ],
+            "answer": "Hydrogen"
+        },
+        {
+            "question": "Which of the following metals does not react with cold water?",
+            "options": [
+                "Sodium",
+                "Potassium",
+                "Calcium",
+                "Copper"
+            ],
+            "answer": "Copper"
+        },
+        {
+            "question": "The reaction between iron and dilute hydrochloric acid produces:",
+            "options": [
+                "Iron chloride and hydrogen gas",
+                "Iron oxide and water",
+                "Iron sulfate only",
+                "Hydrogen gas alone"
+            ],
+            "answer": "Iron chloride and hydrogen gas"
+        },
+        {
+            "question": "When aluminum reacts with sodium hydroxide solution, what is the product formed?",
+            "options": [
+                "Sodium aluminate and hydrogen gas",
+                "Aluminum oxide and water",
+                "Sodium chloride and hydrogen gas",
+                "Aluminum sulfate"
+            ],
+            "answer": "Sodium aluminate and hydrogen gas"
+        },
+        {
+            "question": "Which metal reacts with both acids and bases to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Zinc",
+                "Silver",
+                "Gold"
+            ],
+            "answer": "Zinc"
+        },
+        {
+            "question": "The reaction between calcium carbonate and dilute hydrochloric acid produces:",
+            "options": [
+                "Calcium chloride, water and carbon dioxide",
+                "Calcium oxide and hydrogen gas",
+                "Calcium sulfate and oxygen",
+                "Carbon dioxide only"
+            ],
+            "answer": "Calcium chloride, water and carbon dioxide"
+        },
+        {
+            "question": "What is the product when magnesium reacts with dilute sulfuric acid?",
+            "options": [
+                "Magnesium sulfate and hydrogen gas",
+                "Magnesium oxide and water",
+                "Magnesium hydroxide",
+                "Hydrogen gas only"
+            ],
+            "answer": "Magnesium sulfate and hydrogen gas"
+        },
+        {
+            "question": "Which of the following metals reacts with dilute nitric acid to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Zinc",
+                "Gold",
+                "Silver"
+            ],
+            "answer": "Zinc"
+        },
+        {
+            "question": "The reaction between sodium and water is:",
+            "options": [
+                "Exothermic and produces hydrogen gas",
+                "Endothermic and produces oxygen gas",
+                "Neutral and produces no gas",
+                "Reversible and produces carbon dioxide"
+            ],
+            "answer": "Exothermic and produces hydrogen gas"
+        },
+        {
+            "question": "When lead reacts with dilute hydrochloric acid, what is formed?",
+            "options": [
+                "Lead chloride and water",
+                "Lead sulfate and hydrogen gas",
+                "Lead oxide and hydrogen gas",
+                "No reaction occurs"
+            ],
+            "answer": "No reaction occurs"
+        },
+        {
+            "question": "Which metal produces a hissing sound when added to dilute hydrochloric acid?",
+            "options": [
+                "Copper",
+                "Zinc",
+                "Sodium",
+                "Gold"
+            ],
+            "answer": "Sodium"
+        },
+        {
+            "question": "The reaction between aluminum and dilute sulfuric acid gives:",
+            "options": [
+                "Aluminum sulfate and hydrogen gas",
+                "Aluminum oxide and water",
+                "Hydrogen gas only",
+                "Aluminum chloride"
+            ],
+            "answer": "Aluminum sulfate and hydrogen gas"
+        },
+        {
+            "question": "What is the result of adding zinc metal to dilute acetic acid?",
+            "options": [
+                "No reaction occurs",
+                "Zinc acetate and hydrogen gas are formed",
+                "Acetic acid is consumed completely",
+                "Zinc oxide is produced"
+            ],
+            "answer": "Zinc acetate and hydrogen gas are formed"
+        },
+        {
+            "question": "Which of the following metals does not react with dilute acids?",
+            "options": [
+                "Magnesium",
+                "Aluminum",
+                "Iron",
+                "Platinum"
+            ],
+            "answer": "Platinum"
+        },
+        {
+            "question": "The reaction between potassium and dilute hydrochloric acid is:",
+            "options": [
+                "Very vigorous and exothermic",
+                "Slow and endothermic",
+                "No reaction occurs",
+                "Only produces water"
+            ],
+            "answer": "Very vigorous and exothermic"
+        },
+        {
+            "question": "When copper metal reacts with dilute sulfuric acid, what happens?",
+            "options": [
+                "Copper sulfate and hydrogen gas are formed",
+                "No reaction occurs",
+                "Copper oxide is produced",
+                "Hydrogen gas alone is evolved"
+            ],
+            "answer": "No reaction occurs"
+        },
+        {
+            "question": "The chemical equation for the reaction between zinc and hydrochloric acid is:",
+            "options": [
+                "Zn + HCl \u2192 ZnCl2 + H2",
+                "Zn + 2HCl \u2192 ZnCl2 + H2",
+                "Zn + HCl \u2192 ZnH + Cl2",
+                "2Zn + HCl \u2192 Zn2Cl + H2"
+            ],
+            "answer": "Zn + 2HCl \u2192 ZnCl2 + H2"
+        },
+        {
+            "question": "Which metal reacts with dilute hydrochloric acid to produce hydrogen gas?",
+            "options": [
+                "Silver",
+                "Gold",
+                "Iron",
+                "Copper"
+            ],
+            "answer": "Iron"
+        },
+        {
+            "question": "The reaction between sodium and dilute sulfuric acid produces:",
+            "options": [
+                "Sodium sulfate and hydrogen gas",
+                "Sodium oxide and water",
+                "Hydrogen gas only",
+                "No reaction occurs"
+            ],
+            "answer": "Sodium sulfate and hydrogen gas"
+        },
+        {
+            "question": "What is the product when calcium metal reacts with dilute hydrochloric acid?",
+            "options": [
+                "Calcium chloride and hydrogen gas",
+                "Calcium oxide and water",
+                "Hydrogen gas only",
+                "Calcium carbonate"
+            ],
+            "answer": "Calcium chloride and hydrogen gas"
+        },
+        {
+            "question": "Which of the following metals reacts with both acids and bases to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Iron",
+                "Aluminum",
+                "Gold"
+            ],
+            "answer": "Aluminum"
+        },
+        {
+            "question": "The reaction between magnesium and dilute hydrochloric acid produces:",
+            "options": [
+                "Magnesium chloride and hydrogen gas",
+                "Magnesium oxide and water",
+                "Hydrogen gas only",
+                "Magnesium sulfate"
+            ],
+            "answer": "Magnesium chloride and hydrogen gas"
+        },
+        {
+            "question": "When zinc reacts with sodium hydroxide solution, what is formed?",
+            "options": [
+                "Zinc oxide and hydrogen gas",
+                "Sodium zincate and hydrogen gas",
+                "Zinc sulfate and water",
+                "No reaction occurs"
+            ],
+            "answer": "Sodium zincate and hydrogen gas"
+        },
+        {
+            "question": "Which metal reacts with dilute nitric acid to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Silver",
+                "Iron",
+                "Magnesium"
+            ],
+            "answer": "Magnesium"
+        },
+        {
+            "question": "The reaction between aluminum and sodium hydroxide solution produces:",
+            "options": [
+                "Sodium aluminate and hydrogen gas",
+                "Aluminum oxide and water",
+                "Hydrogen gas only",
+                "No reaction occurs"
+            ],
+            "answer": "Sodium aluminate and hydrogen gas"
+        },
+        {
+            "question": "What happens when iron reacts with dilute hydrochloric acid?",
+            "options": [
+                "Iron chloride and hydrogen gas are formed",
+                "Iron oxide is produced",
+                "Hydrogen gas alone is evolved",
+                "No reaction occurs"
+            ],
+            "answer": "Iron chloride and hydrogen gas are formed"
+        },
+        {
+            "question": "Which of the following metals reacts with dilute sulfuric acid to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Silver",
+                "Zinc",
+                "Gold"
+            ],
+            "answer": "Zinc"
+        },
+        {
+            "question": "The reaction between sodium and cold water is:",
+            "options": [
+                "Very vigorous and exothermic",
+                "Slow and endothermic",
+                "No reaction occurs",
+                "Only produces hydrogen gas"
+            ],
+            "answer": "Very vigorous and exothermic"
+        },
+        {
+            "question": "When magnesium reacts with dilute hydrochloric acid, what is formed?",
+            "options": [
+                "Magnesium chloride and hydrogen gas",
+                "Magnesium oxide and water",
+                "Hydrogen gas only",
+                "Magnesium sulfate"
+            ],
+            "answer": "Magnesium chloride and hydrogen gas"
+        },
+        {
+            "question": "Which metal reacts with dilute hydrochloric acid to produce hydrogen gas?",
+            "options": [
+                "Gold",
+                "Silver",
+                "Copper",
+                "Aluminum"
+            ],
+            "answer": "Aluminum"
+        },
+        {
+            "question": "The reaction between zinc and sodium hydroxide solution produces:",
+            "options": [
+                "Zinc oxide and hydrogen gas",
+                "Sodium zincate and hydrogen gas",
+                "Zinc sulfate and water",
+                "No reaction occurs"
+            ],
+            "answer": "Sodium zincate and hydrogen gas"
+        },
+        {
+            "question": "What is the result of adding calcium metal to dilute hydrochloric acid?",
+            "options": [
+                "Calcium chloride and hydrogen gas are formed",
+                "Calcium oxide and water are produced",
+                "Hydrogen gas alone is evolved",
+                "No reaction occurs"
+            ],
+            "answer": "Calcium chloride and hydrogen gas are formed"
+        },
+        {
+            "question": "Which metal reacts with dilute sulfuric acid to produce hydrogen gas?",
+            "options": [
+                "Copper",
+                "Gold",
+                "Iron",
+                "Silver"
+            ],
+            "answer": "Iron"
+        },
+        {
+            "question": "The reaction between sodium and dilute hydrochloric acid produces:",
+            "options": [
+                "Sodium chloride and hydrogen gas",
+                "Sodium oxide and water",
+                "Hydrogen gas only",
+                "No reaction occurs"
+            ],
+            "answer": "Sodium chloride and hydrogen gas"
+        },
+        {
+            "question": "When aluminum reacts with dilute sulfuric acid, what is formed?",
+            "options": [
+                "Aluminum sulfate and hydrogen gas",
+                "Aluminum oxide and water",
+                "Hydrogen gas only",
+                "Aluminum chloride"
+            ],
+            "answer": "Aluminum sulfate and hydrogen gas"
+        },
+        {
+            "question": "Which of the following metals does not react with dilute acids?",
+            "options": [
+                "Magnesium",
+                "Zinc",
+                "Copper",
+                "Iron"
+            ],
+            "answer": "Copper"
+        }
+    ]
+}

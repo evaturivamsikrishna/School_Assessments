@@ -16,6 +16,7 @@ window.onload = () => {
     setDailyMotivation();
     checkUserIdentity(); 
     loadAIInsights(); // Load AI Widget Data
+    initializeEventListeners();
     navigateTo('subject-screen');
 };
 
@@ -70,18 +71,43 @@ function saveUserIdentity(event) {
     }
 }
 
-// ==========================================
-// ATTACH TO WINDOW FOR HTML on-click ATTRIBUTES
-// ==========================================
-window.toggleTheme = toggleTheme;
-window.navigateBack = navigateBack;
-window.navigateTo = navigateTo;
-window.saveUserIdentity = saveUserIdentity;
-window.nextQuestion = nextQuestion;
-window.retryAssessment = retryAssessment;
-window.confirmQuit = confirmQuit;
-window.closeQuitModal = closeQuitModal;
-window.executeQuit = executeQuit;
-window.loadMockExams = loadMockExams;
-window.downloadQP = downloadQP;
-window.downloadMS = downloadMS;
+/**
+ * Centralized function to attach all event listeners, decoupling JS from HTML.
+ */
+function initializeEventListeners() {
+    console.log("🔌 Initializing event listeners...");
+
+    // User Identity Modal
+    document.getElementById('user-identity-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveUserIdentity(e);
+    });
+
+    // Quit Confirmation Modal
+    document.getElementById('btn-quit-confirm').addEventListener('click', executeQuit);
+    document.getElementById('btn-quit-cancel').addEventListener('click', closeQuitModal);
+
+    // Header Buttons
+    document.getElementById('back-btn').addEventListener('click', navigateBack);
+    document.getElementById('btn-past-papers').addEventListener('click', () => {
+        navigateTo('mock-exam-screen');
+        loadMockExams();
+    });
+    document.getElementById('btn-toggle-theme').addEventListener('click', toggleTheme);
+
+    // Quiz Screen Buttons
+    document.getElementById('btn-quit-assessment').addEventListener('click', confirmQuit);
+    document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+    // Results Screen Buttons
+    document.getElementById('btn-retry-assessment').addEventListener('click', retryAssessment);
+    document.getElementById('btn-return-dashboard').addEventListener('click', () => navigateTo('subject-screen'));
+
+    // Expose functions needed by dynamically generated content in other modules
+    window.navigateTo = navigateTo;
+    window.loadMockExams = loadMockExams;
+    window.downloadQP = downloadQP;
+    window.downloadMS = downloadMS;
+
+    console.log("✅ Event listeners attached.");
+}

@@ -8,6 +8,12 @@ import { startQuiz } from './quizEngine.js';
 // ==========================================
 export async function fetchWithCache(url) {
     console.log(`🌐 Requesting data from: ${url}`);
+
+    // DEV MODE: Force clear old mock data from cache so we can see the real LLM output
+    if (url.includes('.json')) {
+        localStorage.removeItem(`cache_${url}`);
+    }
+
     const cached = localStorage.getItem(`cache_${url}`);
     if (cached) {
         try {
@@ -15,13 +21,16 @@ export async function fetchWithCache(url) {
             if (Date.now() - timestamp < CACHE_EXPIRY_MS) return data;
         } catch (e) { console.error("Cache read error", e); }
     }
-    
+
     console.log(`⬇️ Downloading fresh data from GitHub API...`);
-    const res = await fetch(url);
+    // Append a timestamp to the URL to bust GitHub's aggressive CDN cache
+    const bypassUrl = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
+
+    const res = await fetch(bypassUrl);
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     const data = await res.json();
-    
-    try { localStorage.setItem(`cache_${url}`, JSON.stringify({ data, timestamp: Date.now() })); } catch (e) {}
+
+    try { localStorage.setItem(`cache_${url}`, JSON.stringify({ data, timestamp: Date.now() })); } catch (e) { }
     return data;
 }
 
@@ -32,12 +41,12 @@ export async function loadSubjects() {
         const folders = data.filter(item => item.type === 'dir');
         const list = document.getElementById('subject-list');
         list.innerHTML = folders.length ? '' : "<p class='col-span-full text-slate-500'>No subjects available.</p>";
-        
+
         folders.forEach((folder, index) => {
             const btn = document.createElement('div');
             const colors = ['bg-indigo-500', 'bg-emerald-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-cyan-500'];
             const color = colors[index % colors.length];
-            
+
             btn.className = 'bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex items-center gap-4 transform hover:-translate-y-1';
             btn.innerHTML = `
                 <div class="w-14 h-14 ${color} text-white rounded-2xl flex items-center justify-center text-2xl font-bold shadow-lg shadow-black/10 group-hover:scale-110 transition-transform">
@@ -64,7 +73,7 @@ export async function loadChapters(subjectName) {
     try {
         const data = await fetchWithCache(`${BASE_API_URL}/${encodeURIComponent(subjectName)}`);
         const files = data.filter(item => item.name.endsWith('.json'));
-        
+
         files.forEach((file, index) => {
             const btn = document.createElement('div');
             const cleanName = file.name.replace('.json', '').replace(/_/g, ' ');
@@ -91,14 +100,14 @@ export async function fetchAssessments(url, chapterName) {
         state.quizDataRaw = normalizedData;
         navigateTo('assessment-screen');
         const list = document.getElementById('assessment-list'); list.innerHTML = '';
-        
+
         Object.keys(normalizedData).forEach((key) => {
             const btn = document.createElement('button');
             const qCount = normalizedData[key].length;
             const pastProgress = getProgress(state.subject, state.chapter, key);
-            
+
             let progressUI = `<span class="text-xs font-bold text-slate-400 dark:text-slate-500">Not Attempted</span>`;
-            if(pastProgress) {
+            if (pastProgress) {
                 const isMastery = pastProgress.percentage >= 80;
                 progressUI = `<div class="flex items-center gap-2"><span class="text-sm font-black ${isMastery ? 'text-green-500' : 'text-orange-500'}">${pastProgress.percentage}% Best</span>${isMastery ? '<i class="fa-solid fa-medal text-yellow-400"></i>' : ''}</div>`;
             }
@@ -132,13 +141,13 @@ export async function loadAIInsights() {
             return;
         }
         const data = await res.json();
-        
+
         document.getElementById('ai-overall-health').innerText = `"${data.overall_health}"`;
         document.getElementById('ai-tutor-advice').innerText = data.ai_tutor_advice;
-        
+
         const list = document.getElementById('ai-mistakes-list');
         list.innerHTML = '';
-        
+
         if (data.specific_mistakes_breakdown && Array.isArray(data.specific_mistakes_breakdown)) {
             data.specific_mistakes_breakdown.forEach(mistake => {
                 list.innerHTML += `
@@ -149,7 +158,7 @@ export async function loadAIInsights() {
                     </li>`;
             });
         }
-        
+
         document.getElementById('ai-insights-widget').classList.remove('hidden-screen');
         console.log("✅ AI Insights successfully loaded and rendered.");
     } catch (e) {

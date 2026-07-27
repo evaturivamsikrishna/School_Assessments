@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Portal | NextGen Assessment</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="assets/vendor/tailwindcss.js"></script>
+    <script src="assets/vendor/confetti.js"></script>
+    <link href="assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -26,221 +28,331 @@
     </script>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-darkbg text-slate-900 dark:text-slate-100 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
 
-<!-- User Identity Modal -->
-<div id="user-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden-screen">
-    <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-8 max-w-md w-full shadow-2xl text-center">
-        <div class="w-16 h-16 bg-brand-500/10 text-brand-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-            <i class="fa-solid fa-user-astronaut"></i>
+<body
+    class="bg-slate-50 dark:bg-darkbg text-slate-900 dark:text-slate-100 h-screen w-screen overflow-hidden flex flex-col transition-colors duration-300">
+
+    <!-- User Identity Modal -->
+    <div id="user-modal"
+        class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden-screen">
+        <div
+            class="bg-white dark:bg-darkcard border border-slate-200 dark:border-slate-700 rounded-3xl p-8 max-w-md w-full shadow-2xl text-center">
+            <div
+                class="w-16 h-16 bg-brand-500/10 text-brand-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Welcome to Study Portal</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Enter your username to track progress and sync
+                learning analytics.</p>
+            <form id="user-identity-form" class="flex flex-col gap-4">
+                <!-- Added label for screen readers -->
+                <label for="username-input" class="sr-only">Username</label>
+                <input type="text" id="username-input" placeholder="Enter username" required
+                    class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-brand-500" />
+                <button type="submit"
+                    class="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg transition-all">
+                    Continue to Dashboard
+                </button>
+            </form>
         </div>
-        <h3 class="text-2xl font-bold mb-2">Welcome to Study Portal</h3>
-        <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Enter your username to track progress and sync learning analytics.</p>
-        <form onsubmit="saveUserIdentity(event)" class="flex flex-col gap-4">
-            <input type="text" id="username-input" placeholder="Enter username (or 'admin debug')" required
-                   class="w-full px-5 py-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-bold focus:outline-none focus:ring-2 focus:ring-brand-500" />
-            <button type="submit" class="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg transition-all">
-                Continue to Dashboard
+    </div>
+
+    <div id="global-loader"
+        class="fixed inset-0 glass-loader z-50 flex flex-col items-center justify-center hidden-screen">
+        <div
+            class="bg-white dark:bg-darkcard p-8 rounded-3xl shadow-2xl flex flex-col items-center border border-slate-200 dark:border-slate-700">
+            <div class="spinner" role="status" aria-label="Loading content">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p id="loader-text" class="text-slate-700 dark:text-slate-200 font-semibold tracking-wide">Syncing Data...
+            </p>
+        </div>
+    </div>
+
+    <div id="toast"
+        class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold px-6 py-3 rounded-full shadow-2xl transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-[100] flex items-center gap-3">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="toast-msg">Notification</span>
+    </div>
+
+    <div id="quit-modal"
+        class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden-screen flex items-center justify-center z-50 p-4"
+        style="display: none;">
+        <div
+            class="bg-white dark:bg-darkcard rounded-3xl p-8 w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 transform transition-all text-center">
+            <div
+                class="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-person-walking-arrow-right"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Give up already?</h3>
+            <p class="text-slate-500 dark:text-slate-400 mb-8 text-sm">You'll lose your current streak and progress. Are
+                you sure you want to quit?</p>
+            <div class="flex flex-col gap-3">
+                <button id="btn-quit-confirm"
+                    class="w-full py-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-colors">Yes,
+                    Quit</button>
+                <button id="btn-quit-cancel"
+                    class="w-full py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-bold transition-colors">Keep
+                    Going!</button>
+            </div>
+        </div>
+    </div>
+
+    <header
+        class="bg-white/80 dark:bg-darkcard/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 px-6 md:px-12 py-4 flex justify-between items-center shrink-0">
+        <div class="flex items-center gap-4">
+            <button id="back-btn" aria-label="Go back"
+                class="hidden-screen w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-brand-500 hover:text-white transition-all">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
             </button>
-        </form>
-    </div>
-</div>
-
-<div id="global-loader" class="fixed inset-0 glass-loader z-50 flex flex-col items-center justify-center hidden-screen">
-    <div class="bg-white dark:bg-darkcard p-8 rounded-3xl shadow-2xl flex flex-col items-center border border-slate-200 dark:border-slate-700">
-        <div class="spinner mb-6"></div>
-        <p id="loader-text" class="text-slate-700 dark:text-slate-200 font-semibold tracking-wide">Syncing Data...</p>
-    </div>
-</div>
-
-<div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold px-6 py-3 rounded-full shadow-2xl transition-all duration-300 opacity-0 translate-y-4 pointer-events-none z-[100] flex items-center gap-3">
-    <i class="fa-solid fa-circle-exclamation"></i>
-    <span id="toast-msg">Notification</span>
-</div>
-
-<div id="quit-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden-screen flex items-center justify-center z-50 p-4" style="display: none;">
-    <div class="bg-white dark:bg-darkcard rounded-3xl p-8 w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 transform transition-all text-center">
-        <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-            <i class="fa-solid fa-person-walking-arrow-right"></i>
-        </div>
-        <h3 class="text-2xl font-bold mb-2">Give up already?</h3>
-        <p class="text-slate-500 dark:text-slate-400 mb-8 text-sm">You'll lose your current streak and progress. Are you sure you want to quit?</p>
-        <div class="flex flex-col gap-3">
-            <button onclick="executeQuit()" class="w-full py-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-colors">Yes, Quit</button>
-            <button onclick="closeQuitModal()" class="w-full py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-bold transition-colors">Keep Going!</button>
-        </div>
-    </div>
-</div>
-
-<header class="bg-white/80 dark:bg-darkcard/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 px-6 md:px-12 py-4 flex justify-between items-center shrink-0">
-    <div class="flex items-center gap-4">
-        <button id="back-btn" onclick="navigateBack()" class="hidden-screen w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-brand-500 hover:text-white transition-all">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <div>
-            <h1 id="header-title" class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-purple-500">Study Portal</h1>
-            <p id="header-subtitle" class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase">Dashboard</p>
-        </div>
-    </div>
-    <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
-            <i class="fa-solid fa-bolt text-yellow-400"></i>
-            <span class="text-sm font-bold" id="total-xp-display">0 XP</span>
-        </div>
-        <button onclick="navigateTo('mock-exam-screen'); loadMockExams();" class="hidden sm:flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-400 transition-colors font-bold text-sm">
-            <i class="fa-solid fa-folder-open"></i> Past Papers
-        </button>
-        <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brand-400 transition-colors">
-            <i id="theme-icon" class="fa-solid fa-moon"></i>
-        </button>
-    </div>
-</header>
-
-<main class="flex-grow overflow-y-auto relative p-6 md:p-10 lg:p-12" id="app-container">
-    
-    <!-- Screen 1: Subject Menu -->
-    <div id="subject-screen" class="screen-enter max-w-[1600px] mx-auto w-full pb-20">
-        <div class="mb-8">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Welcome Back! 👋</h2>
-            <p class="text-slate-500 dark:text-slate-400 text-lg">Select a subject to begin your mastery journey.</p>
-        </div>
-        
-        <div class="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 to-purple-600 p-6 md:p-8 text-white shadow-xl shadow-brand-500/20">
-            <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/20 blur-3xl"></div>
-            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-black/20 blur-2xl"></div>
-            <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                <div>
-                    <h3 class="text-sm font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-brand-100">
-                        <i class="fa-solid fa-bolt text-yellow-300"></i> Daily Focus
-                    </h3>
-                    <p id="motivational-quote" class="text-lg md:text-xl font-semibold leading-relaxed max-w-3xl drop-shadow-sm">"Loading motivation..."</p>
-                </div>
-                <div class="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white/10 items-center justify-center backdrop-blur-sm border border-white/20 shadow-inner">
-                    <i class="fa-solid fa-seedling text-2xl text-green-300"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- AI Tutor Insights Widget -->
-        <div id="ai-insights-widget" class="mb-10 hidden-screen relative overflow-hidden rounded-3xl bg-white dark:bg-darkcard border border-brand-500/30 p-6 md:p-8 shadow-lg shadow-brand-500/10">
-            <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
-                <div class="w-12 h-12 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <div>
-                    <h3 class="text-xl font-extrabold text-slate-800 dark:text-slate-100">AI Tutor Analysis</h3>
-                    <p class="text-xs font-bold text-brand-500 uppercase tracking-widest">Latest Performance Scan</p>
-                </div>
-            </div>
-            
-            <p id="ai-overall-health" class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-6 italic leading-relaxed"></p>
-            
-            <div class="bg-red-50 dark:bg-red-900/10 rounded-2xl p-5 border border-red-100 dark:border-red-900/30 mb-6">
-                <h4 class="text-red-600 dark:text-red-400 font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-microscope"></i> Concept Gaps Detected</h4>
-                <ul id="ai-mistakes-list" class="space-y-3 text-sm text-slate-600 dark:text-slate-400"></ul>
-            </div>
-            
-            <div class="bg-brand-50 dark:bg-brand-900/20 rounded-2xl p-5">
-                <h4 class="text-brand-700 dark:text-brand-300 font-bold mb-2 flex items-center gap-2"><i class="fa-solid fa-lightbulb"></i> Study Strategy</h4>
-                <p id="ai-tutor-advice" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></p>
-            </div>
-        </div>
-
-        <div id="subject-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"></div>
-    </div>
-
-    <!-- Screen 2: Chapter Menu -->
-    <div id="chapter-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
-        <div id="chapter-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"></div>
-    </div>
-
-    <!-- Screen 3: Assessment Selection -->
-    <div id="assessment-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
-        <div class="mb-8 flex items-center justify-between bg-brand-500/10 p-5 rounded-2xl border border-brand-500/20">
             <div>
-                <h3 class="text-brand-600 dark:text-brand-400 font-bold text-lg">Pro Tip</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Aim for an 80%+ score to unlock the mastery badge!</p>
-            </div>
-            <i class="fa-solid fa-trophy text-4xl text-brand-500/50"></i>
-        </div>
-        <div id="assessment-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-    </div>
-
-    <!-- Screen for Mock Exams -->
-    <div id="mock-exam-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
-        <div id="mock-exam-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-    </div>
-
-    <!-- Screen 4: Active Quiz -->
-    <div id="quiz-screen" class="hidden-screen screen-enter flex flex-col h-full max-w-5xl mx-auto w-full">
-        <div class="flex flex-wrap justify-between items-center mb-6 gap-4 bg-white dark:bg-darkcard p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-            <div class="flex-1 min-w-[200px]">
-                <div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-2 text-slate-500 dark:text-slate-400">
-                    <span id="progress-text">Q 1/10</span>
-                    <span id="streak-display" class="transition-all duration-300"><i class="fa-solid fa-fire text-orange-500 mr-1"></i> Streak: 0</span>
-                </div>
-                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden shadow-inner">
-                    <div id="progress-bar" class="bg-gradient-to-r from-brand-500 to-purple-500 h-3 rounded-full transition-all duration-500 ease-out w-0"></div>
-                </div>
-            </div>
-            <div id="timer-display" class="font-mono text-xl font-black bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-2xl flex items-center gap-2 shadow-sm transition-colors">
-                <i class="fa-regular fa-clock text-brand-500"></i> <span id="timer-text">30:00</span>
+                <h1 id="header-title"
+                    class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-purple-500">
+                    Study Portal</h1>
+                <p id="header-subtitle"
+                    class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase">
+                    Dashboard</p>
             </div>
         </div>
-        
-        <div class="bg-white dark:bg-darkcard p-6 md:p-10 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
-            <h2 id="question-text" class="text-xl md:text-2xl lg:text-3xl font-bold leading-relaxed">Question loads here...</h2>
+        <div class="flex items-center gap-3">
+            <div
+                class="hidden sm:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700">
+                <i class="fa-solid fa-bolt text-yellow-400"></i>
+                <span class="text-sm font-bold" id="total-xp-display">0 XP</span>
+            </div>
+            <button id="btn-past-papers"
+                class="hidden sm:flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-brand-400 transition-colors font-bold text-sm">
+                <i class="fa-solid fa-folder-open"></i> Past Papers
+            </button>
+            <button id="btn-toggle-theme" aria-label="Toggle dark mode"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-brand-400 transition-colors">
+                <i id="theme-icon" class="fa-solid fa-moon" aria-hidden="true"></i>
+            </button>
         </div>
-        
-        <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 flex-grow content-start"></div>
-        
-        <div class="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
-            <button onclick="confirmQuit()" class="text-slate-400 hover:text-red-500 font-bold transition-colors w-full sm:w-auto py-4">Quit Assessment</button>
-            <button id="next-btn" onclick="nextQuestion()" class="bg-brand-600 hover:bg-brand-500 text-white w-full sm:w-auto px-12 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-brand-500/30 transform hover:-translate-y-1 active:translate-y-0 text-lg">Check & Continue <i class="fa-solid fa-arrow-right ml-2"></i></button>
-        </div>
-    </div>
+    </header>
 
-    <!-- Screen 5: Results & Dashboard -->
-    <div id="results-screen" class="hidden-screen screen-enter max-w-5xl mx-auto w-full pb-20">
-        <div class="bg-white dark:bg-darkcard rounded-[2.5rem] p-8 md:p-12 border border-slate-200 dark:border-slate-700 shadow-xl text-center mb-10 relative overflow-hidden">
-            <div class="absolute -top-20 -right-20 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
-            
-            <h1 class="text-3xl md:text-4xl font-extrabold mb-8 relative z-10" id="result-title">Assessment Complete!</h1>
-            
-            <div class="relative w-52 h-52 mx-auto mb-6 z-10">
-                <svg class="w-full h-full transform -rotate-90 drop-shadow-lg" viewBox="0 0 36 36">
-                    <path class="text-slate-100 dark:text-slate-800" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path id="score-ring" class="text-brand-500 transition-all duration-1500 ease-out" stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                </svg>
-                <div class="absolute inset-0 flex items-center justify-center flex-col">
-                    <span id="score-percent" class="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-brand-500 to-purple-500">0%</span>
+    <main class="flex-grow overflow-y-auto relative p-6 md:p-10 lg:p-12" id="app-container">
+
+        <!-- Screen 1: Subject Menu -->
+        <div id="subject-screen" class="screen-enter max-w-[1600px] mx-auto w-full pb-20">
+            <div class="mb-8">
+                <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Welcome Back! 👋</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-lg">Select a subject to begin your mastery journey.
+                </p>
+            </div>
+
+            <div
+                class="mb-10 relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-600 to-purple-600 p-6 md:p-8 text-white shadow-xl shadow-brand-500/20">
+                <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/20 blur-3xl"></div>
+                <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-black/20 blur-2xl"></div>
+                <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                    <div>
+                        <h3
+                            class="text-sm font-bold mb-2 flex items-center gap-2 uppercase tracking-widest text-brand-100">
+                            <i class="fa-solid fa-bolt text-yellow-300"></i> Daily Focus
+                        </h3>
+                        <p id="motivational-quote"
+                            class="text-lg md:text-xl font-semibold leading-relaxed max-w-3xl drop-shadow-sm">"Loading
+                            motivation..."</p>
+                    </div>
+                    <div
+                        class="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white/10 items-center justify-center backdrop-blur-sm border border-white/20 shadow-inner">
+                        <i class="fa-solid fa-seedling text-2xl text-green-300"></i>
+                    </div>
                 </div>
             </div>
-            
-            <div class="flex justify-center gap-8 mb-8 relative z-10">
-                <div class="text-center">
-                    <p class="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">Score</p>
-                    <p class="text-2xl font-black" id="score-fraction">0/0</p>
+
+            <!-- AI Tutor Insights Widget -->
+            <div id="ai-insights-widget"
+                class="mb-10 hidden-screen relative overflow-hidden rounded-3xl bg-white dark:bg-darkcard border border-brand-500/30 p-6 md:p-8 shadow-lg shadow-brand-500/10">
+                <div class="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <div
+                        class="w-12 h-12 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-800 dark:text-slate-100">AI Tutor Analysis</h3>
+                        <p class="text-xs font-bold text-brand-500 uppercase tracking-widest">Latest Performance Scan
+                        </p>
+                    </div>
                 </div>
-                <div class="w-px bg-slate-200 dark:bg-slate-700"></div>
-                <div class="text-center">
-                    <p class="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">Best Streak</p>
-                    <p class="text-2xl font-black text-orange-500"><i class="fa-solid fa-fire text-lg"></i> <span id="highest-streak-display">0</span></p>
+
+                <p id="ai-overall-health"
+                    class="text-lg font-medium text-slate-700 dark:text-slate-300 mb-6 italic leading-relaxed"></p>
+
+                <div
+                    class="bg-red-50 dark:bg-red-900/10 rounded-2xl p-5 border border-red-100 dark:border-red-900/30 mb-6">
+                    <h4 class="text-red-600 dark:text-red-400 font-bold mb-3 flex items-center gap-2"><i
+                            class="fa-solid fa-microscope"></i> Concept Gaps Detected</h4>
+                    <ul id="ai-mistakes-list" class="space-y-3 text-sm text-slate-600 dark:text-slate-400"></ul>
+                </div>
+
+                <div class="bg-brand-50 dark:bg-brand-900/20 rounded-2xl p-5">
+                    <h4 class="text-brand-700 dark:text-brand-300 font-bold mb-2 flex items-center gap-2"><i
+                            class="fa-solid fa-lightbulb"></i> Study Strategy</h4>
+                    <p id="ai-tutor-advice" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></p>
                 </div>
             </div>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10 mt-10">
-                <button onclick="retryAssessment()" class="bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 px-8 py-4 rounded-2xl font-bold hover:bg-brand-100 dark:hover:bg-brand-500/20 transition-colors w-full sm:w-auto">Retry Assessment</button>
-                <button onclick="navigateTo('subject-screen')" class="bg-slate-900 dark:bg-brand-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-800 dark:hover:bg-brand-500 transition-colors shadow-lg w-full sm:w-auto">Return to Dashboard</button>
+
+            <div id="subject-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"></div>
+        </div>
+
+        <!-- Screen 2: Chapter Menu -->
+        <div id="chapter-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
+            <div id="chapter-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"></div>
+        </div>
+
+        <!-- Screen 3: Assessment Selection -->
+        <div id="assessment-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
+            <div
+                class="mb-8 flex items-center justify-between bg-brand-500/10 p-5 rounded-2xl border border-brand-500/20">
+                <div>
+                    <h3 class="text-brand-600 dark:text-brand-400 font-bold text-lg">Pro Tip</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Aim for an 80%+ score to unlock the
+                        mastery badge!</p>
+                </div>
+                <i class="fa-solid fa-trophy text-4xl text-brand-500/50"></i>
+            </div>
+            <div id="assessment-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+        </div>
+
+        <!-- Screen for Mock Exams -->
+        <!-- Screen for Mock Exams -->
+        <!-- Screen for Mock Exams: Subject Selection (Step 1) -->
+        <div id="mock-exam-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
+            <div class="mb-8">
+                <h2 class="text-3xl md:text-4xl font-extrabold mb-2">Past Papers Archive</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-lg">Select a subject to view previous years' exams.
+                </p>
+            </div>
+
+            <!-- Reusing the exact Grid Layout from your Quizzes Subject Screen -->
+            <div id="mock-subject-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <!-- JavaScript will populate Subject Cards here -->
             </div>
         </div>
 
-        <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i class="fa-solid fa-list-check text-brand-500"></i> Review Answers</h3>
-        <div id="review-container" class="space-y-6"></div>
-    </div>
-</main>
+        <!-- Screen for Mock Exams: Specific Papers (Step 2) -->
+        <div id="mock-exam-papers-screen" class="hidden-screen screen-enter max-w-[1600px] mx-auto w-full pb-20">
+            <!-- Dynamic Header showing the selected subject -->
+            <div class="mb-8 flex items-center gap-4">
+                <div id="mock-papers-icon"
+                    class="w-14 h-14 rounded-2xl bg-brand-100 dark:bg-brand-900/30 text-brand-500 flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <div>
+                    <h2 id="mock-papers-title" class="text-3xl md:text-4xl font-extrabold mb-1">Subject Name</h2>
+                    <p class="text-slate-500 dark:text-slate-400">Select an academic year to download PDFs.</p>
+                </div>
+            </div>
 
-<script type="module" src="assets/js/app.js"></script>
+            <!-- Reusing the exact Grid Layout from your Quizzes Assessment Screen -->
+            <div id="mock-paper-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- JavaScript will populate Year Cards here -->
+            </div>
+        </div>
+
+        <!-- Screen 4: Active Quiz -->
+        <div id="quiz-screen" class="hidden-screen screen-enter flex flex-col h-full max-w-5xl mx-auto w-full">
+            <div
+                class="flex flex-wrap justify-between items-center mb-6 gap-4 bg-white dark:bg-darkcard p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex-1 min-w-[200px]">
+                    <div
+                        class="flex justify-between text-xs font-bold uppercase tracking-wider mb-2 text-slate-500 dark:text-slate-400">
+                        <span id="progress-text">Q 1/10</span>
+                        <span id="streak-display" class="transition-all duration-300"><i
+                                class="fa-solid fa-fire text-orange-500 mr-1"></i> Streak: 0</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden shadow-inner">
+                        <div id="progress-bar"
+                            class="bg-gradient-to-r from-brand-500 to-purple-500 h-3 rounded-full transition-all duration-500 ease-out w-0">
+                        </div>
+                    </div>
+                </div>
+                <div id="timer-display"
+                    class="font-mono text-xl font-black bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-2xl flex items-center gap-2 shadow-sm transition-colors">
+                    <i class="fa-regular fa-clock text-brand-500"></i> <span id="timer-text">30:00</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-white dark:bg-darkcard p-6 md:p-10 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
+                <h2 id="question-text" class="text-xl md:text-2xl lg:text-3xl font-bold leading-relaxed">Question loads
+                    here...</h2>
+            </div>
+
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 flex-grow content-start">
+            </div>
+
+            <div
+                class="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+                <button id="btn-quit-assessment"
+                    class="text-slate-400 hover:text-red-500 font-bold transition-colors w-full sm:w-auto py-4">Quit
+                    Assessment</button>
+                <button id="next-btn"
+                    class="bg-brand-600 hover:bg-brand-500 text-white w-full sm:w-auto px-12 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-brand-500/30 transform hover:-translate-y-1 active:translate-y-0 text-lg">Check
+                    & Continue <i class="fa-solid fa-arrow-right ml-2"></i></button>
+            </div>
+        </div>
+
+        <!-- Screen 5: Results & Dashboard -->
+        <div id="results-screen" class="hidden-screen screen-enter max-w-5xl mx-auto w-full pb-20">
+            <div
+                class="bg-white dark:bg-darkcard rounded-[2.5rem] p-8 md:p-12 border border-slate-200 dark:border-slate-700 shadow-xl text-center mb-10 relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-8 relative z-10" id="result-title">Assessment
+                    Complete!</h1>
+
+                <div class="relative w-52 h-52 mx-auto mb-6 z-10">
+                    <svg class="w-full h-full transform -rotate-90 drop-shadow-lg" viewBox="0 0 36 36">
+                        <path class="text-slate-100 dark:text-slate-800" stroke-width="3" stroke="currentColor"
+                            fill="none"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="score-ring" class="text-brand-500 transition-all duration-1500 ease-out"
+                            stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3" stroke-linecap="round"
+                            stroke="currentColor" fill="none"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center flex-col">
+                        <span id="score-percent"
+                            class="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-brand-500 to-purple-500">0%</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-8 mb-8 relative z-10">
+                    <div class="text-center">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">
+                            Score</p>
+                        <p class="text-2xl font-black" id="score-fraction">0/0</p>
+                    </div>
+                    <div class="w-px bg-slate-200 dark:bg-slate-700"></div>
+                    <div class="text-center">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-1">
+                            Best Streak</p>
+                        <p class="text-2xl font-black text-orange-500"><i class="fa-solid fa-fire text-lg"></i> <span
+                                id="highest-streak-display">0</span></p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10 mt-10">
+                    <button id="btn-retry-assessment"
+                        class="bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 px-8 py-4 rounded-2xl font-bold hover:bg-brand-100 dark:hover:bg-brand-500/20 transition-colors w-full sm:w-auto">Retry
+                        Assessment</button>
+                    <button id="btn-return-dashboard"
+                        class="bg-slate-900 dark:bg-brand-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-800 dark:hover:bg-brand-500 transition-colors shadow-lg w-full sm:w-auto">Return
+                        to Dashboard</button>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><i
+                    class="fa-solid fa-list-check text-brand-500"></i> Review Answers</h3>
+            <div id="review-container" class="space-y-6"></div>
+        </div>
+    </main>
+
+    <script type="module" src="assets/js/app.js"></script>
 </body>
+
 </html>

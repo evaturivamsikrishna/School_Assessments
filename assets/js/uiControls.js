@@ -30,8 +30,8 @@ export function showToast(msg, isError = false) {
     const toast = document.getElementById('toast');
     const icon = toast.querySelector('i');
     toast.querySelector('#toast-msg').innerText = msg;
-    
-    if(isError) {
+
+    if (isError) {
         toast.classList.replace('bg-slate-900', 'bg-red-500');
         toast.classList.replace('dark:bg-white', 'dark:bg-red-500');
         toast.classList.replace('dark:text-slate-900', 'dark:text-white');
@@ -87,7 +87,7 @@ export function triggerConfetti() {
     var duration = 3 * 1000; var animationEnd = Date.now() + duration;
     var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
     function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
         var timeLeft = animationEnd - Date.now();
         if (timeLeft <= 0) return clearInterval(interval);
         var particleCount = 50 * (timeLeft / duration);
@@ -105,38 +105,50 @@ export function updateHeader(screenId) {
     const subtitle = document.getElementById('header-subtitle');
     const backBtn = document.getElementById('back-btn');
 
-    if(screenId === 'subject-screen') {
+    if (screenId === 'subject-screen') {
         title.innerText = "Study Portal"; subtitle.innerText = "Dashboard"; backBtn.classList.add('hidden-screen');
-    } else if(screenId === 'chapter-screen') {
+    } else if (screenId === 'chapter-screen') {
         title.innerText = escapeHTML(state.subject); subtitle.innerText = "Chapters"; backBtn.classList.remove('hidden-screen');
-    } else if(screenId === 'assessment-screen') {
+    } else if (screenId === 'assessment-screen') {
         title.innerText = escapeHTML(state.chapter); subtitle.innerText = "Assessments"; backBtn.classList.remove('hidden-screen');
-    } else if(screenId === 'quiz-screen' || screenId === 'results-screen') {
-        title.innerText = screenId === 'quiz-screen' ? "Assessment" : "Results"; 
+    } else if (screenId === 'quiz-screen' || screenId === 'results-screen') {
+        title.innerText = screenId === 'quiz-screen' ? "Assessment" : "Results";
         subtitle.innerText = escapeHTML(state.assessment); backBtn.classList.add('hidden-screen');
-    } else if(screenId === 'mock-exam-screen') {
-        title.innerText = "Mock Exams"; subtitle.innerText = "Past Papers"; backBtn.classList.remove('hidden-screen');
+    } else if (screenId === 'mock-exam-screen') {
+        title.innerText = "Past Papers"; subtitle.innerText = "Archive"; backBtn.classList.remove('hidden-screen');
+    } else if (screenId === 'mock-exam-papers-screen') {
+        // NEW: Handles the header when viewing specific years
+        title.innerText = "Past Papers"; subtitle.innerText = "Select Year"; backBtn.classList.remove('hidden-screen');
     }
 }
 
 export function navigateTo(screenId, pushHistory = true) {
     console.log(`🧭 Navigating to: ${screenId}`);
-    if(pushHistory && state.currentScreen !== screenId && screenId !== 'quiz-screen' && screenId !== 'results-screen') {
+    if (pushHistory && state.currentScreen !== screenId && screenId !== 'quiz-screen' && screenId !== 'results-screen') {
         state.history.push(state.currentScreen);
     }
-    
-    ['subject-screen', 'chapter-screen', 'assessment-screen', 'quiz-screen', 'results-screen', 'mock-exam-screen'].forEach(id => {
+
+    // NEW: Added 'mock-exam-papers-screen' to this array so it gets hidden properly
+    ['subject-screen', 'chapter-screen', 'assessment-screen', 'quiz-screen', 'results-screen', 'mock-exam-screen', 'mock-exam-papers-screen'].forEach(id => {
         const el = document.getElementById(id);
-        el.classList.add('hidden-screen'); el.classList.remove('screen-enter');
+        if (el) {
+            el.classList.add('hidden-screen');
+            el.classList.remove('screen-enter');
+        }
     });
-    
+
     const targetEl = document.getElementById(screenId);
-    targetEl.classList.remove('hidden-screen'); void targetEl.offsetWidth; targetEl.classList.add('screen-enter');
+    if (targetEl) {
+        targetEl.classList.remove('hidden-screen');
+        void targetEl.offsetWidth;
+        targetEl.classList.add('screen-enter');
+    }
+
     state.currentScreen = screenId;
     updateHeader(screenId);
 
-    if(screenId !== 'quiz-screen') stopTimer();
-    if(screenId === 'subject-screen') loadSubjects();
+    if (screenId !== 'quiz-screen') stopTimer();
+    if (screenId === 'subject-screen') loadSubjects();
 }
 
 export function navigateBack() {
