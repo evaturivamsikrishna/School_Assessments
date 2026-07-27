@@ -111,3 +111,8 @@ function initializeEventListeners() {
 
     console.log("✅ Event listeners attached.");
 }
+
+// Re-attach modal functions to the global window so HTML onclicks work
+window.confirmQuit = confirmQuit;
+window.closeQuitModal = closeQuitModal;
+window.executeQuit = executeQuit;
