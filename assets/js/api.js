@@ -57,7 +57,11 @@ export async function loadSubjects() {
                     <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Tap to explore</p>
                 </div>
             `;
-            btn.onclick = () => { state.subject = folder.name; loadChapters(folder.name); };
+            btn.onclick = () => {
+                state.subject = folder.name;
+                localStorage.setItem('studyPortal_subject', folder.name); // Drop breadcrumb
+                loadChapters(folder.name);
+            };
             list.appendChild(btn);
         });
     } catch (e) {
@@ -86,8 +90,12 @@ export async function loadChapters(subjectName) {
                 <h3 class="font-bold text-lg leading-tight mb-2">${escapeHTML(cleanName)}</h3>
                 <p class="text-xs font-bold text-brand-500 uppercase tracking-widest mt-auto">Assessments available</p>
             `;
-            btn.onclick = () => { state.chapter = cleanName; fetchAssessments(file.download_url, cleanName); };
-            list.appendChild(btn);
+            btn.onclick = () => {
+                state.chapter = cleanName;
+                localStorage.setItem('studyPortal_chapter', cleanName); // Drop breadcrumb
+                localStorage.setItem('studyPortal_chapterUrl', file.download_url); // Drop breadcrumb
+                fetchAssessments(file.download_url, cleanName);
+            }; list.appendChild(btn);
         });
     } catch (e) { showToast("Error loading chapters.", true); } finally { hideLoader(); }
 }

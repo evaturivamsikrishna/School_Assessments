@@ -1,4 +1,3 @@
-
 import { state, motivationQuotes } from './state.js';
 import { stopTimer } from './quizEngine.js';
 import { loadSubjects } from './api.js';
@@ -28,6 +27,7 @@ export function escapeHTML(str) {
 
 export function showToast(msg, isError = false) {
     const toast = document.getElementById('toast');
+    if (!toast) return;
     const icon = toast.querySelector('i');
     toast.querySelector('#toast-msg').innerText = msg;
 
@@ -35,12 +35,12 @@ export function showToast(msg, isError = false) {
         toast.classList.replace('bg-slate-900', 'bg-red-500');
         toast.classList.replace('dark:bg-white', 'dark:bg-red-500');
         toast.classList.replace('dark:text-slate-900', 'dark:text-white');
-        icon.className = 'fa-solid fa-triangle-exclamation';
+        if(icon) icon.className = 'fa-solid fa-triangle-exclamation';
     } else {
         toast.classList.replace('bg-red-500', 'bg-slate-900');
         toast.classList.replace('dark:bg-red-500', 'dark:bg-white');
         toast.classList.replace('dark:text-white', 'dark:text-slate-900');
-        icon.className = 'fa-solid fa-circle-exclamation';
+        if(icon) icon.className = 'fa-solid fa-circle-exclamation';
     }
 
     toast.classList.remove('opacity-0', 'translate-y-4');
@@ -48,10 +48,16 @@ export function showToast(msg, isError = false) {
 }
 
 export function showLoader(message) {
-    document.getElementById('loader-text').innerText = message;
-    document.getElementById('global-loader').classList.remove('hidden-screen');
+    const loaderText = document.getElementById('loader-text');
+    if (loaderText) loaderText.innerText = message;
+    const loader = document.getElementById('global-loader');
+    if (loader) loader.classList.remove('hidden-screen');
 }
-export function hideLoader() { document.getElementById('global-loader').classList.add('hidden-screen'); }
+
+export function hideLoader() { 
+    const loader = document.getElementById('global-loader');
+    if (loader) loader.classList.add('hidden-screen'); 
+}
 
 export function initTheme() {
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -61,29 +67,39 @@ export function initTheme() {
     }
     updateThemeIcon();
 }
+
 export function toggleTheme() {
     document.documentElement.classList.toggle('dark');
     localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
     updateThemeIcon();
 }
+
 export function updateThemeIcon() {
     const icon = document.getElementById('theme-icon');
-    icon.className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    if (icon) {
+        icon.className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    }
 }
 
 export function loadXP() {
     state.totalXP = parseInt(localStorage.getItem('studyPortal_XP')) || 0;
-    document.getElementById('total-xp-display').innerText = `${state.totalXP} XP`;
+    const xpDisplay = document.getElementById('total-xp-display');
+    if (xpDisplay) xpDisplay.innerText = `${state.totalXP} XP`;
 }
+
 export function addXP(amount) {
     state.totalXP += amount;
     localStorage.setItem('studyPortal_XP', state.totalXP);
-    document.getElementById('total-xp-display').innerText = `${state.totalXP} XP`;
-    document.getElementById('total-xp-display').parentElement.classList.add('streak-bump');
-    setTimeout(() => document.getElementById('total-xp-display').parentElement.classList.remove('streak-bump'), 300);
+    const xpDisplay = document.getElementById('total-xp-display');
+    if (xpDisplay) {
+        xpDisplay.innerText = `${state.totalXP} XP`;
+        xpDisplay.parentElement.classList.add('streak-bump');
+        setTimeout(() => xpDisplay.parentElement.classList.remove('streak-bump'), 300);
+    }
 }
 
 export function triggerConfetti() {
+    if (typeof confetti === 'undefined') return;
     var duration = 3 * 1000; var animationEnd = Date.now() + duration;
     var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
     function randomInRange(min, max) { return Math.random() * (max - min) + min; }
@@ -96,14 +112,28 @@ export function triggerConfetti() {
     }, 250);
 }
 
-export function confirmQuit() { document.getElementById('quit-modal').classList.remove('hidden-screen'); }
-export function closeQuitModal() { document.getElementById('quit-modal').classList.add('hidden-screen'); }
-export function executeQuit() { closeQuitModal(); stopTimer(); navigateTo('assessment-screen', false); }
+export function confirmQuit() { 
+    const modal = document.getElementById('quit-modal');
+    if (modal) modal.classList.remove('hidden-screen'); 
+}
+
+export function closeQuitModal() { 
+    const modal = document.getElementById('quit-modal');
+    if (modal) modal.classList.add('hidden-screen'); 
+}
+
+export function executeQuit() { 
+    closeQuitModal(); 
+    stopTimer(); 
+    navigateTo('assessment-screen', false); 
+}
 
 export function updateHeader(screenId) {
     const title = document.getElementById('header-title');
     const subtitle = document.getElementById('header-subtitle');
     const backBtn = document.getElementById('back-btn');
+
+    if (!title || !subtitle || !backBtn) return;
 
     if (screenId === 'subject-screen') {
         title.innerText = "Study Portal"; subtitle.innerText = "Dashboard"; backBtn.classList.add('hidden-screen');
@@ -117,41 +147,46 @@ export function updateHeader(screenId) {
     } else if (screenId === 'mock-exam-screen') {
         title.innerText = "Past Papers"; subtitle.innerText = "Archive"; backBtn.classList.remove('hidden-screen');
     } else if (screenId === 'mock-exam-papers-screen') {
-        // NEW: Handles the header when viewing specific years
         title.innerText = "Past Papers"; subtitle.innerText = "Select Year"; backBtn.classList.remove('hidden-screen');
     }
 }
 
+// ==========================================
+// HYBRID URL ROUTER NAVIGATOR
+// ==========================================
 export function navigateTo(screenId, pushHistory = true) {
     console.log(`🧭 Navigating to: ${screenId}`);
-    if (pushHistory && state.currentScreen !== screenId && screenId !== 'quiz-screen' && screenId !== 'results-screen') {
-        state.history.push(state.currentScreen);
+    
+    // THE ROUTER: Update the browser URL silently without triggering a reload
+    if (pushHistory && window.location.hash !== `#${screenId}`) {
+        history.pushState(null, '', `#${screenId}`);
     }
-
-    // NEW: Added 'mock-exam-papers-screen' to this array so it gets hidden properly
+    
     ['subject-screen', 'chapter-screen', 'assessment-screen', 'quiz-screen', 'results-screen', 'mock-exam-screen', 'mock-exam-papers-screen'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) {
-            el.classList.add('hidden-screen');
-            el.classList.remove('screen-enter');
-        }
+        if (el) { el.classList.add('hidden-screen'); el.classList.remove('screen-enter'); }
     });
-
+    
     const targetEl = document.getElementById(screenId);
     if (targetEl) {
-        targetEl.classList.remove('hidden-screen');
-        void targetEl.offsetWidth;
+        targetEl.classList.remove('hidden-screen'); 
+        void targetEl.offsetWidth; 
         targetEl.classList.add('screen-enter');
     }
-
+    
     state.currentScreen = screenId;
     updateHeader(screenId);
 
-    if (screenId !== 'quiz-screen') stopTimer();
-    if (screenId === 'subject-screen') loadSubjects();
+    if(screenId !== 'quiz-screen') stopTimer();
+    if(screenId === 'subject-screen') loadSubjects();
 }
 
 export function navigateBack() {
-    if (state.history.length > 0) navigateTo(state.history.pop(), false);
-    else navigateTo('subject-screen', false);
+    window.history.back(); // Use the browser's native back system
 }
+
+// THE ROUTER: Listen for the user clicking the physical browser Back/Forward arrows
+window.addEventListener('popstate', () => {
+    const hash = window.location.hash.replace('#', '') || 'subject-screen';
+    navigateTo(hash, false); // false prevents infinite history loops
+});
